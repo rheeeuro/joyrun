@@ -31,3 +31,5 @@ git clone git@github.com:joyfunlab/internship-2020h2.git
 
 - IP: 192.168.0.???
 - 로그인: joyfitness/whdlvjs
+
+## 기획서 경로 \internship-2020h2\docs\[JoyFitness] 전시회용 미니 게임_JoyRun
