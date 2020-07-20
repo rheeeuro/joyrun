@@ -24,4 +24,10 @@ git clone git@github.com:joyfunlab/internship-2020h2.git
 ├── docs/
 └── unity-src/
 ```
+- docs/: 기획서 및 기타 문서 파일
+- unity-src/: 유니티 프로젝트 소스 파일
 
+## 테스트 디바이스 정보 (TODO)
+
+- IP: 192.168.0.???
+- 로그인: joyfitness/whdlvjs
