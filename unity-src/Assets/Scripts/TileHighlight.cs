@@ -21,7 +21,7 @@ public class TileHighlight : MonoBehaviour
             case "playerGround1":
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    rend.material.SetColor("_Color", Color.red);
+                    rend.material.SetColor("_Color", Color.yellow);
                 }
 
                 if (Input.GetKey(KeyCode.DownArrow))
@@ -42,7 +42,7 @@ public class TileHighlight : MonoBehaviour
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
                     
-                    rend.material.SetColor("_Color", Color.red);
+                    rend.material.SetColor("_Color", Color.yellow);
                 }
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
@@ -62,7 +62,7 @@ public class TileHighlight : MonoBehaviour
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                    
-                    rend.material.SetColor("_Color", Color.red);
+                    rend.material.SetColor("_Color", Color.yellow);
                 }
                 break;
 
