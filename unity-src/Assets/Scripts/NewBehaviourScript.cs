@@ -43,6 +43,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Backspace))
         {
+            Debug.Log(Random.Range(0, tiles.Count));
             switch (Random.Range(0, 3))
             {
                 case 0:

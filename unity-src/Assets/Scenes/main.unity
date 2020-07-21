@@ -407,7 +407,6 @@ GameObject:
   - component: {fileID: 960491148}
   - component: {fileID: 960491147}
   - component: {fileID: 960491146}
-  - component: {fileID: 960491150}
   m_Layer: 0
   m_Name: user
   m_TagString: Untagged
@@ -489,33 +488,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &960491150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960491145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f112f8ee76d4f4fbfbb8468ee484c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heartTile: {fileID: 6100844469793322947, guid: 9b196ce6c5e08da48bd0789ed040b51a,
-    type: 3}
-  obstacleTile: {fileID: 5471411465510363513, guid: 9599680d38889e44da536c68feb8e0da,
-    type: 3}
-  emptyTile: {fileID: 3121827078027981183, guid: df3bbaa0fe555ba47aa7c3a9195af2c4,
-    type: 3}
-  trapTile: {fileID: 8781427926711624264, guid: 0ffb92607e9b1f241b24f851005f045c,
-    type: 3}
-  user: {fileID: 960491145}
-  tiles: []
-  activatedTiles: []
-  left: 118.45
-  center: 132.7
-  right: 147.2
-  speed: 30
 --- !u!1 &1216990371
 GameObject:
   m_ObjectHideFlags: 0
