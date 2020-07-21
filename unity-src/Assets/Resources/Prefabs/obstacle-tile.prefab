@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4170575869530833369}
   m_Layer: 0
   m_Name: obstacle-tile
-  m_TagString: Untagged
+  m_TagString: obstacle-tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5471411465510363513}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 54.8, y: 1, z: 9.1}
-  m_LocalScale: {x: 14.1183, y: 1, z: 30.12257}
+  m_LocalScale: {x: 14, y: 1, z: 30}
   m_Children:
   - {fileID: 3981680094467630731}
   m_Father: {fileID: 0}

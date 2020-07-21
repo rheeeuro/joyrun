@@ -163,7 +163,11 @@
     <Compile Include="Assets\AzureKinectExamples\KinectScripts\UserSkeletonCollider.cs" />
     <Compile Include="Assets\Scripts\EmptyInfo.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerMove.cs" />
+    <Compile Include="Assets\Scripts\TileCheckCollision.cs" />
+    <Compile Include="Assets\Scripts\TileCreate.cs" />
+    <Compile Include="Assets\Scripts\TileHighlight.cs" />
+    <Compile Include="Assets\Scripts\TileMove.cs" />
     <None Include="Assets\AzureKinectExamples\KinectDemos\PointCloudDemo\VFX\DownloadMoreVFX.txt" />
     <None Include="Assets\AzureKinectExamples\Resources\MedianShader.shader" />
     <None Include="Assets\AzureKinectExamples\Resources\UserHistImageShader.shader" />
