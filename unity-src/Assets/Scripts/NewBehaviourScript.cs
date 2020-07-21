@@ -2,82 +2,79 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class NewBehaviourScript : MonoBehaviour
 {
 
-    public GameObject[] balls = new GameObject[9];
+    public GameObject heartTile;
+    public GameObject obstacleTile;
+    public GameObject emptyTile;
+    public GameObject trapTile;
+
     public GameObject user;
-
-    public float z = 55.4f;
-
-    public float scale = 6.266f;
-    public int percent = 90;
+    public List<GameObject> tiles = new List<GameObject>();
+    public List<GameObject> activatedTiles = new List<GameObject>();
 
     public float left = 118.45f;
     public float center = 132.7f;
     public float right = 147.2f;
 
+    public float speed = 30;
 
-    private void Start()
+
+
+    // Start is called before the first frame update
+    void Start()
     {
-        for (int i = 0; i < 9; i++)
-        {
-            balls[i] = GameObject.Find((i + 1).ToString());
-        }
+        heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
+        obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
+        emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
+        trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
 
+        tiles.Add(heartTile);
+        tiles.Add(obstacleTile);
+        tiles.Add(emptyTile);
+        tiles.Add(trapTile);
 
-        left = balls[0].transform.position.x;
-        center = balls[1].transform.position.x;
-        right = balls[2].transform.position.x;
         user = GameObject.Find("user");
-        user.transform.position = new Vector3(center, user.transform.position.y, user.transform.position.z);
-
     }
+
+    // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < 9; i += 3)
+        if (Input.GetKey(KeyCode.Backspace))
         {
-            for (int j = i; j < i + 3; j++) {
-                balls[j].transform.Translate(Vector3.back * 30 * Time.deltaTime);
-                if (balls[j].transform.position.z - 3 < user.transform.position.z
-                    && balls[j].transform.localScale.x == scale 
-                    && balls[j].transform.position.x == user.transform.position.x) {
-                        Debug.Log("hit!");
-                        balls[j].transform.localScale = new Vector3(0, 0, 0);
-                }
-            }
-            if (balls[i].transform.position.z < -45)
+            switch (Random.Range(0, 3))
             {
-                balls[i].transform.position = new Vector3(balls[i].transform.position.x, balls[i].transform.position.y, z);
-                balls[i + 1].transform.position = new Vector3(balls[i + 1].transform.position.x, balls[i + 1].transform.position.y, z);
-                balls[i + 2].transform.position = new Vector3(balls[i + 2].transform.position.x, balls[i + 2].transform.position.y, z);
-                int open = Random.Range(0, 3);
-                switch (open)
-                {
-                    case 0:
-                        balls[i].transform.localScale = new Vector3(scale, scale, scale);
-                        balls[i + 1].transform.localScale = new Vector3(0, 0, 0);
-                        balls[i + 2].transform.localScale = new Vector3(0, 0, 0);
-                        break;
-                    case 1:
-                        balls[i].transform.localScale = new Vector3(0, 0, 0);
-                        balls[i + 1].transform.localScale = new Vector3(scale, scale, scale);
-                        balls[i + 2].transform.localScale = new Vector3(0, 0, 0);
-                        break;
-                    case 2:
-                        balls[i].transform.localScale = new Vector3(0, 0, 0);
-                        balls[i + 1].transform.localScale = new Vector3(0, 0, 0);
-                        balls[i + 2].transform.localScale = new Vector3(scale, scale, scale);
-                        break;
-                }
-                if (Random.Range(0, 100) > percent)
-                {
-                    balls[i + 1].transform.localScale = new Vector3(scale, scale, scale);
-                    percent -= 2;
-                }
+                case 0:
+                    activatedTiles.Add(Instantiate(emptyTile, new Vector3(left, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 77), user.transform.rotation));
+                    break;
+                case 1:
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(emptyTile, new Vector3(center, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 77), user.transform.rotation));
+                    break;
+                case 2:
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 77), user.transform.rotation));
+                    activatedTiles.Add(Instantiate(emptyTile, new Vector3(right, 1, 77), user.transform.rotation));
+                    break;
             }
         }
+
+
+        for (int i = 0; i < activatedTiles.Count; i++)
+        {
+            activatedTiles[i].transform.Translate(Vector3.back * speed * Time.deltaTime);
+            if (activatedTiles[i].transform.position.z < -100)
+            {
+                activatedTiles[i].SetActive(false);
+                Destroy(activatedTiles[i]);
+                activatedTiles.RemoveAt(i);
+            }
+        }
+
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -91,11 +88,5 @@ public class NewBehaviourScript : MonoBehaviour
         {
             user.transform.position = new Vector3(right, user.transform.position.y, user.transform.position.z);
         }
-
-
-
-
     }
-
-    // 아래의 코드 생략
 }
