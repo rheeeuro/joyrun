@@ -69,29 +69,34 @@ public class Player : MonoBehaviour
         {
             player.transform.position = new Vector3(Tile.right, player.transform.position.y, player.transform.position.z);
         }
+        if (Input.GetKey(KeyCode.G)) {
+            Tile.extraSpeed += 0.1f;
+            
+        }
     }
 
 
     public void meetHeart()
     {
-        combo = combo + HeartInfo.instance.Combo;
+        combo = combo + HeartInfo.Combo;
         changeCombo();
         if (hp < maxHP)
         {
-            hp = hp + HeartInfo.instance.life;
+            hp = hp + HeartInfo.life;
         }
     }
 
     public void meetObstacle()
     {
         combo = 0;
+        Tile.extraSpeed = 0;
         changeCombo();
         havaDamaged();
         
     }
     public void meetEmpty()
     {
-        combo = combo + EmptyInfo.instance.Combo;
+        combo = combo + EmptyInfo.Combo;
         changeCombo();
     }
 

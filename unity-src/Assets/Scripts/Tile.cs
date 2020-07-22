@@ -9,9 +9,9 @@ public class Tile : MonoBehaviour
     public GameObject emptyTile;
     public GameObject trapTile;
 
-    public float lastTilePosition;
-
-    public static List<GameObject> tiles = new List<GameObject>();
+    public static List<GameObject> randomTiles = new List<GameObject>();
+    public static List<GameObject> goodTiles = new List<GameObject>();
+    public static List<GameObject> badTiles = new List<GameObject>();
     public static List<GameObject> activatedTiles = new List<GameObject>();
 
     // 지정 위치
@@ -24,11 +24,12 @@ public class Tile : MonoBehaviour
     public static float initialSpeed = 25;
     public static float speed;
     public static float speedIncrease = 0.1f;
+    public static float extraSpeed = 0;
 
     // 시간 변수
     public float delay = 2;
     public int createTileCount = 0;
-    public float interval = 30;
+    public float tileDistance = 60;
 
 
 
@@ -43,16 +44,24 @@ public class Tile : MonoBehaviour
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
 
-        tiles.Add(heartTile);
-        tiles.Add(obstacleTile);
-        tiles.Add(emptyTile);
-        tiles.Add(trapTile);
+        randomTiles.Add(obstacleTile);
+        randomTiles.Add(emptyTile);
+        randomTiles.Add(trapTile);
+
+        goodTiles.Add(emptyTile);
+        goodTiles.Add(heartTile);
+
+        badTiles.Add(obstacleTile);
+        badTiles.Add(trapTile);
 
         // 시간 속도 초기화
         InitializeSpeed();
         createTileCount = 0;
-        lastTilePosition = 0;
+        extraSpeed = 0;
 
+
+        createTiles();
+        createTileCount++;
 
     }
 
@@ -60,14 +69,22 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lastTilePosition < interval)
+        if (activatedTiles.Count > 0)
         {
+            if (activatedTiles[activatedTiles.Count - 1].transform.position.z < 80 - tileDistance)
+            {
+                createTiles();
+                createTileCount++;
+                if (createTileCount == 10)
+                {
+                    delay -= 0.1f;
+                    createTileCount = 0;
+                }
+            }
+        }
+        else {
             createTiles();
             createTileCount++;
-            if (createTileCount == 10) {
-                delay -= 0.1f;
-                createTileCount = 0;
-            }
         }
 
         moveTiles();
@@ -87,34 +104,52 @@ public class Tile : MonoBehaviour
         switch (Random.Range(0, 3))
         {
             case 0:
-                createOne(emptyTile, left);
-                createOne(tiles[Random.Range(0, tiles.Count)], center);
-                createOne(tiles[Random.Range(0, tiles.Count)], right);
+                createOne(goodTiles[Random.Range(0, goodTiles.Count)], left);
+                if (Random.Range(0, 10) % 2 == 0)
+                {
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], right);
+                }
+                else {
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], center);
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+                }
                 break;
             case 1:
-                createOne(tiles[Random.Range(0, tiles.Count)], left);
-                createOne(emptyTile, center);
-                createOne(tiles[Random.Range(0, tiles.Count)], right);
+                createOne(goodTiles[Random.Range(0, goodTiles.Count)], center);
+                if (Random.Range(0, 10) % 2 == 0)
+                {
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], right);
+                }
+                else
+                {
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], left);
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+                }
                 break;
             case 2:
-                createOne(tiles[Random.Range(0, tiles.Count)], left);
-                createOne(tiles[Random.Range(0, tiles.Count)], center);
-                createOne(emptyTile, right);
+                createOne(goodTiles[Random.Range(0, goodTiles.Count)], right);
+                if (Random.Range(0, 10) % 2 == 0)
+                {
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], center);
+                }
+                else
+                {
+                    createOne(badTiles[Random.Range(0, badTiles.Count)], left);
+                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+                }
                 break;
         }
     }
 
     void moveTiles()
     {
-        lastTilePosition = 0;
         // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            activatedTiles[i].transform.Translate(Vector3.back * (interval / delay) * Time.deltaTime);
-
-            if (activatedTiles[i].transform.position.z > lastTilePosition) {
-                lastTilePosition = activatedTiles[i].transform.position.z;
-            }
+            activatedTiles[i].transform.Translate(Vector3.back * ((tileDistance / delay) + extraSpeed) * Time.deltaTime);
 
             if (activatedTiles[i].transform.position.z < destroyLine)
             {

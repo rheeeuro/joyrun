@@ -6,8 +6,7 @@ public class EmptyInfo : MonoBehaviour
 {
     Vector3 thisTilePos;
 
-    public float damage = 0;
-    public int Combo = 1;
+    public static int Combo = 1;
     public static EmptyInfo instance;
 
     private void Awake()

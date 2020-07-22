@@ -165,7 +165,6 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HeartInfo.cs" />
     <Compile Include="Assets\Scripts\Highlight.cs" />
-    <Compile Include="Assets\Scripts\ObstacleInfo.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <None Include="Assets\AzureKinectExamples\KinectDemos\PointCloudDemo\VFX\DownloadMoreVFX.txt" />
