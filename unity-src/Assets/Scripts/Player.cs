@@ -11,10 +11,11 @@ public class Player : MonoBehaviour
 
     // 콤보, 체력 변수
     public int combo = 0;
+    public float comboTimer = 0;
     public int hp = 50;
     public int maxHP = 100;
 
-    public float timer = 60.0f;
+    public float timer = 60;
 
 
     public Text comboText;
@@ -37,10 +38,20 @@ public class Player : MonoBehaviour
     void Update()
     {
         handleKeyboard();
-        comboText.text = "Combo : " + combo.ToString();
         hpText.text = "HP : " + hp.ToString();
-        timer = timer - 0.001f;
-        timerText.text = "Timer : " + timer.ToString();
+        timer = Mathf.Round((timer - Time.deltaTime) * 100) / 100;
+        if (timer < 0) {
+            timer = 0;
+        }
+        timerText.text = "Timer : " + timer.ToString("00.00");
+
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+        }
+        else {
+            comboText.text = "";
+        }
     }
 
 
@@ -64,7 +75,7 @@ public class Player : MonoBehaviour
     public void meetHeart()
     {
         combo = combo + HeartInfo.instance.Combo;
-
+        changeCombo();
         if (hp < maxHP)
         {
             hp = hp + HeartInfo.instance.life;
@@ -74,23 +85,37 @@ public class Player : MonoBehaviour
     public void meetObstacle()
     {
         combo = 0;
+        changeCombo();
         havaDamaged();
         
     }
     public void meetEmpty()
     {
         combo = combo + EmptyInfo.instance.Combo;
+        changeCombo();
     }
 
     void havaDamaged()
     {
-        if ((hp / 2) > 10 )
+        if ((hp / 2) > 10)
         {
             hp = hp - (hp / 2);
+        } else {
+            hp -= 10;
         }
-        else if ((hp / 2) <= 10)
+
+
+        if (hp < 0)
         {
-            hp = hp - 10;
+            hp = 0;
         }
+        else if (hp > 100) {
+            hp = 100;
+        }
+    }
+
+    void changeCombo() {
+        comboText.text = combo.ToString() + " COMBO";
+        comboTimer = 0.7f;
     }
 }

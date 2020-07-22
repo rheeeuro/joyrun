@@ -9,6 +9,8 @@ public class Tile : MonoBehaviour
     public GameObject emptyTile;
     public GameObject trapTile;
 
+    public float lastTilePosition;
+
     public static List<GameObject> tiles = new List<GameObject>();
     public static List<GameObject> activatedTiles = new List<GameObject>();
 
@@ -16,16 +18,17 @@ public class Tile : MonoBehaviour
     public static float left = 100;
     public static float center = 114;
     public static float right = 128;
-    public static float destroyLine = -100;
+    public static float destroyLine = -65;
 
     // 속도 변수
-    public static float initialSpeed = 30;
+    public static float initialSpeed = 25;
     public static float speed;
     public static float speedIncrease = 0.1f;
 
     // 시간 변수
-    public static float timer;
-    public int delay = 2;
+    public float delay = 2;
+    public int createTileCount = 0;
+    public float interval = 30;
 
 
 
@@ -47,7 +50,8 @@ public class Tile : MonoBehaviour
 
         // 시간 속도 초기화
         InitializeSpeed();
-        timer = 0;
+        createTileCount = 0;
+        lastTilePosition = 0;
 
 
     }
@@ -56,18 +60,20 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 일정 시간마다 타일 생성 (createTiles)
-        timer += Time.deltaTime;
-        if (timer > delay)
+        if (lastTilePosition < interval)
         {
             createTiles();
-            // 타이머 0으로 초기화 -> 나중에는 초기화 대신 남은시간으로 구현
-            timer = 0;
+            createTileCount++;
+            if (createTileCount == 10) {
+                delay -= 0.1f;
+                createTileCount = 0;
+            }
         }
 
         moveTiles();
         checkCollision();
-        speed += speedIncrease;
+   
+        
     }
 
     void InitializeSpeed()
@@ -81,29 +87,35 @@ public class Tile : MonoBehaviour
         switch (Random.Range(0, 3))
         {
             case 0:
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(left, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 80), Player.player.transform.rotation));
+                createOne(emptyTile, left);
+                createOne(tiles[Random.Range(0, tiles.Count)], center);
+                createOne(tiles[Random.Range(0, tiles.Count)], right);
                 break;
             case 1:
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(center, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 80), Player.player.transform.rotation));
+                createOne(tiles[Random.Range(0, tiles.Count)], left);
+                createOne(emptyTile, center);
+                createOne(tiles[Random.Range(0, tiles.Count)], right);
                 break;
             case 2:
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(right, 1, 80), Player.player.transform.rotation));
+                createOne(tiles[Random.Range(0, tiles.Count)], left);
+                createOne(tiles[Random.Range(0, tiles.Count)], center);
+                createOne(emptyTile, right);
                 break;
         }
     }
 
     void moveTiles()
     {
+        lastTilePosition = 0;
         // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            activatedTiles[i].transform.Translate(Vector3.back * speed * Time.deltaTime);
+            activatedTiles[i].transform.Translate(Vector3.back * (interval / delay) * Time.deltaTime);
+
+            if (activatedTiles[i].transform.position.z > lastTilePosition) {
+                lastTilePosition = activatedTiles[i].transform.position.z;
+            }
+
             if (activatedTiles[i].transform.position.z < destroyLine)
             {
                 activatedTiles[i].SetActive(false);
@@ -127,13 +139,7 @@ public class Tile : MonoBehaviour
                     {
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
-                        Debug.Log("hp++");
-
                         Player.instance.meetHeart();
-
-
-
-
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 36) < 5
                       && getChildTransform(activatedTiles[i], 2).localScale.x != 0
@@ -141,10 +147,7 @@ public class Tile : MonoBehaviour
                     {
                         getChildTransform(activatedTiles[i], 2).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 3).localScale = new Vector3(0, 0, 0);
-                        Debug.Log("hp++");
-
                         Player.instance.meetHeart();
-
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 42) < 5
                       && getChildTransform(activatedTiles[i], 4).localScale.x != 0
@@ -152,8 +155,6 @@ public class Tile : MonoBehaviour
                     {
                         getChildTransform(activatedTiles[i], 4).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 5).localScale = new Vector3(0, 0, 0);
-                        Debug.Log("hp++");
-
                         Player.instance.meetHeart();
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 48) < 5
@@ -162,8 +163,6 @@ public class Tile : MonoBehaviour
                     {
                         getChildTransform(activatedTiles[i], 6).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 7).localScale = new Vector3(0, 0, 0);
-                        Debug.Log("hp++");
-
                         Player.instance.meetHeart();
                     }
                     break;
@@ -172,12 +171,9 @@ public class Tile : MonoBehaviour
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
                         && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
                     {
-                        Debug.Log("hit by obstacle!");
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
-
                         Player.instance.meetObstacle();
-
                     }
                     break;
                 case "empty-tile":
@@ -185,10 +181,7 @@ public class Tile : MonoBehaviour
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
                         && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
                     {
-                        Debug.Log("empty!");
-                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
-
-                    
+                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);                
                         Player.instance.meetEmpty();
                     }
                     break;
@@ -197,10 +190,8 @@ public class Tile : MonoBehaviour
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
                         && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
                     {
-                        Debug.Log("fall into a trap!");
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
-
                         Player.instance.meetObstacle();
                     }
                     break;
@@ -213,6 +204,9 @@ public class Tile : MonoBehaviour
     }
 
 
+    void createOne(GameObject tile, float direction) {
+        activatedTiles.Add(Instantiate(tile, new Vector3(direction, 1, 80), Player.player.transform.rotation));
+    }
 
 
 }
