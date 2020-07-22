@@ -136,6 +136,12 @@ public class Tile : MonoBehaviour
                         //콤보 증가 (Default : 2로 콤보 되어있음)
                         localCombo = localCombo + HeartInfo.instance.Combo;
                         GameManager.Instance.Plus_Combo(localCombo);
+
+                        //체력 증가
+                        localHP = localHP + HeartInfo.instance.life;
+                        GameManager.Instance.Plus_Combo(localHP);
+
+
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 36) < 5
                       && getChildTransform(activatedTiles[i], 2).localScale.x != 0
@@ -149,6 +155,10 @@ public class Tile : MonoBehaviour
                         localCombo = localCombo + HeartInfo.instance.Combo;
                         GameManager.Instance.Plus_Combo(localCombo);
 
+                        //체력 증가
+                        localHP = localHP + HeartInfo.instance.life;
+                        GameManager.Instance.Plus_Combo(localHP);
+
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 42) < 5
                       && getChildTransform(activatedTiles[i], 4).localScale.x != 0
@@ -161,6 +171,10 @@ public class Tile : MonoBehaviour
                         //콤보 증가
                         localCombo = localCombo + HeartInfo.instance.Combo;
                         GameManager.Instance.Plus_Combo(localCombo);
+
+                        //체력 증가
+                        localHP = localHP + HeartInfo.instance.life;
+                        GameManager.Instance.Plus_Combo(localHP);
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 48) < 5
                       && getChildTransform(activatedTiles[i], 6).localScale.x != 0
@@ -173,6 +187,10 @@ public class Tile : MonoBehaviour
                         //콤보 증가
                         localCombo = localCombo + HeartInfo.instance.Combo;
                         GameManager.Instance.Plus_Combo(localCombo);
+
+                        //체력 증가
+                        localHP = localHP + HeartInfo.instance.life;
+                        GameManager.Instance.Plus_Combo(localHP);
                     }
                     break;
                 case "obstacle-tile":
@@ -183,6 +201,11 @@ public class Tile : MonoBehaviour
                         Debug.Log("hit by obstacle!");
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
+
+                        //체력 감소
+                        playerDamaged();
+                        GameManager.Instance.Have_Damage(localHP);
+
                     }
                     break;
                 case "empty-tile":
@@ -204,6 +227,10 @@ public class Tile : MonoBehaviour
                         Debug.Log("fall into a trap!");
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
+
+                        //체력 감소
+                        playerDamaged();
+                        GameManager.Instance.Have_Damage(localHP);
                     }
                     break;
             }
@@ -215,7 +242,17 @@ public class Tile : MonoBehaviour
     }
 
     void playerDamaged() {
-        Player.hp = Player.hp / 2;
+        if (localHP / 2 > 10)
+        {
+            localHP = localHP / 2;
+        }
+
+        else if(localHP < 10)
+        {
+            localHP = 0;
+        }
+        else
+            localHP = localHP - 10;
     }
 
 

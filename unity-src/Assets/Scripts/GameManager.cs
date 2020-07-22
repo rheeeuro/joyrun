@@ -121,16 +121,18 @@ public class GameManager : MonoBehaviour
 
     public void Have_Damage(float damage)
     {
-        HP -= damage;
+        string HPtext = "HP : " + damage.ToString();
+        GameObject.Find("Canvas").transform.Find("HP").gameObject.GetComponent<Text>().text = HPtext;
 
     }
 
     public void Plus_Combo(int miss)
     {
 
-        string MM = "Combo : " + miss.ToString();
-        GameObject.Find("Canvas").transform.Find("Combo").gameObject.GetComponent<Text>().text = MM;
+        string ComBotext = "Combo : " + miss.ToString();
+        GameObject.Find("Canvas").transform.Find("Combo").gameObject.GetComponent<Text>().text = ComBotext;
     }
+
     
 
 

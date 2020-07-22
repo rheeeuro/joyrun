@@ -6,7 +6,7 @@ public class HeartInfo : MonoBehaviour
 {
     Vector3 thisTilePos;
 
-    public float damage = 0;
+    public int life = 1;
     public int Combo = 1;
     public static HeartInfo instance;
 
