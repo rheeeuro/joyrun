@@ -11,6 +11,9 @@ public class Highlight : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         primarycolor = rend.material.color;
+        if (gameObject.name == "centerTile-highlight") {
+            rend.material.SetColor("_Color", Color.yellow);
+        }
     }
 
 

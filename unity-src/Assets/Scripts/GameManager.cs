@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 {
     public float HP = 50;
     public float MaxHP = 100;
-    public int Combo = 0;
     public float level = 0;
 
     public Text Current_HP = null;
@@ -128,8 +127,8 @@ public class GameManager : MonoBehaviour
 
     public void Plus_Combo(int miss)
     {
-        Combo = Combo + miss;
-        string MM = "Combo : " + Combo.ToString();
+
+        string MM = "Combo : " + miss.ToString();
         GameObject.Find("Canvas").transform.Find("Combo").gameObject.GetComponent<Text>().text = MM;
     }
     

@@ -85,19 +85,19 @@ public class Tile : MonoBehaviour
         switch (Random.Range(0, 3))
         {
             case 0:
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(left, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 0.99f, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(emptyTile, new Vector3(left, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 80), Player.player.transform.rotation));
                 break;
             case 1:
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(center, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 0.99f, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(emptyTile, new Vector3(center, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(right, 1, 80), Player.player.transform.rotation));
                 break;
             case 2:
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 0.99f, 80), Player.player.transform.rotation));
-                activatedTiles.Add(Instantiate(emptyTile, new Vector3(right, 0.99f, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(left, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(tiles[Random.Range(0, tiles.Count)], new Vector3(center, 1, 80), Player.player.transform.rotation));
+                activatedTiles.Add(Instantiate(emptyTile, new Vector3(right, 1, 80), Player.player.transform.rotation));
                 break;
         }
     }
@@ -174,33 +174,35 @@ public class Tile : MonoBehaviour
                         localCombo = localCombo + HeartInfo.instance.Combo;
                         GameManager.Instance.Plus_Combo(localCombo);
                     }
-
-                    // To Do: 하트 먹는 기능 구현
                     break;
                 case "obstacle-tile":
-                    if (activatedTiles[i].transform.position.z < -25
-                        && activatedTiles[i].transform.position.z > -35
+                    if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
+                        && getChildTransform(activatedTiles[i], 0).localScale.x != 0
                         && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
                     {
                         Debug.Log("hit by obstacle!");
-                        activatedTiles[i].SetActive(false);
-                        Destroy(activatedTiles[i]);
-                        activatedTiles.RemoveAt(i);
+                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
                     }
                     break;
                 case "empty-tile":
-                    // 점수 증가
+                    if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
+                        && getChildTransform(activatedTiles[i], 0).localScale.x != 0
+                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                    {
+                        Debug.Log("empty!");
+                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
+                        localCombo = localCombo + EmptyInfo.instance.Combo;
+                        GameManager.Instance.Plus_Combo(localCombo);
+                    }
                     break;
                 case "trap-tile":
-                    if (activatedTiles[i].transform.position.z < -25
-                        && activatedTiles[i].transform.position.z > -35
+                    if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
+                        && getChildTransform(activatedTiles[i], 0).localScale.x != 0
                         && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
                     {
                         Debug.Log("fall into a trap!");
-                        activatedTiles[i].SetActive(false);
-                        Destroy(activatedTiles[i]);
-                        activatedTiles.RemoveAt(i);
+                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         InitializeSpeed();
                     }
                     break;
