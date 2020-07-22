@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum GameState
@@ -16,6 +17,16 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    public float HP = 50;
+    public float MaxHP = 100;
+    public int Combo = 0;
+    public float level = 0;
+
+    public Text Current_HP = null;
+    public Text Current_Combo = null;
+
+
+
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     private static GameManager _instance;
     // 인스턴스에 접근하기 위한 프로퍼티
@@ -107,6 +118,22 @@ public class GameManager : MonoBehaviour
         //현재 게임 상태값
         currentGameState = newGameState;
     }
+
+
+    public void Have_Damage(float damage)
+    {
+        HP -= damage;
+
+    }
+
+    public void Plus_Combo(int miss)
+    {
+        Combo = Combo + miss;
+        string MM = "Combo : " + Combo.ToString();
+        GameObject.Find("Canvas").transform.Find("Combo").gameObject.GetComponent<Text>().text = MM;
+    }
+    
+
 
     void Update()
     {

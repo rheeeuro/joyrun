@@ -27,6 +27,12 @@ public class Tile : MonoBehaviour
     public static float timer;
     public int delay = 2;
 
+
+    // 콤보, 체력 변수
+    int localCombo;
+    int localHP;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +50,10 @@ public class Tile : MonoBehaviour
         // 시간 속도 초기화
         InitializeSpeed();
         timer = 0;
+
+        // 변수 초기화
+        localCombo = 0;
+        localHP = 0;
     }
 
 
@@ -122,7 +132,10 @@ public class Tile : MonoBehaviour
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
                         Debug.Log("hp++");
-
+                        
+                        //콤보 증가 (Default : 2로 콤보 되어있음)
+                        localCombo = localCombo + HeartInfo.instance.Combo;
+                        GameManager.Instance.Plus_Combo(localCombo);
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 36) < 5
                       && getChildTransform(activatedTiles[i], 2).localScale.x != 0
@@ -132,6 +145,10 @@ public class Tile : MonoBehaviour
                         getChildTransform(activatedTiles[i], 3).localScale = new Vector3(0, 0, 0);
                         Debug.Log("hp++");
 
+                        //콤보 증가
+                        localCombo = localCombo + HeartInfo.instance.Combo;
+                        GameManager.Instance.Plus_Combo(localCombo);
+
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 42) < 5
                       && getChildTransform(activatedTiles[i], 4).localScale.x != 0
@@ -140,6 +157,10 @@ public class Tile : MonoBehaviour
                         getChildTransform(activatedTiles[i], 4).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 5).localScale = new Vector3(0, 0, 0);
                         Debug.Log("hp++");
+
+                        //콤보 증가
+                        localCombo = localCombo + HeartInfo.instance.Combo;
+                        GameManager.Instance.Plus_Combo(localCombo);
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 48) < 5
                       && getChildTransform(activatedTiles[i], 6).localScale.x != 0
@@ -148,6 +169,10 @@ public class Tile : MonoBehaviour
                         getChildTransform(activatedTiles[i], 6).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 7).localScale = new Vector3(0, 0, 0);
                         Debug.Log("hp++");
+
+                        //콤보 증가
+                        localCombo = localCombo + HeartInfo.instance.Combo;
+                        GameManager.Instance.Plus_Combo(localCombo);
                     }
 
                     // To Do: 하트 먹는 기능 구현
