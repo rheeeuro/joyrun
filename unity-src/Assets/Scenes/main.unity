@@ -420,7 +420,6 @@ GameObject:
   - component: {fileID: 304031112}
   - component: {fileID: 304031115}
   - component: {fileID: 304031114}
-  - component: {fileID: 304031113}
   m_Layer: 5
   m_Name: HP
   m_TagString: Untagged
@@ -447,24 +446,6 @@ RectTransform:
   m_AnchoredPosition: {x: 450, y: 170}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &304031113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304031111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a115c21106b2ac44ca445b7992b29704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 50
-  MaxHP: 100
-  level: 0
-  Current_HP: {fileID: 0}
-  Current_Combo: {fileID: 0}
-  currentGameState: 0
 --- !u!114 &304031114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +681,6 @@ GameObject:
   - component: {fileID: 828594356}
   - component: {fileID: 828594359}
   - component: {fileID: 828594358}
-  - component: {fileID: 828594357}
   m_Layer: 5
   m_Name: Combo
   m_TagString: Untagged
@@ -727,24 +707,6 @@ RectTransform:
   m_AnchoredPosition: {x: -350, y: 170}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &828594357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828594355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a115c21106b2ac44ca445b7992b29704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 50
-  MaxHP: 100
-  level: 0
-  Current_HP: {fileID: 0}
-  Current_Combo: {fileID: 0}
-  currentGameState: 0
 --- !u!114 &828594358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,6 +853,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2406ac6fce9fca74f935c67b38185086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combo: 0
+  hp: 50
+  maxHP: 100
+  timer: 60
+  comboText: {fileID: 828594358}
+  hpText: {fileID: 304031114}
+  timerText: {fileID: 2057199417}
 --- !u!1 &1204425851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,6 +1318,7 @@ RectTransform:
   - {fileID: 828594356}
   - {fileID: 459457547}
   - {fileID: 304031112}
+  - {fileID: 2057199416}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1463,3 +1433,80 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   primarycolor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!1 &2057199415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057199416}
+  - component: {fileID: 2057199418}
+  - component: {fileID: 2057199417}
+  m_Layer: 5
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2057199416
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057199415}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1760768514}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 50, y: 180}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2057199417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057199415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0.8268976, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Time : 60:00'
+--- !u!222 &2057199418
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057199415}
+  m_CullTransparentMesh: 0

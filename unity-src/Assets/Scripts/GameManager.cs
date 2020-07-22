@@ -17,14 +17,6 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    public float HP = 50;
-    public float MaxHP = 100;
-    public float level = 0;
-
-    public Text Current_HP = null;
-    public Text Current_Combo = null;
-
-
 
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     private static GameManager _instance;
@@ -61,7 +53,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         // 씬이 전환되더라도 선언되었던 인스턴스를 파괴하지 않는다.
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
 
     }
 
@@ -118,22 +110,6 @@ public class GameManager : MonoBehaviour
         currentGameState = newGameState;
     }
 
-
-    public void Have_Damage(float damage)
-    {
-        string HPtext = "HP : " + damage.ToString();
-        GameObject.Find("Canvas").transform.Find("HP").gameObject.GetComponent<Text>().text = HPtext;
-
-    }
-
-    public void Plus_Combo(int miss)
-    {
-
-        string ComBotext = "Combo : " + miss.ToString();
-        GameObject.Find("Canvas").transform.Find("Combo").gameObject.GetComponent<Text>().text = ComBotext;
-    }
-
-    
 
 
     void Update()
