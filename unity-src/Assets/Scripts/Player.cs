@@ -173,6 +173,9 @@ public class Player : MonoBehaviour
         if (hp < 0)
         {
             hp = 0;
+            Debug.Log("게임 오버");
+            UIgameOver.Instance.Show();
+
         }
         else if (hp > 100) {
             hp = 100;

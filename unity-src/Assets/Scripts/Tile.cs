@@ -200,14 +200,20 @@ public class Tile : MonoBehaviour
     void moveTiles()
     {
         actualSpeed = (tileDistance / delay) + extraSpeed;
-        if (actualSpeed > 90) {
+        if (actualSpeed > 90)
+        {
             actualSpeed = 90;
         }
-        
+
         // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            activatedTiles[i].transform.Translate(Vector3.back * actualSpeed * Time.deltaTime);
+            Vector3 movingVector = Vector3.back * actualSpeed * Time.deltaTime;
+            activatedTiles[i].transform.Translate(movingVector, Space.World);
+
+        }
+        for (int i = 0; i < activatedTiles.Count; i++)
+        {
             if (activatedTiles[i].transform.position.z < destroyLine)
             {
                 activatedTiles[i].SetActive(false);
