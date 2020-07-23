@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Find("Canvas").transform.Find("UIgameStartPanel").gameObject.SetActive(true);
+        //GameObject.Find("Canvas").transform.Find("UIgameStartPanel").gameObject.SetActive(true);
         //GameObject.Find("Canvas").transform.Find("UlgameOverPanel").gameObject.SetActive(false);
         Time.timeScale = 0f;
         Menu();

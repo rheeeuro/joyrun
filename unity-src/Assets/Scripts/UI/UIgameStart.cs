@@ -11,6 +11,7 @@ public class UIgameStart : MonoBehaviour
         Time.timeScale = 0f;
         transform.gameObject.SetActive(true);
         UIgameOver.Instance.transform.gameObject.SetActive(false);
+        Player.instance.transform.gameObject.SetActive(false);
 
     }
 
@@ -20,7 +21,7 @@ public class UIgameStart : MonoBehaviour
     public void startButton()
     {
         //Start the game
-
+        Player.instance.transform.gameObject.SetActive(true);
         transform.gameObject.SetActive(false);
         GameManager.Instance.StartGame();
         Time.timeScale = 1f;

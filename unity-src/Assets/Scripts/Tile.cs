@@ -9,9 +9,9 @@ public class Tile : MonoBehaviour
     public GameObject emptyTile;
     public GameObject trapTile;
 
-    public static List<GameObject> randomTiles = new List<GameObject>();
-    public static List<GameObject> badTiles = new List<GameObject>();
-    public static List<GameObject> activatedTiles = new List<GameObject>();
+    public static List<GameObject> randomTiles;
+    public static List<GameObject> badTiles;
+    public static List<GameObject> activatedTiles;
 
     // 지정 위치
     public static float left = 100;
@@ -37,7 +37,11 @@ public class Tile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Prefab 불러오기
+        randomTiles = new List<GameObject>();
+        badTiles = new List<GameObject>();
+        activatedTiles = new List<GameObject>();
+
+    // Prefab 불러오기
         heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
         obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;

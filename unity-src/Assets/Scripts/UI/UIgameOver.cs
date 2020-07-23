@@ -30,6 +30,7 @@ public class UIgameOver : MonoBehaviour
         //Main Scene Loaded
         SceneManager.LoadScene("Main");
 
+
         //Allow time to flow again
 
     }
