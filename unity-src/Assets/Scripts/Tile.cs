@@ -25,6 +25,7 @@ public class Tile : MonoBehaviour
     public static float speed;
     public static float speedIncrease = 0.1f;
     public static float extraSpeed = 0;
+    public static float actualSpeed = 0;
 
     // 시간 변수
     public float delay = 2;
@@ -89,7 +90,6 @@ public class Tile : MonoBehaviour
 
         moveTiles();
         checkCollision();
-   
         
     }
 
@@ -146,10 +146,14 @@ public class Tile : MonoBehaviour
 
     void moveTiles()
     {
+        actualSpeed = (tileDistance / delay) + extraSpeed;
+        if (actualSpeed > 90) {
+            actualSpeed = 90;
+        }
         // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            activatedTiles[i].transform.Translate(Vector3.back * ((tileDistance / delay) + extraSpeed) * Time.deltaTime);
+            activatedTiles[i].transform.Translate(Vector3.back * actualSpeed * Time.deltaTime);
 
             if (activatedTiles[i].transform.position.z < destroyLine)
             {
@@ -170,7 +174,8 @@ public class Tile : MonoBehaviour
 
                     if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
-                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                        && !Player.isJumping)
                     {
                         getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
@@ -178,7 +183,8 @@ public class Tile : MonoBehaviour
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 36) < 5
                       && getChildTransform(activatedTiles[i], 2).localScale.x != 0
-                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                      && !Player.isJumping)
                     {
                         getChildTransform(activatedTiles[i], 2).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 3).localScale = new Vector3(0, 0, 0);
@@ -186,7 +192,8 @@ public class Tile : MonoBehaviour
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 42) < 5
                       && getChildTransform(activatedTiles[i], 4).localScale.x != 0
-                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                      && !Player.isJumping)
                     {
                         getChildTransform(activatedTiles[i], 4).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 5).localScale = new Vector3(0, 0, 0);
@@ -194,7 +201,8 @@ public class Tile : MonoBehaviour
                     }
                     else if (Mathf.Abs(activatedTiles[i].transform.position.z + 48) < 5
                       && getChildTransform(activatedTiles[i], 6).localScale.x != 0
-                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                      && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                      && !Player.isJumping)
                     {
                         getChildTransform(activatedTiles[i], 6).localScale = new Vector3(0, 0, 0);
                         getChildTransform(activatedTiles[i], 7).localScale = new Vector3(0, 0, 0);
@@ -204,11 +212,22 @@ public class Tile : MonoBehaviour
                 case "obstacle-tile":
                     if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
-                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                        )
                     {
-                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
-                        InitializeSpeed();
-                        Player.instance.meetObstacle();
+                        if (Player.isJumping)
+                        {
+                            if (getChildTransform(activatedTiles[i], 1).localScale.x != 0) {
+                                Player.instance.meetEmpty();
+                                getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
+                            }
+                        }
+                        else {
+                            getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
+                            InitializeSpeed();
+                            Player.instance.meetObstacle();
+                        }
+
                     }
                     break;
                 case "empty-tile":
@@ -223,11 +242,23 @@ public class Tile : MonoBehaviour
                 case "trap-tile":
                     if (Mathf.Abs(activatedTiles[i].transform.position.z + 30) < 5
                         && getChildTransform(activatedTiles[i], 0).localScale.x != 0
-                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x)
+                        && activatedTiles[i].transform.position.x == Player.player.transform.position.x
+                        )
                     {
-                        getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
-                        InitializeSpeed();
-                        Player.instance.meetObstacle();
+                        if (Player.isJumping)
+                        {
+                            if (getChildTransform(activatedTiles[i], 1).localScale.x != 0)
+                            {
+                                Player.instance.meetEmpty();
+                                getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
+                            }
+                        }
+                        else
+                        {
+                            getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
+                            InitializeSpeed();
+                            Player.instance.meetObstacle();
+                        }
                     }
                     break;
             }

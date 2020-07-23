@@ -20,59 +20,62 @@ public class Highlight : MonoBehaviour
     void Update()
     {
 
-        switch (gameObject.name) {
-            case "leftTile-highlight":
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    rend.material.SetColor("_Color", Color.yellow);
-                }
+            switch (gameObject.name)
+            {
+                case "leftTile-highlight":
+                    if (Player.instance.transform.position.x == Tile.left)
+                    {
+                        rend.material.SetColor("_Color", Color.yellow);
+                    }
 
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
-                break;
-            case "centerTile-highlight":
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
+                    if (Player.instance.transform.position.x == Tile.center)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
+                    if (Player.instance.transform.position.x == Tile.right)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
+                    break;
+                case "centerTile-highlight":
+                    if (Player.instance.transform.position.x == Tile.left)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
 
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    
-                    rend.material.SetColor("_Color", Color.yellow);
-                }
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
-                break;
-            case "rightTile-highlight":
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
+                    if (Player.instance.transform.position.x == Tile.center)
+                    {
 
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    rend.material.SetColor("_Color", primarycolor);
-                }
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                   
-                    rend.material.SetColor("_Color", Color.yellow);
-                }
-                break;
+                        rend.material.SetColor("_Color", Color.yellow);
+                    }
+                    if (Player.instance.transform.position.x == Tile.right)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
+                    break;
+                case "rightTile-highlight":
+                    if (Player.instance.transform.position.x == Tile.left)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
 
+                    if (Player.instance.transform.position.x == Tile.center)
+                    {
+                        rend.material.SetColor("_Color", primarycolor);
+                    }
+                    if (Player.instance.transform.position.x == Tile.right)
+                    {
+
+                        rend.material.SetColor("_Color", Color.yellow);
+                    }
+                    break;
+
+            }
         }
+        
 
 
-    }
+
 }
 
 
