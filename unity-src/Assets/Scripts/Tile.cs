@@ -10,7 +10,6 @@ public class Tile : MonoBehaviour
     public GameObject trapTile;
 
     public static List<GameObject> randomTiles = new List<GameObject>();
-    public static List<GameObject> goodTiles = new List<GameObject>();
     public static List<GameObject> badTiles = new List<GameObject>();
     public static List<GameObject> activatedTiles = new List<GameObject>();
 
@@ -19,18 +18,17 @@ public class Tile : MonoBehaviour
     public static float center = 114;
     public static float right = 128;
     public static float destroyLine = -65;
+    public static float heartDirection = 0;
 
     // 속도 변수
-    public static float initialSpeed = 25;
-    public static float speed;
     public static float speedIncrease = 0.1f;
     public static float extraSpeed = 0;
     public static float actualSpeed = 0;
 
     // 시간 변수
-    public float delay = 2;
-    public int createTileCount = 0;
-    public float tileDistance = 60;
+    public float delay;
+    public int createTileCount;
+    public float tileDistance;
 
 
 
@@ -49,16 +47,15 @@ public class Tile : MonoBehaviour
         randomTiles.Add(emptyTile);
         randomTiles.Add(trapTile);
 
-        goodTiles.Add(emptyTile);
-        goodTiles.Add(heartTile);
-
         badTiles.Add(obstacleTile);
         badTiles.Add(trapTile);
 
         // 시간 속도 초기화
-        InitializeSpeed();
         createTileCount = 0;
+        tileDistance = 60;
         extraSpeed = 0;
+        heartDirection = 0;
+        delay = 2;
 
 
         createTiles();
@@ -93,54 +90,110 @@ public class Tile : MonoBehaviour
         
     }
 
-    void InitializeSpeed()
-    {
-        speed = initialSpeed;
-    }
 
     void createTiles()
     {
-        // 랜덤으로 한 구역은 빈 타일
-        switch (Random.Range(0, 3))
+        if (heartDirection == left)
         {
-            case 0:
-                createOne(goodTiles[Random.Range(0, goodTiles.Count)], left);
-                if (Random.Range(0, 10) % 2 == 0)
-                {
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], right);
-                }
-                else {
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], center);
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
-                }
-                break;
-            case 1:
-                createOne(goodTiles[Random.Range(0, goodTiles.Count)], center);
-                if (Random.Range(0, 10) % 2 == 0)
-                {
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], right);
-                }
-                else
-                {
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], left);
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
-                }
-                break;
-            case 2:
-                createOne(goodTiles[Random.Range(0, goodTiles.Count)], right);
-                if (Random.Range(0, 10) % 2 == 0)
-                {
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], center);
-                }
-                else
-                {
-                    createOne(badTiles[Random.Range(0, badTiles.Count)], left);
-                    createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
-                }
-                break;
+            createOne(badTiles[Random.Range(0, badTiles.Count)], left);
+            if (Random.Range(0, 10) % 2 == 0)
+            {
+                setGoodTile(center);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+            }
+            else {
+                setGoodTile(right);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+            }
+        }
+        else if (heartDirection == center)
+        {
+            createOne(badTiles[Random.Range(0, badTiles.Count)], center);
+            if (Random.Range(0, 10) % 2 == 0)
+            {
+                setGoodTile(left);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+            }
+            else
+            {
+                setGoodTile(right);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+            }
+        }
+        else if (heartDirection == right)
+        {
+            createOne(badTiles[Random.Range(0, badTiles.Count)], right);
+            if (Random.Range(0, 10) % 2 == 0)
+            {
+                setGoodTile(center);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+            }
+            else
+            {
+                setGoodTile(left);
+                createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+            }
+        }
+        else {
+            switch (Random.Range(0, 3))
+            {
+                case 0:
+                    setGoodTile(left);
+                    if (Random.Range(0, 10) % 2 == 0)
+                    {
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], right);
+                    }
+                    else
+                    {
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], center);
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+                    }
+                    break;
+                case 1:
+                    setGoodTile(center);
+                    if (Random.Range(0, 10) % 2 == 0)
+                    {
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], right);
+                    }
+                    else
+                    {
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], left);
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], right);
+                    }
+                    break;
+                case 2:
+                    setGoodTile(right);
+                    if (Random.Range(0, 10) % 2 == 0)
+                    {
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], left);
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], center);
+                    }
+                    else
+                    {
+                        createOne(badTiles[Random.Range(0, badTiles.Count)], left);
+                        createOne(randomTiles[Random.Range(0, randomTiles.Count)], center);
+                    }
+                    break;
+            }
+        }
+
+        // 랜덤으로 한 구역은 빈 타일
+        
+    }
+
+    void setGoodTile(float direction) {
+        if (Random.Range(0, 10) %2 == 0)
+        {
+            createOne(heartTile, direction);
+            heartDirection = direction;
+
+        }
+        else
+        {
+            createOne(emptyTile, direction);
+            heartDirection = 0;
         }
     }
 
@@ -150,11 +203,11 @@ public class Tile : MonoBehaviour
         if (actualSpeed > 90) {
             actualSpeed = 90;
         }
+        
         // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
         {
             activatedTiles[i].transform.Translate(Vector3.back * actualSpeed * Time.deltaTime);
-
             if (activatedTiles[i].transform.position.z < destroyLine)
             {
                 activatedTiles[i].SetActive(false);
@@ -224,7 +277,6 @@ public class Tile : MonoBehaviour
                         }
                         else {
                             getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
-                            InitializeSpeed();
                             Player.instance.meetObstacle();
                         }
 
@@ -249,14 +301,13 @@ public class Tile : MonoBehaviour
                         {
                             if (getChildTransform(activatedTiles[i], 1).localScale.x != 0)
                             {
-                                Player.instance.meetEmpty();
                                 getChildTransform(activatedTiles[i], 1).localScale = new Vector3(0, 0, 0);
+                                Player.instance.meetEmpty();
                             }
                         }
                         else
                         {
                             getChildTransform(activatedTiles[i], 0).localScale = new Vector3(0, 0, 0);
-                            InitializeSpeed();
                             Player.instance.meetObstacle();
                         }
                     }
