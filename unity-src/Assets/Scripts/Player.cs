@@ -109,6 +109,7 @@ public class Player : MonoBehaviour
         if (timer < 0)
         {
             timer = 0;
+            Debug.Log("게임 클리어");
         }
     }
 
@@ -159,7 +160,7 @@ public class Player : MonoBehaviour
         {
             Tile.extraSpeed += 0.1f;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
@@ -174,6 +175,9 @@ public class Player : MonoBehaviour
         if (hp < maxHp)
         {
             hp = hp + HeartInfo.life;
+            if (hp > maxHp){
+                hp = maxHp;
+            }
         }
     }
 
@@ -205,7 +209,7 @@ public class Player : MonoBehaviour
         {
             hp = 0;
             Debug.Log("게임 오버");
-            UIgameOver.Instance.Show();
+            UIgameOver.instance.Show();
 
         }
         else if (hp > 100) {

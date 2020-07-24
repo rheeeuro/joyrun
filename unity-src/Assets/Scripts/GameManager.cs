@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 {
 
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
-    public static GameManager Instance;
+    public static GameManager instance;
 
 
 
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Awake() // Start 시작하기 전에 실행
     {
-        Instance = this;
+        instance = this;
 
     }
 

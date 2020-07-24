@@ -7,18 +7,19 @@ using UnityEngine.SceneManagement;
 public class UIgameOver : MonoBehaviour
 {
 
-    public static UIgameOver Instance;
+    public static UIgameOver instance;
 
     private void Awake()
     {
-        Instance = this;
+        instance = this;
         transform.gameObject.SetActive(false);
     }
 
     public void Show()
     {
-        GameManager.Instance.GameOver();
+        GameManager.instance.GameOver();
         transform.gameObject.SetActive(true);
+        UIinGame.instance.transform.gameObject.SetActive(false);
         Time.timeScale = 0f;
     }
 
@@ -26,12 +27,15 @@ public class UIgameOver : MonoBehaviour
     public void RetryButton()
     {
         //When Click the retryButton
-
+        transform.gameObject.SetActive(false);
         //Main Scene Loaded
         SceneManager.LoadScene("Main");
+        GameManager.instance.StartGame();
+
 
 
         //Allow time to flow again
+        Time.timeScale = 1f;
 
     }
 }

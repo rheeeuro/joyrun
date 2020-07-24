@@ -6,12 +6,22 @@ using UnityEngine.SceneManagement;
 public class UIgameStart : MonoBehaviour
 {
 
+    void Awake()
+    {
+        transform.gameObject.SetActive(true);
+        UIgameOver.instance.transform.gameObject.SetActive(false);
+        
+    }
     void Start()
     {
-        Time.timeScale = 0f;
-        transform.gameObject.SetActive(true);
-        UIgameOver.Instance.transform.gameObject.SetActive(false);
         Player.instance.transform.gameObject.SetActive(false);
+        Time.timeScale = 0f;
+        if (UIinGame.instance != null)
+        {
+            UIinGame.instance.transform.gameObject.SetActive(false);
+        }
+        Time.timeScale = 0f;
+
 
     }
 
@@ -23,7 +33,8 @@ public class UIgameStart : MonoBehaviour
         //Start the game
         Player.instance.transform.gameObject.SetActive(true);
         transform.gameObject.SetActive(false);
-        GameManager.Instance.StartGame();
+        GameManager.instance.StartGame();
+        UIinGame.instance.transform.gameObject.SetActive(true);
         Time.timeScale = 1f;
 
 
