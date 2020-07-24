@@ -23,7 +23,7 @@ public class UIgameOver : MonoBehaviour
     }
 
 
-    public void retryButton()
+    public void RetryButton()
     {
         //When Click the retryButton
 
@@ -35,5 +35,3 @@ public class UIgameOver : MonoBehaviour
 
     }
 }
-
-

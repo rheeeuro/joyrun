@@ -999,9 +999,7 @@ MonoBehaviour:
   combo: 0
   comboTimer: 0
   hp: 50
-  maxHP: 100
   jumpTimer: 0
-  timer: 60
   comboText: {fileID: 828594358}
   hpText: {fileID: 304031114}
   timerText: {fileID: 2057199417}
@@ -1033,7 +1031,7 @@ GameObject:
   - component: {fileID: 1083895892}
   - component: {fileID: 1083895891}
   m_Layer: 5
-  m_Name: retryButton
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1103,7 +1101,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 329887550}
-        m_MethodName: retryButton
+        m_MethodName: RetryButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1407,9 +1405,8 @@ MonoBehaviour:
   obstacleTile: {fileID: 0}
   emptyTile: {fileID: 0}
   trapTile: {fileID: 0}
-  delay: 2
+  tileDelay: 0
   createTileCount: 0
-  tileDistance: 60
 --- !u!1 &1240993566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1420,7 @@ GameObject:
   - component: {fileID: 1240993569}
   - component: {fileID: 1240993568}
   m_Layer: 5
-  m_Name: startButton
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1493,7 +1490,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1369388157}
-        m_MethodName: startButton
+        m_MethodName: StartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

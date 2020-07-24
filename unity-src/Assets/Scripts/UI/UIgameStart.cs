@@ -18,7 +18,7 @@ public class UIgameStart : MonoBehaviour
 
 
 
-    public void startButton()
+    public void StartButton()
     {
         //Start the game
         Player.instance.transform.gameObject.SetActive(true);
@@ -29,10 +29,9 @@ public class UIgameStart : MonoBehaviour
 
     }
 
-    public void viewRankingButton()
+    public void ViewRankingButton()
     {
         //GameManager.Instance.viewRanking();
     }
 
 }
-
