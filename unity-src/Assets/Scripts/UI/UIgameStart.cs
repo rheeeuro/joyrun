@@ -40,9 +40,16 @@ public class UIgameStart : MonoBehaviour
 
     }
 
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
+
     public void ViewRankingButton()
     {
         //GameManager.Instance.viewRanking();
     }
+
+
 
 }

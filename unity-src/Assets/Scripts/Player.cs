@@ -17,7 +17,13 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animSprint;
     RuntimeAnimatorController animJump;
 
+    //점수 변수 선언
+    public static int point;
+    public static int myRank;
+
+
     // 콤보, 체력 관련 변수, 상수 선언
+    public int maxCombo;
     public int combo;
     public float comboTimer;
     public int hp;
@@ -76,7 +82,10 @@ public class Player : MonoBehaviour
 
         InitializePrefabs();
 
+        myRank = 9999;
+        point = 0;
         combo = 0;
+        maxCombo = -1;
         comboTimer = 0;
 
         hp = startHp;
@@ -110,6 +119,7 @@ public class Player : MonoBehaviour
         {
             timer = 0;
             Debug.Log("게임 클리어");
+            GameEnd();
         }
     }
 
@@ -158,10 +168,12 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {
+            Debug.Log("속도 증가");
             Tile.extraSpeed += 0.1f;
         }
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
+            Debug.Log("점프!");
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         }
@@ -209,7 +221,7 @@ public class Player : MonoBehaviour
         {
             hp = 0;
             Debug.Log("게임 오버");
-            UIgameOver.instance.Show();
+            GameEnd();
 
         }
         else if (hp > 100) {
@@ -218,7 +230,59 @@ public class Player : MonoBehaviour
     }
 
     void ChangeCombo() {
+        if(maxCombo <= combo)
+        {
+            maxCombo = combo;
+        }
+
         comboText.text = combo.ToString() + " COMBO";
         comboTimer = 0.7f;
+    }
+
+    void CaculatePoint()
+    {
+        point = combo + (int)(60f - timer);
+        UIresultPage.instance.point.text = "내 점수 : " + point.ToString();
+
+
+        UIgameOver.instance.maxCombo.text = "최대 콤보 횟수 : " + maxCombo.ToString() + " 회";
+        UIgameOver.instance.playTime.text = "진행 시간 : " + (60f - timer) + " 초";
+        UIgameOver.instance.point.text = "점수 : " + point;
+
+    }
+    void InsertRank(int score)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (score > PlayerPrefs.GetInt(i.ToString()))
+            {
+                for (int j = 4 - 1; j < 0; j--)
+                {
+                    PlayerPrefs.SetInt(j.ToString(), PlayerPrefs.GetInt((j - 1).ToString()));
+                    // 스코어가 1등 기준으로 PlayerPrefs의 Key값(j의 위치값 4(5등))을 j-1위치의 값(4등)으로 바꾼다.
+                    // j가 1씩 줄어들면서 윗 순번도 차례대로 비교해서 바꾼다.
+                }
+                PlayerPrefs.SetInt(i.ToString(), score); //현재 등수를 현재 스코어 값으로 바꾸어 준다.
+                myRank = i + 1;
+
+                if (myRank <= 5)
+                    UIresultPage.instance.myRank.text = "내 순위 : " + myRank.ToString();
+                else if (myRank > 5)
+                    UIresultPage.instance.myRank.text = "5위 미만입니다.";
+
+                UIresultPage.instance.UpdateRanking();
+                break; // 종료
+
+            }
+        }
+    }
+
+    void GameEnd()
+    {
+        Debug.Log("게임 오버 or 클리어");
+        CaculatePoint();
+        InsertRank(point);
+        point = 0;
+        UIgameOver.instance.Show();
     }
 }

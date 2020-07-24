@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class UIgameOver : MonoBehaviour
 {
 
     public static UIgameOver instance;
+
+    public Text maxCombo;
+    public Text playTime;
+    public Text point;
 
     private void Awake()
     {
@@ -36,6 +41,13 @@ public class UIgameOver : MonoBehaviour
 
         //Allow time to flow again
         Time.timeScale = 1f;
+
+    }
+
+    public void RankingButton()
+    {
+        transform.gameObject.SetActive(false);
+        UIresultPage.instance.Show();
 
     }
 }

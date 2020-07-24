@@ -11,6 +11,7 @@ public enum GameState
     inGame,
     gameOver,
     inPause,
+    result
 }
 
 
@@ -58,6 +59,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         SetGameState(GameState.menu);
     }
+    public void Result()
+    {
+        Time.timeScale = 0f;
+        SetGameState(GameState.result);
+    }
 
 
     // Start is called before the first frame update
@@ -88,14 +94,8 @@ public class GameManager : MonoBehaviour
         {
 
         }
+        else if (newGameState == GameState.result)
         //현재 게임 상태값
         currentGameState = newGameState;
-    }
-
-
-
-    void Update()
-    {
-
     }
 }
