@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 6113303408479863876}
   - component: {fileID: 7599340044441389249}
   - component: {fileID: 4170575869530833369}
+  - component: {fileID: 6679262449842973274}
   m_Layer: 0
   m_Name: obstacle-tile
   m_TagString: obstacle-tile
@@ -199,6 +200,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!111 &6679262449842973274
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5471411465510363513}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 63cf6d2ff8434324f8edf952de866976, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b9c40330b03c0be409148183877bb676, type: 2}
+  - {fileID: 7400000, guid: b34895371f04a3341a00e8845435d03e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &9119637485045632200
 GameObject:
   m_ObjectHideFlags: 0

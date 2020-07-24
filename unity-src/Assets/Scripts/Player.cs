@@ -156,11 +156,11 @@ public class Player : MonoBehaviour
         {
             player.transform.position = new Vector3(Tile.right, player.transform.position.y, player.transform.position.z);
         }
-        if (Input.GetKey(KeyCode.G))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
             Tile.extraSpeed += 0.1f;
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
