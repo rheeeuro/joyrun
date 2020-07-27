@@ -164,16 +164,16 @@ public class Player : MonoBehaviour
 
     void HandleKeyboard()
     {
-        if ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2  < (Tile.left + Tile.center) / 2)
+        if (player.transform.position.x  < (Tile.left + Tile.center) / 2)
         {
             playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 >= (Tile.left + Tile.center) / 2)
-            && ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 <= (Tile.center + Tile.right) / 2))
+        if ((player.transform.position.x >= (Tile.left + Tile.center) / 2)
+            && (player.transform.position.x <= (Tile.center + Tile.right) / 2))
         {
             playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 > (Tile.center + Tile.right) / 2)
+        if (player.transform.position.x > (Tile.center + Tile.right) / 2)
         {
             playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }

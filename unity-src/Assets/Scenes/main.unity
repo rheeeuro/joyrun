@@ -893,18 +893,18 @@ MonoBehaviour:
   horizontalMovement: 1
   externalRootMotion: 0
   externalHeadRotation: 0
-  externalHandRotations: 0
-  fingerOrientations: 1
-  moveRate: 1
+  externalHandRotations: 1
+  fingerOrientations: 0
+  moveRate: 10
   smoothFactor: 10
   lateUpdateAvatar: 0
   offsetNode: {fileID: 0}
   posRelativeToCamera: {fileID: 0}
   posRelOverlayColor: 0
   backgroundPlane: {fileID: 0}
-  posRelInvertedZ: 1
+  posRelInvertedZ: 0
   groundedFeet: 0
-  applyMuscleLimits: 1
+  applyMuscleLimits: 0
   flipLeftRight: 0
   horizontalOffset: 0
   verticalOffset: 0
