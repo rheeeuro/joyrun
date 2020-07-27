@@ -108,6 +108,7 @@ public class Tile : MonoBehaviour
         if (IsTimeToCreateTiles())
         {
             CreateTiles();
+            HandleAnimation();
             if (createTileCount % 10 == 0)
             {
                 tileDelay -= tileDelayIncrease;
@@ -143,7 +144,6 @@ public class Tile : MonoBehaviour
         {
             CreateTilesAfterHeart();
         }
-        HandleAnimation();
         createTileCount++;
     }
 
