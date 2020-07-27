@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     public Text hpText;
     public Text timerText;
 
+    public const float playerStartPositionY = 1.55f;
     public const float playerStartPositionZ = -40;
 
     private void Awake()
@@ -66,15 +67,18 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        
         if (isJumping)
         {
+            
             HandleJump();
         }
         else {
             HandleRuntimeAnimatorController(Tile.actualSpeed);
-            HandleKeyboard();
+            HandleMoving();
         }
 
+        HandleCharacterPosition();
         HandleText();
     }
 
@@ -164,9 +168,8 @@ public class Player : MonoBehaviour
     }
 
 
-    void HandleKeyboard()
+    void HandleMoving()
     {
-        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, playerStartPositionZ);
 
         if (player.transform.position.x  < (Tile.left + Tile.center) / 2)
         {
@@ -192,6 +195,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    void HandleCharacterPosition() {
+        if (player.transform.position.y < playerStartPositionZ)
+        {
+            player.transform.position = new Vector3(player.transform.position.x, playerStartPositionY, playerStartPositionZ);
+        }
+        else
+        {
+            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, playerStartPositionZ);
+        }
+    }
 
     public void MeetHeart()
     {
