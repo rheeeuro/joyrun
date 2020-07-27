@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
 {
     // 오브젝트 변수 선언
     public static GameObject player;
+    public static GameObject playerPosition;
+    public static GameObject leftFoot;
+    public static GameObject rightFoot;
     public static Player instance;
 
     // 애니매이션, 애니매이터 변수 선언
@@ -43,6 +46,9 @@ public class Player : MonoBehaviour
     public Text hpText;
     public Text timerText;
 
+    public const float playerStartPositionY = 1.55f;
+    public const float playerStartPositionZ = -40;
+
     private void Awake()
     {
         instance = this;
@@ -61,21 +67,25 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        
         if (isJumping)
         {
+            
             HandleJump();
         }
         else {
             HandleRuntimeAnimatorController(Tile.actualSpeed);
-            HandleKeyboard();
+            HandleMoving();
         }
 
+        HandleCharacterPosition();
         HandleText();
     }
 
     void InitialValues() {
     
         player = gameObject ;
+        playerPosition = GameObject.Find("playerPosition");
 
         animator = GetComponent<Animator>();
         player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
@@ -93,6 +103,8 @@ public class Player : MonoBehaviour
 
         isJumping = false;
         jumpTimer = 0;
+
+        InitialFoot();
     }
 
     void InitializePrefabs() {
@@ -101,6 +113,11 @@ public class Player : MonoBehaviour
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
+    }
+
+    void InitialFoot() {
+        leftFoot = GameObject.Find("joint_FootLT");
+        rightFoot = GameObject.Find("joint_FootRT");
     }
 
     void HandleJump()
@@ -151,31 +168,43 @@ public class Player : MonoBehaviour
     }
 
 
-    void HandleKeyboard()
+    void HandleMoving()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+
+        if (player.transform.position.x  < (Tile.left + Tile.center) / 2)
         {
-            player.transform.position = new Vector3(Tile.left, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if ((player.transform.position.x >= (Tile.left + Tile.center) / 2)
+            && (player.transform.position.x <= (Tile.center + Tile.right) / 2))
         {
-            player.transform.position = new Vector3(Tile.center, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (player.transform.position.x > (Tile.center + Tile.right) / 2)
         {
-            player.transform.position = new Vector3(Tile.right, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {
             Tile.extraSpeed += 0.1f;
         }
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (player.transform.position.y > 3)
         {
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         }
     }
 
+    void HandleCharacterPosition() {
+        if (player.transform.position.y < playerStartPositionZ)
+        {
+            player.transform.position = new Vector3(player.transform.position.x, playerStartPositionY, playerStartPositionZ);
+        }
+        else
+        {
+            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, playerStartPositionZ);
+        }
+    }
 
     public void MeetHeart()
     {
