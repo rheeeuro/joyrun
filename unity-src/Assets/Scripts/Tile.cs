@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     public GameObject heartTile;
     public GameObject obstacleTile;
     public GameObject emptyTile;
+    public GameObject emptyTilePass;
     public GameObject trapTile;
 
     // 리스트 변수 선언
@@ -73,6 +74,7 @@ public class Tile : MonoBehaviour
         heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
         obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
+        emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
 
 
@@ -92,9 +94,19 @@ public class Tile : MonoBehaviour
         CheckCollision();
     }
 
-    void HandleTiles() {
+    void HandleTiles()
+    {
 
-        if (IsTimeToCreateTiles()) {
+        HandleCreateTiles();
+        HandleActualSpeed();
+        MoveTiles();
+        HandleDestroy();
+    }
+
+    void HandleCreateTiles()
+    {
+        if (IsTimeToCreateTiles())
+        {
             CreateTiles();
             if (createTileCount % 10 == 0)
             {
@@ -102,22 +114,20 @@ public class Tile : MonoBehaviour
                 createTileCount = 0;
             }
         }
-        HandleActualSpeed();
-        MoveTiles();
-        HandleDestroy();
-        HandleObstacleAnimation();
-        HandleTrapAnimation();
     }
 
-    bool IsTimeToCreateTiles() {
+    bool IsTimeToCreateTiles()
+    {
         return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < startPositionZ - tileDistance;
     }
 
-    bool YesOrNo() {
+    bool YesOrNo()
+    {
         return Random.Range(0, 10) % 2 == 0;
     }
 
-    GameObject GetRandomFromList(List<GameObject> list) {
+    GameObject GetRandomFromList(List<GameObject> list)
+    {
         return list[Random.Range(0, list.Count)];
     }
 
@@ -129,14 +139,16 @@ public class Tile : MonoBehaviour
         {
             CreateTilesAfterEmpty();
         }
-        else {
+        else
+        {
             CreateTilesAfterHeart();
         }
-        
+        HandleAnimation();
         createTileCount++;
     }
 
-    void CreateTilesAfterEmpty() {
+    void CreateTilesAfterEmpty()
+    {
         switch (Random.Range(0, 3))
         {
             case 0:
@@ -176,7 +188,8 @@ public class Tile : MonoBehaviour
         }
     }
 
-    void SetGoodAndRandomTile(float dir1, float dir2) {
+    void SetGoodAndRandomTile(float dir1, float dir2)
+    {
         if (YesOrNo())
         {
             SetGoodTile(dir1);
@@ -189,7 +202,8 @@ public class Tile : MonoBehaviour
         }
     }
 
-    void SetGoodTile(float direction) {
+    void SetGoodTile(float direction)
+    {
         if (YesOrNo())
         {
             CreateOne(heartTile, direction);
@@ -198,7 +212,7 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            CreateOne(emptyTile, direction);
+            CreateOne(emptyTilePass, direction);
             heartDirection = 0;
         }
     }
@@ -210,191 +224,187 @@ public class Tile : MonoBehaviour
 
     void HandleObstacleAnimation()
     {
+        GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
+        GameObject lastCenterTile = activatedTiles[activatedTiles.Count - 2];
+        GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
 
+        if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile") // 중앙에 장애물이 있고
+            && ((IsPassDirection(lastLeftTile) && lastRightTile.tag == "empty-tile") || (IsPassDirection(lastRightTile) && lastLeftTile.tag == "empty-tile"))) // 좌, 우로 통과가 가능할 경우
+        {
+            if (IsPassDirection(lastLeftTile))
+            {   
+                HandleAnimation(lastRightTile, obstacleTile, activatedTiles.Count - 1, "obstacle-anim-right");
+            }
+            else
+            {
+                HandleAnimation(lastLeftTile, obstacleTile, activatedTiles.Count - 3, "obstacle-anim-left");
+            }
+        }
+    }
+
+    bool IsPassDirection(GameObject tile) {
+        return tile.tag == "heart-tile" || tile.tag == "empty-tile-pass";
+    }
+
+    void HandleAnimation() {
         if (Player.timer <= Player.gameTime - obstableAnimStartTime)
         {
-            GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
-            GameObject lastCenterTile = activatedTiles[activatedTiles.Count - 2];
-            GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
+            HandleObstacleAnimation();
+        }
 
-            if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile") // 중앙에 장애물이 있고
-                && (lastLeftTile.tag == "heart-tile" || lastLeftTile.tag == "empty-tile") // 좌, 우로 통과가 가능할 경우
-                && (lastRightTile.tag == "heart-tile" || lastRightTile.tag == "empty-tile"))
-            {
-                if (YesOrNo())
-                {
-                    activatedTiles[activatedTiles.Count - 3] = Instantiate(obstacleTile,
-                        new Vector3(lastLeftTile.transform.position.x, startPositionY, lastLeftTile.transform.position.z),
-                        Player.player.transform.rotation) as GameObject;
-                    lastLeftTile.SetActive(false);
-                    Destroy(lastLeftTile);
-                    activatedTiles[activatedTiles.Count - 3].GetComponent<Animation>()["obstacle-anim-left"].speed = 2 / (40 / actualSpeed);
-                    activatedTiles[activatedTiles.Count - 3].GetComponent<Animation>().Play("obstacle-anim-left");
-                }
-                else
-                {
-                    activatedTiles[activatedTiles.Count - 1] = Instantiate(obstacleTile,
-                        new Vector3(lastRightTile.transform.position.x, startPositionY, lastRightTile.transform.position.z),
-                        Player.player.transform.rotation) as GameObject;
-                    lastRightTile.SetActive(false);
-                    Destroy(lastRightTile);
-                    activatedTiles[activatedTiles.Count - 1].GetComponent<Animation>()["obstacle-anim-right"].speed = 2 / (40 / actualSpeed);
-                    activatedTiles[activatedTiles.Count - 1].GetComponent<Animation>().Play("obstacle-anim-right");
-                }
-            }
+        if (Player.timer <= Player.gameTime - trapAnimStartTime)
+        {
+            HandleTrapAnimation();
         }
     }
 
     void HandleTrapAnimation()
     {
-        if (Player.timer <= Player.gameTime - trapAnimStartTime)
+        GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
+        GameObject lastCenterTile = activatedTiles[activatedTiles.Count - 2];
+        GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
+
+        if (lastLeftTile.tag == "empty-tile" && !IsPassDirection(lastLeftTile))
         {
-            List<int> validDirections = new List<int>();
-            GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
-            GameObject lastCenterTile = activatedTiles[activatedTiles.Count - 2];
-            GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
-
-            if (lastLeftTile.tag == "empty-tile" || lastLeftTile.tag == "heart-tile") { validDirections.Add(activatedTiles.Count - 3); }
-            if (lastCenterTile.tag == "empty-tile" || lastCenterTile.tag == "heart-tile") { validDirections.Add(activatedTiles.Count - 2); }
-            if (lastRightTile.tag == "empty-tile" || lastRightTile.tag == "heart-tile") { validDirections.Add(activatedTiles.Count - 1); }
-
-            if (validDirections.Count >= 2) {
-                GameObject randomTile = null;
-                int randomIndex = validDirections[Random.Range(0, validDirections.Count)];
-
-                if (randomIndex == activatedTiles.Count - 3)
-                {
-                    randomTile = lastLeftTile;
-                } else if (randomIndex == activatedTiles.Count - 2) {
-                    randomTile = lastCenterTile;
-                } else if (randomIndex == activatedTiles.Count - 1)
-                {
-                    randomTile = lastRightTile;
-                }
-
-                if (randomTile != null) {
-                    activatedTiles[randomIndex] = Instantiate(trapTile,
-                        new Vector3(activatedTiles[randomIndex].transform.position.x, startPositionY, activatedTiles[randomIndex].transform.position.z),
-                        Player.player.transform.rotation) as GameObject;
-                    randomTile.SetActive(false);
-                    Destroy(randomTile);
-                    activatedTiles[randomIndex].GetComponent<Animation>()["trap-anim"].speed = 2 / (40 / actualSpeed);
-                    activatedTiles[randomIndex].GetComponent<Animation>().Play("trap-anim");
-                }
-
-            }
+            HandleAnimation(lastLeftTile, trapTile, activatedTiles.Count - 3, "trap-anim");
         }
+        if (lastCenterTile.tag == "empty-tile" && !IsPassDirection(lastCenterTile))
+        {
+            HandleAnimation(lastCenterTile, trapTile, activatedTiles.Count - 2, "trap-anim");
+        }
+        if (lastRightTile.tag == "empty-tile" && !IsPassDirection(lastRightTile))
+        {
+            HandleAnimation(lastRightTile, trapTile, activatedTiles.Count - 1, "trap-anim");
+        }
+
+    }
+
+    void HandleAnimation(GameObject oldTile, GameObject newTile, int index, string animationName)
+    {
+        activatedTiles[index] = Instantiate(newTile,
+            new Vector3(oldTile.transform.position.x, startPositionY, oldTile.transform.position.z),
+            Player.player.transform.rotation) as GameObject;
+        oldTile.SetActive(false);
+        Destroy(oldTile);
+        activatedTiles[index].GetComponent<Animation>()[animationName].speed = 2 / (40 / actualSpeed);
+        activatedTiles[index].GetComponent<Animation>().Play(animationName);
     }
 
 
 
-        void MoveTiles()
+    void MoveTiles()
+    {
+        // 타일 이동 후 끝까지 간 경우 삭제
+        for (int i = 0; i < activatedTiles.Count; i++)
         {
-            // 타일 이동 후 끝까지 간 경우 삭제
-            for (int i = 0; i < activatedTiles.Count; i++)
-            {
-                Vector3 movingVector = Vector3.back * actualSpeed * Time.deltaTime;
-                activatedTiles[i].transform.Translate(movingVector, Space.World);
-
-            }
+            Vector3 movingVector = Vector3.back * actualSpeed * Time.deltaTime;
+            activatedTiles[i].transform.Translate(movingVector, Space.World);
         }
+    }
 
-        void HandleActualSpeed()
+    void HandleActualSpeed()
+    {
+        actualSpeed = (tileDistance / tileDelay) + extraSpeed;
+        if (actualSpeed > 90)
         {
-            actualSpeed = (tileDistance / tileDelay) + extraSpeed;
-            if (actualSpeed > 90)
-            {
-                actualSpeed = 90;
-            }
+            actualSpeed = 90;
         }
+    }
 
-        void HandleDestroy()
+    void HandleDestroy()
+    {
+        for (int i = 0; i < activatedTiles.Count; i++)
         {
-            for (int i = 0; i < activatedTiles.Count; i++)
+            if (activatedTiles[i].transform.position.z < destroyLine)
             {
-                if (activatedTiles[i].transform.position.z < destroyLine)
-                {
-                    activatedTiles[i].SetActive(false);
-                    Destroy(activatedTiles[i]);
-                    activatedTiles.RemoveAt(i);
-                }
+                activatedTiles[i].SetActive(false);
+                Destroy(activatedTiles[i]);
+                activatedTiles.RemoveAt(i);
             }
         }
+    }
 
-        void CheckCollision() // 하트 기준 좌표: 타일 + 30, 36, 42, 48
+    void CheckCollision() // 하트 기준 좌표: 타일 + 30, 36, 42, 48
+    {
+        for (int i = 0; i < activatedTiles.Count; i++)
         {
-            for (int i = 0; i < activatedTiles.Count; i++)
+            switch (activatedTiles[i].tag)
             {
-                switch (activatedTiles[i].tag)
-                {
-                    case "heart-tile":
-                        CheckCollisionHeart(activatedTiles[i]);
-                        break;
-                    case "obstacle-tile":
-                        CheckCollisionObstacle(activatedTiles[i]);
-                        break;
-                    case "empty-tile":
-                        CheckCollisionEmpty(activatedTiles[i]);
-                        break;
-                    case "trap-tile":
-                        CheckCollisionObstacle(activatedTiles[i]);
-                        break;
-                    default:
-                        Debug.Log("[ERROR] Unknown tagged Tile.");
-                        break;
-                }
+                case "heart-tile":
+                    CheckCollisionHeart(activatedTiles[i]);
+                    break;
+                case "obstacle-tile":
+                    CheckCollisionObstacle(activatedTiles[i]);
+                    break;
+                case "empty-tile":
+                    CheckCollisionEmpty(activatedTiles[i]);
+                    break;
+                case "empty-tile-pass":
+                    CheckCollisionEmpty(activatedTiles[i]);
+                    break;
+                case "trap-tile":
+                    CheckCollisionObstacle(activatedTiles[i]);
+                    break;
+                default:
+                    Debug.Log("[ERROR] Unknown tagged Tile.");
+                    break;
             }
         }
+    }
 
-        void CheckCollisionHeart(GameObject obj) {
-            for (int i = 0; i < collisionPosition.Length; i++)
-            {
-                if (Mathf.Abs(obj.transform.position.z - collisionPosition[i]) < collisionGap
-                    && GetChildTransform(obj, i * 2).localScale.x != 0
-                    && obj.transform.position.x == Player.player.transform.position.x
-                    && !Player.isJumping)
-                {
-                    GetChildTransform(obj, i * 2).localScale = new Vector3(0, 0, 0);
-                    GetChildTransform(obj, i * 2 + 1).localScale = new Vector3(0, 0, 0);
-                    Player.instance.MeetHeart();
-                }
-            }
-        }
-
-        void CheckCollisionObstacle(GameObject obj) {
-            if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
-                && GetChildTransform(obj, 0).localScale.x != 0
+    void CheckCollisionHeart(GameObject obj)
+    {
+        for (int i = 0; i < collisionPosition.Length; i++)
+        {
+            if (Mathf.Abs(obj.transform.position.z - collisionPosition[i]) < collisionGap
+                && GetChildTransform(obj, i * 2).localScale.x != 0
                 && obj.transform.position.x == Player.player.transform.position.x
-                )
+                && !Player.isJumping)
             {
-                if (Player.isJumping)
-                {
-                    if (GetChildTransform(obj, 1).localScale.x != 0)
-                    {
-                        Player.instance.MeetEmpty();
-                        GetChildTransform(obj, 1).localScale = new Vector3(0, 0, 0);
-                    }
-                }
-                else
-                {
-                    GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
-                    Player.instance.MeetObstacle();
-                }
-
+                GetChildTransform(obj, i * 2).localScale = new Vector3(0, 0, 0);
+                GetChildTransform(obj, i * 2 + 1).localScale = new Vector3(0, 0, 0);
+                Player.instance.MeetHeart();
             }
         }
+    }
 
-        void CheckCollisionEmpty(GameObject obj) {
-            if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
-                && GetChildTransform(obj, 0).localScale.x != 0
-                && obj.transform.position.x == Player.player.transform.position.x)
+    void CheckCollisionObstacle(GameObject obj)
+    {
+        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+            && GetChildTransform(obj, 0).localScale.x != 0
+            && obj.transform.position.x == Player.player.transform.position.x
+            )
+        {
+            if (Player.isJumping)
+            {
+                if (GetChildTransform(obj, 1).localScale.x != 0)
+                {
+                    Player.instance.MeetEmpty();
+                    GetChildTransform(obj, 1).localScale = new Vector3(0, 0, 0);
+                }
+            }
+            else
             {
                 GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
-                Player.instance.MeetEmpty();
+                Player.instance.MeetObstacle();
             }
-        }
 
-        Transform GetChildTransform(GameObject obj, int index) {
-            return obj.transform.GetChild(index).gameObject.transform;
         }
     }
+
+    void CheckCollisionEmpty(GameObject obj)
+    {
+        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+            && GetChildTransform(obj, 0).localScale.x != 0
+            && obj.transform.position.x == Player.player.transform.position.x)
+        {
+            GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
+            Player.instance.MeetEmpty();
+        }
+    }
+
+    Transform GetChildTransform(GameObject obj, int index)
+    {
+        return obj.transform.GetChild(index).gameObject.transform;
+    }
+}

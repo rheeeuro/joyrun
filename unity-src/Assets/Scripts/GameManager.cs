@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Awake() // Start 시작하기 전에 실행
     {
+        Screen.SetResolution(640, 480, true);
         instance = this;
 
     }

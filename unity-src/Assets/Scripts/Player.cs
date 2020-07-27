@@ -118,7 +118,6 @@ public class Player : MonoBehaviour
         if (timer < 0)
         {
             timer = 0;
-            Debug.Log("게임 클리어");
             GameEnd();
         }
     }
@@ -168,12 +167,10 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            Debug.Log("속도 증가");
             Tile.extraSpeed += 0.1f;
         }
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
-            Debug.Log("점프!");
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         }
@@ -220,7 +217,6 @@ public class Player : MonoBehaviour
         if (hp < 0)
         {
             hp = 0;
-            Debug.Log("게임 오버");
             GameEnd();
 
         }
@@ -267,19 +263,21 @@ public class Player : MonoBehaviour
 
                 if (myRank <= 5)
                     UIresultPage.instance.myRank.text = "내 순위 : " + myRank.ToString();
-                else if (myRank > 5)
-                    UIresultPage.instance.myRank.text = "5위 미만입니다.";
+
 
                 UIresultPage.instance.UpdateRanking();
                 break; // 종료
 
+            }
+            if (myRank > 5)
+            {
+                UIresultPage.instance.myRank.text = "5위 미만입니다.";
             }
         }
     }
 
     void GameEnd()
     {
-        Debug.Log("게임 오버 or 클리어");
         CaculatePoint();
         InsertRank(point);
         point = 0;
