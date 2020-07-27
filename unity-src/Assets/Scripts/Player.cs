@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     public Text hpText;
     public Text timerText;
 
+    public const float playerStartPositionZ = -40;
+
     private void Awake()
     {
         instance = this;
@@ -164,6 +166,8 @@ public class Player : MonoBehaviour
 
     void HandleKeyboard()
     {
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, playerStartPositionZ);
+
         if (player.transform.position.x  < (Tile.left + Tile.center) / 2)
         {
             playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
@@ -181,7 +185,7 @@ public class Player : MonoBehaviour
         {
             Tile.extraSpeed += 0.1f;
         }
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (player.transform.position.y > 3)
         {
             isJumping = true;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;

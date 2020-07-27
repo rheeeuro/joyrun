@@ -893,9 +893,9 @@ MonoBehaviour:
   horizontalMovement: 1
   externalRootMotion: 0
   externalHeadRotation: 0
-  externalHandRotations: 1
+  externalHandRotations: 0
   fingerOrientations: 0
-  moveRate: 10
+  moveRate: 20
   smoothFactor: 10
   lateUpdateAvatar: 0
   offsetNode: {fileID: 0}
