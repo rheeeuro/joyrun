@@ -358,7 +358,7 @@ public class Tile : MonoBehaviour
         {
             if (Mathf.Abs(obj.transform.position.z - collisionPosition[i]) < collisionGap
                 && GetChildTransform(obj, i * 2).localScale.x != 0
-                && obj.transform.position.x == Player.player.transform.position.x
+                && obj.transform.position.x == Player.playerPosition.transform.position.x
                 && !Player.isJumping)
             {
                 GetChildTransform(obj, i * 2).localScale = new Vector3(0, 0, 0);
@@ -372,7 +372,7 @@ public class Tile : MonoBehaviour
     {
         if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
-            && obj.transform.position.x == Player.player.transform.position.x
+            && obj.transform.position.x == Player.playerPosition.transform.position.x
             )
         {
             if (Player.isJumping)
@@ -396,7 +396,7 @@ public class Tile : MonoBehaviour
     {
         if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
-            && obj.transform.position.x == Player.player.transform.position.x)
+            && obj.transform.position.x == Player.playerPosition.transform.position.x)
         {
             GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
             Player.instance.MeetEmpty();

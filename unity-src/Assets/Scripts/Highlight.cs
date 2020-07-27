@@ -23,47 +23,47 @@ public class Highlight : MonoBehaviour
             switch (gameObject.name)
             {
                 case "leftTile-highlight":
-                    if (Player.instance.transform.position.x == Tile.left)
+                    if (Player.player.transform.position.x == Tile.left)
                     {
                         rend.material.SetColor("_Color", Color.yellow);
                     }
 
-                    if (Player.instance.transform.position.x == Tile.center)
+                    if (Player.player.transform.position.x == Tile.center)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
-                    if (Player.instance.transform.position.x == Tile.right)
+                    if (Player.player.transform.position.x == Tile.right)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
                     break;
                 case "centerTile-highlight":
-                    if (Player.instance.transform.position.x == Tile.left)
+                    if (Player.player.transform.position.x == Tile.left)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
 
-                    if (Player.instance.transform.position.x == Tile.center)
+                    if (Player.player.transform.position.x == Tile.center)
                     {
 
                         rend.material.SetColor("_Color", Color.yellow);
                     }
-                    if (Player.instance.transform.position.x == Tile.right)
+                    if (Player.player.transform.position.x == Tile.right)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
                     break;
                 case "rightTile-highlight":
-                    if (Player.instance.transform.position.x == Tile.left)
+                    if (Player.player.transform.position.x == Tile.left)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
 
-                    if (Player.instance.transform.position.x == Tile.center)
+                    if (Player.player.transform.position.x == Tile.center)
                     {
                         rend.material.SetColor("_Color", primarycolor);
                     }
-                    if (Player.instance.transform.position.x == Tile.right)
+                    if (Player.player.transform.position.x == Tile.right)
                     {
 
                         rend.material.SetColor("_Color", Color.yellow);

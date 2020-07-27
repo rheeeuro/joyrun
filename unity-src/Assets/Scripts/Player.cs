@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
 {
     // 오브젝트 변수 선언
     public static GameObject player;
+    public static GameObject playerPosition;
+    public static GameObject leftFoot;
+    public static GameObject rightFoot;
     public static Player instance;
 
     // 애니매이션, 애니매이터 변수 선언
@@ -76,6 +79,7 @@ public class Player : MonoBehaviour
     void InitialValues() {
     
         player = gameObject ;
+        playerPosition = GameObject.Find("playerPosition");
 
         animator = GetComponent<Animator>();
         player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
@@ -93,6 +97,8 @@ public class Player : MonoBehaviour
 
         isJumping = false;
         jumpTimer = 0;
+
+        InitialFoot();
     }
 
     void InitializePrefabs() {
@@ -101,6 +107,11 @@ public class Player : MonoBehaviour
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
+    }
+
+    void InitialFoot() {
+        leftFoot = GameObject.Find("joint_FootLT");
+        rightFoot = GameObject.Find("joint_FootRT");
     }
 
     void HandleJump()
@@ -153,17 +164,18 @@ public class Player : MonoBehaviour
 
     void HandleKeyboard()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2  < (Tile.left + Tile.center) / 2)
         {
-            player.transform.position = new Vector3(Tile.left, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 >= (Tile.left + Tile.center) / 2)
+            && ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 <= (Tile.center + Tile.right) / 2))
         {
-            player.transform.position = new Vector3(Tile.center, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if ((leftFoot.transform.position.x + rightFoot.transform.position.x) / 2 > (Tile.center + Tile.right) / 2)
         {
-            player.transform.position = new Vector3(Tile.right, player.transform.position.y, player.transform.position.z);
+            playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {

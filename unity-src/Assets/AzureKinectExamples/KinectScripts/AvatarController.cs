@@ -40,7 +40,7 @@ namespace com.rfilkov.components
         public bool fingerOrientations = false;
 
         [Tooltip("Rate at which the avatar will move through the scene.")]
-        public float moveRate = 1f;
+        public float moveRate = 10f;
 
         [Tooltip("Smooth factor used for avatar movements and joint rotations.")]
         public float smoothFactor = 10f;
