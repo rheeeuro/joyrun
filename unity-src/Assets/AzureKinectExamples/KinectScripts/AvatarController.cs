@@ -812,9 +812,14 @@ namespace com.rfilkov.components
             {
                 return;
             }
-
+            
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
+
+            Avatar.userX = trans.x;
+            Avatar.userY = trans.y;
+            Avatar.userZ = trans.z;
+
             if (flipLeftRight)
                 trans.x = -trans.x;
 

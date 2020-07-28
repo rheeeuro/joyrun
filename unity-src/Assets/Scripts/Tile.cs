@@ -390,6 +390,7 @@ public class Tile : MonoBehaviour
             {
                 GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
                 Player.instance.MeetObstacle();
+                Avatar.InitialExtraSpeed();
             }
 
         }

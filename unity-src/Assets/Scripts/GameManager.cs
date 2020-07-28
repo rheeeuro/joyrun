@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        Time.timeScale = 0f;
         SetGameState(GameState.inPause);
     }
 

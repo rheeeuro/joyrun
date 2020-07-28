@@ -28,9 +28,13 @@ public class Avatar : MonoBehaviour
     public static bool isJumping;
     public static bool stepSide;
     public static float countStep;
-    private List<float> steps;
+    public static List<float> steps;
 
     public static bool isPause;
+
+    public static float userX;
+    public static float userY;
+    public static float userZ;
 
     // Start is called before the first frame update
     void Start()
@@ -44,14 +48,21 @@ public class Avatar : MonoBehaviour
         leftFootPrint = GameObject.Find("footprint-left");
         rightFootPrint = GameObject.Find("footprint-right");
         countStep = 0;
-        avatar.transform.gameObject.SetActive(false);
         startButton.transform.gameObject.SetActive(false);
 
         isJumping = false;
         stepSide = false;
         isPause = false;
-        
+
+        userX = 0;
+        userY = 0;
+        userZ = 0;
+        InitialExtraSpeed();
+    }
+
+    public static void InitialExtraSpeed() {
         steps = Enumerable.Repeat<float>(0, 10).ToList<float>();
+
     }
 
     private void FixedUpdate()
@@ -61,6 +72,7 @@ public class Avatar : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(userX + "/" + userY + "/" + userZ);
         HandleFootPrint();
         HandleUI();
         HandleJump();
@@ -122,7 +134,7 @@ public class Avatar : MonoBehaviour
     }
 
     void HandleJump() {
-        isJumping =  leftFoot.transform.position.y > 0.1 && rightFoot.transform.position.y > 0.1;
+        isJumping =  leftFoot.transform.position.y > 0.2 && rightFoot.transform.position.y > 0.2;
     }
 
     void HandlePause() {

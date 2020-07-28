@@ -73,13 +73,12 @@ public class Player : MonoBehaviour
 
         if (isJumping)
         {
-            previousAnimator = animator.runtimeAnimatorController;
             animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
             HandleJump();
         }
         else
         {
-            animator.runtimeAnimatorController = previousAnimator;
+            animator.runtimeAnimatorController = null;
             //HandleRuntimeAnimatorController(Tile.actualSpeed);
             HandleMoving();
         }
@@ -143,7 +142,10 @@ public class Player : MonoBehaviour
 
     void HandleTimer()
     {
-        timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
+        if (!UIinGame.instance.bePause)
+        {
+            timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
+        }
         if (timer < 0)
         {
             timer = 0;
@@ -192,14 +194,9 @@ public class Player : MonoBehaviour
 
     void HandleCharacterPosition()
     {
-        if (player.transform.position.y < playerStartPositionY && !Avatar.isJumping)
-        {
-            player.transform.position = new Vector3(player.transform.position.x, playerStartPositionY, playerStartPositionZ);
-        }
-        else
-        {
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, playerStartPositionZ);
-        }
+        player.transform.position = new Vector3(Avatar.avatar.transform.position.x * 17.5f + Tile.center, playerStartPositionY, playerStartPositionZ);
+        
+
     }
 
     public void MeetHeart()
