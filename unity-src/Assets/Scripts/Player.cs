@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
             HandleJump();
         }
         else {
-            HandleRuntimeAnimatorController(Tile.actualSpeed);
+            //HandleRuntimeAnimatorController(Tile.actualSpeed);
             HandleMoving();
         }
 
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         playerPosition = GameObject.Find("playerPosition");
 
         animator = GetComponent<Animator>();
-        player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
+        player.GetComponent<Animation>().wrapMode = WrapMode.Once;
 
         InitializePrefabs();
 
@@ -170,28 +170,10 @@ public class Player : MonoBehaviour
 
     void HandleMoving()
     {
-
-        if (player.transform.position.x  < (Tile.left + Tile.center) / 2)
-        {
-            playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
-        if ((player.transform.position.x >= (Tile.left + Tile.center) / 2)
-            && (player.transform.position.x <= (Tile.center + Tile.right) / 2))
-        {
-            playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
-        if (player.transform.position.x > (Tile.center + Tile.right) / 2)
-        {
-            playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            Tile.extraSpeed += 0.1f;
-        }
-        if (player.transform.position.y > 3)
+        if (Avatar.isJumping)
         {
             isJumping = true;
-            animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
+            player.GetComponent<Animation>().Play("BasicMotions@Jump01");
         }
     }
 

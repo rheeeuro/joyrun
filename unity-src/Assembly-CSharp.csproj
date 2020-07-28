@@ -161,6 +161,7 @@
     <Compile Include="Assets\AzureKinectExamples\KinectScripts\UserMeshRenderer.cs" />
     <Compile Include="Assets\AzureKinectExamples\KinectScripts\UserMeshRendererGpu.cs" />
     <Compile Include="Assets\AzureKinectExamples\KinectScripts\UserSkeletonCollider.cs" />
+    <Compile Include="Assets\Scripts\Avatar.cs" />
     <Compile Include="Assets\Scripts\EmptyInfo.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HeartInfo.cs" />
