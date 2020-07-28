@@ -20,12 +20,10 @@ public class UIinGame : MonoBehaviour
         if (bePause == true)
         {
             //눌리면 시간정지 후, gameState Pause로 변경
-            Time.timeScale = 0f;
             GameManager.instance.Pause();
         }
         else
         {
-            Time.timeScale = 1f;
             GameManager.instance.StartGame();
         }
     }

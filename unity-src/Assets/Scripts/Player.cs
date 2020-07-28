@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
         if (timer < 0)
         {
             timer = 0;
-            GameEnd();
+            //GameEnd();
         }
     }
 
@@ -184,8 +184,7 @@ public class Player : MonoBehaviour
 
     void HandleMoving()
     {
-        //if (Avatar.isJumping)
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (Avatar.isJumping)
         {
             isJumping = true;
         }
@@ -193,7 +192,7 @@ public class Player : MonoBehaviour
 
     void HandleCharacterPosition()
     {
-        if (player.transform.position.y < playerStartPositionZ)
+        if (player.transform.position.y < playerStartPositionY && !Avatar.isJumping)
         {
             player.transform.position = new Vector3(player.transform.position.x, playerStartPositionY, playerStartPositionZ);
         }
@@ -246,7 +245,7 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            GameEnd();
+            //GameEnd();
 
         }
         else if (hp > 100)

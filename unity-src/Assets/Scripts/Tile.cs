@@ -34,7 +34,6 @@ public class Tile : MonoBehaviour
     public static float heartDirection;
 
     // 속도 변수, 상수
-    public const float speedIncrease = 0.1f;
     public static float extraSpeed;
     public static float actualSpeed;
 
@@ -308,6 +307,10 @@ public class Tile : MonoBehaviour
         if (actualSpeed > 90)
         {
             actualSpeed = 90;
+        }
+
+        if (UIinGame.instance.bePause) {
+            actualSpeed = 0;
         }
     }
 

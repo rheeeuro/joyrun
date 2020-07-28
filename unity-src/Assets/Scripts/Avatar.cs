@@ -23,7 +23,7 @@ public class Avatar : MonoBehaviour
 
     public GameObject startButton;
 
-    public float footPrintY = -1.95f;
+    public float footPrintY = 0.01f;
 
     public static bool isJumping;
     public static bool stepSide;
@@ -64,6 +64,7 @@ public class Avatar : MonoBehaviour
         HandleFootPrint();
         HandleUI();
         HandleJump();
+        HandleStep();
         HandlePause();
     }
 
@@ -85,8 +86,8 @@ public class Avatar : MonoBehaviour
     }
 
     void HandleFootPrint() {
-        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z);
-        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z);
+        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z-10);
+        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z-10);
     }
 
     void HandleStep() {
@@ -121,7 +122,7 @@ public class Avatar : MonoBehaviour
     }
 
     void HandleJump() {
-        isJumping =  avatar.transform.position.y > 0.15;
+        isJumping =  leftFoot.transform.position.y > 0.1 && rightFoot.transform.position.y > 0.1;
     }
 
     void HandlePause() {
