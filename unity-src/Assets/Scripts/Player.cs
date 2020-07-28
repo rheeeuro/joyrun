@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animWalk;
     RuntimeAnimatorController animSprint;
     RuntimeAnimatorController animJump;
+    RuntimeAnimatorController previousAnimator;
+
+    public Animation Ani;
 
     //점수 변수 선언
     public static int point;
@@ -64,16 +67,19 @@ public class Player : MonoBehaviour
     {
         HandleTimer();
     }
-    
+
     void Update()
     {
-        
+
         if (isJumping)
         {
-            
+            previousAnimator = animator.runtimeAnimatorController;
+            animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
             HandleJump();
         }
-        else {
+        else
+        {
+            animator.runtimeAnimatorController = previousAnimator;
             //HandleRuntimeAnimatorController(Tile.actualSpeed);
             HandleMoving();
         }
@@ -82,13 +88,14 @@ public class Player : MonoBehaviour
         HandleText();
     }
 
-    void InitialValues() {
-    
-        player = gameObject ;
+    void InitialValues()
+    {
+
+        player = gameObject;
         playerPosition = GameObject.Find("playerPosition");
 
         animator = GetComponent<Animator>();
-        player.GetComponent<Animation>().wrapMode = WrapMode.Once;
+        player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
 
         InitializePrefabs();
 
@@ -107,15 +114,18 @@ public class Player : MonoBehaviour
         InitialFoot();
     }
 
-    void InitializePrefabs() {
+    void InitializePrefabs()
+    {
         animIdle = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Idle") as RuntimeAnimatorController;
         animRun = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Run") as RuntimeAnimatorController;
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
+        
     }
 
-    void InitialFoot() {
+    void InitialFoot()
+    {
         leftFoot = GameObject.Find("joint_FootLT");
         rightFoot = GameObject.Find("joint_FootRT");
     }
@@ -128,9 +138,11 @@ public class Player : MonoBehaviour
             isJumping = false;
             jumpTimer = 0;
         }
+
     }
 
-    void HandleTimer() {
+    void HandleTimer()
+    {
         timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
         if (timer < 0)
         {
@@ -139,7 +151,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HandleText() {
+    void HandleText()
+    {
         hpText.text = "HP : " + hp.ToString();
         timerText.text = "Timer : " + timer.ToString("00.00");
         if (comboTimer > 0)
@@ -152,7 +165,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HandleRuntimeAnimatorController(float speed) {
+    void HandleRuntimeAnimatorController(float speed)
+    {
         if (speed <= 40)
         {
             animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
@@ -170,14 +184,15 @@ public class Player : MonoBehaviour
 
     void HandleMoving()
     {
-        if (Avatar.isJumping)
+        //if (Avatar.isJumping)
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
             isJumping = true;
-            player.GetComponent<Animation>().Play("BasicMotions@Jump01");
         }
     }
 
-    void HandleCharacterPosition() {
+    void HandleCharacterPosition()
+    {
         if (player.transform.position.y < playerStartPositionZ)
         {
             player.transform.position = new Vector3(player.transform.position.x, playerStartPositionY, playerStartPositionZ);
@@ -195,7 +210,8 @@ public class Player : MonoBehaviour
         if (hp < maxHp)
         {
             hp = hp + HeartInfo.life;
-            if (hp > maxHp){
+            if (hp > maxHp)
+            {
                 hp = maxHp;
             }
         }
@@ -207,7 +223,7 @@ public class Player : MonoBehaviour
         Tile.extraSpeed = 0;
         ChangeCombo();
         HavaDamaged();
-        
+
     }
     public void MeetEmpty()
     {
@@ -220,7 +236,9 @@ public class Player : MonoBehaviour
         if ((hp / 2) > 10)
         {
             hp = hp - (hp / 2);
-        } else {
+        }
+        else
+        {
             hp -= 10;
         }
 
@@ -231,13 +249,15 @@ public class Player : MonoBehaviour
             GameEnd();
 
         }
-        else if (hp > 100) {
+        else if (hp > 100)
+        {
             hp = 100;
         }
     }
 
-    void ChangeCombo() {
-        if(maxCombo <= combo)
+    void ChangeCombo()
+    {
+        if (maxCombo <= combo)
         {
             maxCombo = combo;
         }
