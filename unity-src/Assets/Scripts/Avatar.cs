@@ -8,8 +8,8 @@ public class Avatar : MonoBehaviour
     public static GameObject left;
     public static GameObject center;
     public static GameObject right;
-    public static GameObject leftFoot;
-    public static GameObject rightFoot;
+    public GameObject leftFoot;
+    public GameObject rightFoot;
     public static GameObject playerPosition;
 
     public static bool isJumping;
@@ -22,10 +22,8 @@ public class Avatar : MonoBehaviour
 
         avatar = GameObject.Find("avatar");
         left = GameObject.Find("floorTile-left");
-        center = GameObject.Find("floorTile-left");
-        right = GameObject.Find("floorTile-left");
-        leftFoot = avatar.transform.Find("joint_FootLT").gameObject;
-        rightFoot = avatar.transform.Find("joint_FootRT").gameObject;
+        center = GameObject.Find("floorTile-center");
+        right = GameObject.Find("floorTile-right");
         playerPosition = GameObject.Find("playerPosition");
         countStep = 0;
 
@@ -88,7 +86,7 @@ public class Avatar : MonoBehaviour
         return horizontal && vertical;
     }
 
-    bool HandleJump() {
-        return avatar.transform.position.y > 0.15;
+    void HandleJump() {
+        isJumping =  avatar.transform.position.y > 0.15;
     }
 }
