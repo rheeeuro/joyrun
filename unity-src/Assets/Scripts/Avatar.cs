@@ -1,20 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Avatar : MonoBehaviour
 {
     public static GameObject avatar;
+
     public static GameObject left;
     public static GameObject center;
     public static GameObject right;
+
     public GameObject leftFoot;
     public GameObject rightFoot;
-    public static GameObject playerPosition;
+
+    public GameObject leftFootPrint;
+    public GameObject rightFootPrint;
+
+    public GameObject leftHand;
+    public GameObject rightHand;
+    public GameObject head;
+
+    public GameObject startButton;
+
+    public float footPrintY = -1.95f;
 
     public static bool isJumping;
     public static bool stepSide;
     public static float countStep;
+    private List<float> steps;
+
+    public static bool isPause;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +40,18 @@ public class Avatar : MonoBehaviour
         left = GameObject.Find("floorTile-left");
         center = GameObject.Find("floorTile-center");
         right = GameObject.Find("floorTile-right");
-        playerPosition = GameObject.Find("playerPosition");
+
+        leftFootPrint = GameObject.Find("footprint-left");
+        rightFootPrint = GameObject.Find("footprint-right");
         countStep = 0;
+        avatar.transform.gameObject.SetActive(false);
+        startButton.transform.gameObject.SetActive(false);
 
         isJumping = false;
         stepSide = false;
+        isPause = false;
+        
+        steps = Enumerable.Repeat<float>(0, 10).ToList<float>();
     }
 
     private void FixedUpdate()
@@ -38,38 +61,49 @@ public class Avatar : MonoBehaviour
 
     void Update()
     {
+        HandleFootPrint();
         HandleUI();
         HandleJump();
+        HandlePause();
     }
 
     void HandleUI() {
         GameObject playerPosition = Player.playerPosition;
 
-        if (IsInside(left, leftFoot) && IsInside(left, rightFoot))
+        if (IsInside(left, leftFootPrint) && IsInside(left, rightFootPrint))
         {
             playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (IsInside(center, leftFoot) && IsInside(center, rightFoot))
+        if (IsInside(center, leftFootPrint) && IsInside(center, rightFootPrint))
         {
             playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
-        if (IsInside(right, leftFoot) && IsInside(right, rightFoot))
+        if (IsInside(right, leftFootPrint) && IsInside(right, rightFootPrint))
         {
             playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
         }
     }
 
+    void HandleFootPrint() {
+        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z);
+        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z);
+    }
+
     void HandleStep() {
         if (stepSide == true && (leftFoot.transform.position.y > 0.1 && rightFoot.transform.position.y < 0.1)) {
             stepSide = false;
-            Tile.extraSpeed = 4 / countStep;
+            steps.RemoveAt(0);
+            steps.Add(10 / countStep);
+            Tile.extraSpeed = steps.Average();
             countStep = 0;
         }
 
         if (stepSide == false && (leftFoot.transform.position.y < 0.1 && rightFoot.transform.position.y > 0.1))
         {
             stepSide = true;
-            Tile.extraSpeed = 4 / countStep;
+            steps.RemoveAt(0);
+            steps.Add(10 / countStep);
+            Tile.extraSpeed = steps.Average();
             countStep = 0;
         }
     }
@@ -88,5 +122,21 @@ public class Avatar : MonoBehaviour
 
     void HandleJump() {
         isJumping =  avatar.transform.position.y > 0.15;
+    }
+
+    void HandlePause() {
+        if (isPause)
+        {
+            UIinGame.instance.bePause = true;
+            startButton.transform.gameObject.SetActive(true);
+        }
+        else {
+            if ((leftHand.transform.position.y > head.transform.position.y && rightHand.transform.position.y > head.transform.position.y)
+                && (IsInside(startButton, leftFootPrint) && IsInside(startButton, rightFootPrint))) {
+                UIinGame.instance.bePause = false;
+                startButton.transform.gameObject.SetActive(false);
+            }
+        }
+
     }
 }

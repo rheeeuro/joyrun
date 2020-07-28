@@ -351,9 +351,15 @@ namespace com.rfilkov.components
             if (playerId != userId)
             {
                 if (/**playerId == 0 &&*/ userId != 0)
+                {
                     SuccessfulCalibration(userId, false);
+                    Avatar.isPause = false;
+                }
                 else if (/**playerId != 0 &&*/ userId == 0)
+                {
                     ResetToInitialPosition();
+                    Avatar.isPause = true;
+                }
             }
 
             if (!lateUpdateAvatar && playerId != 0)

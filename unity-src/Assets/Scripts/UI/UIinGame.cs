@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIinGame : MonoBehaviour
 {
-    bool bePause;
+    public bool bePause;
     public static UIinGame instance;
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class UIinGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.bePause == true)
+        if (bePause == true)
         {
             //눌리면 시간정지 후, gameState Pause로 변경
             Time.timeScale = 0f;
@@ -33,9 +33,9 @@ public class UIinGame : MonoBehaviour
     public void Pause()
     {
         if (bePause == false)
-            this.bePause = true;
+            bePause = true;
         else
-            this.bePause = false;
+            bePause = false;
 
     }
 }
