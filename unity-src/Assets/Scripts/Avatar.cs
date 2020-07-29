@@ -30,9 +30,11 @@ public class Avatar : MonoBehaviour
 
     // 발 위치, 걸음, 점프, 펀치 기준 y 좌표
     public const float footPrintSize = 1;
-    public const float footPrintY = -0.7f;
-    public const float stepCountY = 5.5f;
-    public const float jumpConditionY = 7;
+    public const float footPrintStartSize = 0.7f;
+    public const float foorPrintScaleY = 0.005f;
+
+    public const float stepCountY = 0.2f;
+    public const float jumpConditionY = 0.2f;
     public const float punchDistance = 3;
 
     // 아바타 상태 변수
@@ -133,16 +135,16 @@ public class Avatar : MonoBehaviour
 
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition() {
-        leftFootPrint.transform.position = new Vector3((userSpineLeftFoot.x * 10) * (8/7), footPrintY, (1.65f-userSpineLeftFoot.z) * 10);
-        rightFootPrint.transform.position = new Vector3((userSpineRightFoot.x * 10) * (8/7), footPrintY, (1.65f-userSpineRightFoot.z) * 10);
+        leftFootPrint.transform.position = new Vector3(userSpineLeftFoot.x * 10, 0, (userSpineLeftFoot.z - 1.45f) * -1.09f);
+        rightFootPrint.transform.position = new Vector3(userSpineRightFoot.x * 10, 0, (userSpineRightFoot.z - 1.45f) * -1.09f);
     }
 
     // 발 위치 원 크기 변경
     void HandleFootPrintSize() {
-        float newLeftFootPrintSize = (10 - userSpineLeftFoot.y) / 10;
-        float newRightFootPrintSize = (10 - userSpineRightFoot.y) / 10;
-        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, 0.01f, newLeftFootPrintSize);
-        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, 0.01f, newRightFootPrintSize);
+        float newLeftFootPrintSize = (1 - userSpineLeftFoot.y) * footPrintStartSize;
+        float newRightFootPrintSize = (1 - userSpineRightFoot.y) * footPrintStartSize;
+        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, foorPrintScaleY, newLeftFootPrintSize);
+        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, foorPrintScaleY, newRightFootPrintSize);
     }
 
     // 바닥 스크린들의 밟은 판정

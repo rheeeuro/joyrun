@@ -818,8 +818,8 @@ namespace com.rfilkov.components
 
             // 아바타와 상호작용
             Avatar.userSpine = trans;
-            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, 16);
-            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, 20);
+            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, 18);
+            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, 22);
 
             if (flipLeftRight)
                 trans.x = -trans.x;
