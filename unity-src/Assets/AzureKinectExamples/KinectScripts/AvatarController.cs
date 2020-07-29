@@ -818,7 +818,7 @@ namespace com.rfilkov.components
 
             Avatar.userSpineX = trans.x;
             Avatar.userSpineY = trans.y;
-            Avatar.userSpineZ = trans.z;
+            Avatar.userSpineZ = -trans.z + 1.7f;
 
             if (flipLeftRight)
                 trans.x = -trans.x;

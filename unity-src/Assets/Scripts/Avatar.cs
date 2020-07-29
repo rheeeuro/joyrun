@@ -28,9 +28,10 @@ public class Avatar : MonoBehaviour
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
-    // 발 위치, 걸음 기준 y 좌표
+    // 발 위치, 걸음, 점프 기준 y 좌표
     public const float footPrintY = 0.01f;
-    public const float stepCountY = 0.1f;
+    public const float stepCountY = 1;
+    public const float jumpConditionY = 1.1f;
 
     // 아바타 상태 변수
     public static bool isJumping;
@@ -100,6 +101,7 @@ public class Avatar : MonoBehaviour
     void Update()
     {
         Debug.Log(userSpineX + "/" + userSpineY + "/" + userSpineZ);
+        Debug.Log(Tile.extraSpeed);
 
         // 아바타 업데이트
         HandleAvatarPosition();
@@ -121,8 +123,8 @@ public class Avatar : MonoBehaviour
     // 발 위치 원 이동
     void HandleFootPrints()
     {
-        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z - 10);
-        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z - 10);
+        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x * 1.5f, footPrintY, leftFoot.transform.position.z - 10);
+        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x * 1.5f, footPrintY, rightFoot.transform.position.z - 10);
     }
 
     // 바닥 스크린들의 밟은 판정
@@ -174,7 +176,7 @@ public class Avatar : MonoBehaviour
 
     // 점프 조건
     void HandleJump() {
-        isJumping =  leftFoot.transform.position.y > 0.2 && rightFoot.transform.position.y > 0.2;
+        isJumping =  leftFoot.transform.position.y > jumpConditionY && rightFoot.transform.position.y > jumpConditionY;
     }
 
     // 일시정지와 다시시작 조건
