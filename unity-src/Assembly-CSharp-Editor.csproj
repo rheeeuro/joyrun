@@ -2,6 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <CscToolPath>C:\Program Files\Unity\Hub\Editor\2019.2.13f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
+    <CscToolExe>unity_csc.bat</CscToolExe>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,9 +54,6 @@
     <UnityVersion>2019.2.13f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.2.13f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -67,37 +66,37 @@
     <Compile Include="Assets\PlayerPrefs\Editor\PlayerPrefsEditor\PlayerPrefsEditorWindow.cs" />
     <Compile Include="Assets\PlayerPrefs\Editor\PlayerPrefsExtension.cs" />
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -286,25 +285,25 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.13f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="LZ4Sharp">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/KinectScripts/LZ4Sharp/LZ4Sharp.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/KinectScripts/LZ4Sharp/LZ4Sharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Kinect.Sensor">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/Kinect4AzureSDK/Plugins/Microsoft.Azure.Kinect.Sensor.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/Kinect4AzureSDK/Plugins/Microsoft.Azure.Kinect.Sensor.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/Kinect4AzureSDK/Plugins/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/Kinect4AzureSDK/Plugins/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Kinect2UnityWrapper">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/KinectSDK2.0/Plugins/Kinect2UnityWrapper.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/KinectSDK2.0/Plugins/Kinect2UnityWrapper.dll</HintPath>
     </Reference>
     <Reference Include="Intel.RealSense">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/RealSenseSDK2.0/Plugins/Intel.RealSense.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Assets/AzureKinectExamples/SDK/RealSenseSDK2.0/Plugins/Intel.RealSense.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Users/김동재/Joyfun/internship-2020h2/unity-src/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
