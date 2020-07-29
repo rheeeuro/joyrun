@@ -40,7 +40,7 @@ namespace com.rfilkov.components
         public bool fingerOrientations = false;
 
         [Tooltip("Rate at which the avatar will move through the scene.")]
-        public float moveRate = 20f;
+        public float moveRate = 17.5f;
 
         [Tooltip("Smooth factor used for avatar movements and joint rotations.")]
         public float smoothFactor = 10f;
@@ -351,9 +351,15 @@ namespace com.rfilkov.components
             if (playerId != userId)
             {
                 if (/**playerId == 0 &&*/ userId != 0)
+                {
                     SuccessfulCalibration(userId, false);
+                    Avatar.pauseHandler = false;
+                }
                 else if (/**playerId != 0 &&*/ userId == 0)
+                {
                     ResetToInitialPosition();
+                    Avatar.pauseHandler = true;
+                }
             }
 
             if (!lateUpdateAvatar && playerId != 0)
@@ -806,9 +812,14 @@ namespace com.rfilkov.components
             {
                 return;
             }
-
+            
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
+
+            Avatar.userSpineX = trans.x;
+            Avatar.userSpineY = trans.y;
+            Avatar.userSpineZ = -trans.z + 1.7f;
+
             if (flipLeftRight)
                 trans.x = -trans.x;
 
