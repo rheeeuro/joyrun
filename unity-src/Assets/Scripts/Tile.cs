@@ -11,6 +11,7 @@ public class Tile : MonoBehaviour
     public GameObject emptyTile;
     public GameObject emptyTilePass;
     public GameObject trapTile;
+    public GameObject balloonTile;
 
     // 리스트 변수 선언
     public static List<GameObject> randomTiles;
@@ -81,7 +82,7 @@ public class Tile : MonoBehaviour
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
         emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
-
+        balloonTile = Resources.Load("Prefabs/balloon-tile") as GameObject;
 
         // List 설정
         randomTiles.Add(obstacleTile);
@@ -215,7 +216,11 @@ public class Tile : MonoBehaviour
     {
         if (YesOrNo())
         {
-            CreateOne(heartTile, direction);
+            int temp = Random.Range(0, 3);
+            if (temp != 2)
+                CreateOne(heartTile, direction);
+            else
+                CreateOne(balloonTile, direction);
             heartDirection = direction;
 
         }
@@ -346,6 +351,9 @@ public class Tile : MonoBehaviour
                 case "trap-tile":
                     CheckCollisionObstacle(activatedTiles[i]);
                     break;
+                case "balloon-tile":
+                    CheckCollisionBalloon(activatedTiles[i]);
+                    break;
                 default:
                     Debug.Log("[ERROR] Unknown tagged Tile.");
                     break;
@@ -393,6 +401,19 @@ public class Tile : MonoBehaviour
                 Avatar.InitialStepRecords();
             }
 
+        }
+    }
+
+    void CheckCollisionBalloon(GameObject obj)
+    {
+        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+        && GetChildTransform(obj, 0).localScale.x != 0
+        && obj.transform.position.x == Player.highlight.transform.position.x
+        && Avatar.isPunching)
+        {
+            Player.instance.MeetBalloon();
+            GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
+            GetChildTransform(obj, 1).localScale = new Vector3(0, 0, 0);
         }
     }
 

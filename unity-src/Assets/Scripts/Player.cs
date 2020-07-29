@@ -200,6 +200,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 풍선에 닿을 시
+    public void MeetBalloon()
+    {
+        combo = combo + 10;
+        ChangeCombo();
+    }
+
     // 장애물에 층돌 시
     public void MeetObstacle()
     {

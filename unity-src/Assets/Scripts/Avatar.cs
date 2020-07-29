@@ -116,6 +116,7 @@ public class Avatar : MonoBehaviour
         HandleFloorTiles();
         HandleJump();
         HandleSteps();
+        HandleAvatarPunch();
 
         HandlePause();
     }
