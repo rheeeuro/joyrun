@@ -135,8 +135,8 @@ public class Avatar : MonoBehaviour
 
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition() {
-        leftFootPrint.transform.position = new Vector3(userSpineLeftFoot.x * 10, 0, (userSpineLeftFoot.z - 1.45f) * -1.09f);
-        rightFootPrint.transform.position = new Vector3(userSpineRightFoot.x * 10, 0, (userSpineRightFoot.z - 1.45f) * -1.09f);
+        leftFootPrint.transform.position = new Vector3(userSpineLeftFoot.x * 10, 0, (userSpineLeftFoot.z - 1.4f) * -10);
+        rightFootPrint.transform.position = new Vector3(userSpineRightFoot.x * 10, 0, (userSpineRightFoot.z - 1.4f) * -10);
     }
 
     // 발 위치 원 크기 변경
@@ -147,7 +147,7 @@ public class Avatar : MonoBehaviour
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, foorPrintScaleY, newRightFootPrintSize);
     }
 
-    // 바닥 스크린들의 밟은 판정
+    // 바닥 스크린들의 밟은 판정   
     void HandleFloorTiles() {
         HandleFloorTile(Player.highlight, leftFloorTile, Tile.left);
         HandleFloorTile(Player.highlight, centerFloorTile, Tile.center);
