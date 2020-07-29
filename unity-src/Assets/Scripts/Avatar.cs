@@ -28,13 +28,15 @@ public class Avatar : MonoBehaviour
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
-    // 발 위치, 걸음, 점프 기준 y 좌표
+    // 발 위치, 걸음, 점프, 펀치 기준 y 좌표
     public const float footPrintY = 0.01f;
     public const float stepCountY = 1;
     public const float jumpConditionY = 1.1f;
+    public const float punchDistance = 0.4f;
 
     // 아바타 상태 변수
     public static bool isJumping;
+    public static bool isPunching;
     public static bool stepSide;
     public static float stepRecordTime;
     public static List<float> steps;
@@ -66,6 +68,8 @@ public class Avatar : MonoBehaviour
         leftFootPrint = GameObject.Find("footprint-left");
         rightFootPrint = GameObject.Find("footprint-right");
 
+        resumeTile = GameObject.Find("ResumeTile");
+
         resumeTile.transform.gameObject.SetActive(false);
     }
 
@@ -73,6 +77,7 @@ public class Avatar : MonoBehaviour
     void InitialValues() {
         // 상태변수 초기화
         isJumping = false;
+        isPunching = false;
         stepSide = false;
         pauseHandler = false;
 
@@ -193,6 +198,13 @@ public class Avatar : MonoBehaviour
                 resumeTile.transform.gameObject.SetActive(false);
             }
         }
+    }
 
+    void HandleAvatarPunch() {
+        if ((leftHand.transform.position.z > head.transform.position.z + punchDistance)
+            || (rightHand.transform.position.z > head.transform.position.z + punchDistance))
+            isPunching = true;
+        else
+            isPunching = false;
     }
 }

@@ -190,7 +190,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 494}
   m_MaxSize: {x: 14002, y: 14044}
   vertical: 1
-  controlID: 63
+  controlID: 137
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -261,8 +261,8 @@ MonoBehaviour:
     y: 0
     width: 978
     height: 458
-  m_MinSize: {x: 204, y: 222}
-  m_MaxSize: {x: 4004, y: 4022}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -579,9 +579,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 6afbffff1e360000
+      m_SelectedIDs: d2370000
+      m_LastClickedID: 14290
+      m_ExpandedIDs: 78f9ffff84f9ffff8ef9ffff90f9ffff96f9ffff9cf9ffff46faffff62faffff6afbffff82370000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -641,9 +641,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.8, y: 0.0014121532, z: -10.002359}
+    m_Target: {x: -0.00022339821, y: 0.90221995, z: 0.0050928593}
     speed: 2
-    m_Value: {x: -0.8, y: 0.0014121532, z: -10.002359}
+    m_Value: {x: -0.00020301338, y: 0.90222085, z: 0.0050857095}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -674,11 +674,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.31631285, y: 0.044657033, z: -0.014908663, w: -0.9474892}
     speed: 2
-    m_Value: {x: -0.3163119, y: 0.0446569, z: -0.014908618, w: -0.9474864}
+    m_Value: {x: 0.31631282, y: -0.04465703, z: 0.014908662, w: 0.94748926}
   m_Size:
-    m_Target: 3.5542092
+    m_Target: 1.7204881
     speed: 2
-    m_Value: 3.5542092
+    m_Value: 2.020488
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -697,7 +697,7 @@ MonoBehaviour:
     m_DynamicClip: 1
     m_OcclusionCulling: 0
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: -0.052127942, y: 0.04701573, z: -0.0024569477, w: -0.99753267}
+  m_LastSceneViewRotation: {x: -0.31631285, y: 0.044657033, z: -0.014908663, w: -0.9474892}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 

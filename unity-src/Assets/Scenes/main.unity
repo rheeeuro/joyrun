@@ -1162,7 +1162,7 @@ GameObject:
   - component: {fileID: 226457928}
   - component: {fileID: 226457927}
   m_Layer: 0
-  m_Name: PauseTile
+  m_Name: ResumeTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
