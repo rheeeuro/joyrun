@@ -817,9 +817,9 @@ namespace com.rfilkov.components
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
             // 아바타와 상호작용
-            Avatar.userSpine = trans * 10;
-            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, 16) * 10;
-            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, 20) * 10;
+            Avatar.userSpine = trans;
+            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, 16);
+            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, 20);
 
             if (flipLeftRight)
                 trans.x = -trans.x;

@@ -22,14 +22,15 @@ public class Avatar : MonoBehaviour
     public static GameObject resumeTile;
 
     // 바닥 타일 너비
-    public const float floorTileScaleX = 7;
+    public const float floorTileScaleX = 8;
 
     // 발위치 변수
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
     // 발 위치, 걸음, 점프, 펀치 기준 y 좌표
-    public const float footPrintSize = 0.1f;
+    public const float footPrintSize = 1;
+    public const float footPrintY = -0.7f;
     public const float stepCountY = 5.5f;
     public const float jumpConditionY = 7;
     public const float punchDistance = 3;
@@ -120,7 +121,7 @@ public class Avatar : MonoBehaviour
 
     // 아바타 위치를 유저 위치로 변경
     void HandleAvatarPosition() {
-        avatar.transform.position = new Vector3(userSpine.x, userSpine.y, -userSpine.z);
+        avatar.transform.position = new Vector3(0, 0, -100);
     }
 
     // 발 위치 원 설정
@@ -132,14 +133,14 @@ public class Avatar : MonoBehaviour
 
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition() {
-        leftFootPrint.transform.position = new Vector3(userSpineLeftFoot.x, userSpineLeftFoot.y, -userSpineLeftFoot.z);
-        rightFootPrint.transform.position = new Vector3(userSpineRightFoot.x, userSpineRightFoot.y, -userSpineRightFoot.z);
+        leftFootPrint.transform.position = new Vector3((userSpineLeftFoot.x * 10) * (8/7), footPrintY, (1.65f-userSpineLeftFoot.z) * 10);
+        rightFootPrint.transform.position = new Vector3((userSpineRightFoot.x * 10) * (8/7), footPrintY, (1.65f-userSpineRightFoot.z) * 10);
     }
 
     // 발 위치 원 크기 변경
     void HandleFootPrintSize() {
-        float newLeftFootPrintSize = (footPrintSize * 100 - userSpineLeftFoot.y) / 100;
-        float newRightFootPrintSize = (footPrintSize * 100 - userSpineRightFoot.y) / 100;
+        float newLeftFootPrintSize = (10 - userSpineLeftFoot.y) / 10;
+        float newRightFootPrintSize = (10 - userSpineRightFoot.y) / 10;
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, 0.01f, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, 0.01f, newRightFootPrintSize);
     }
