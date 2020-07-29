@@ -22,17 +22,17 @@ public class Avatar : MonoBehaviour
     public static GameObject resumeTile;
 
     // 바닥 타일 너비
-    public const float floorTileScaleX = 0.8f;
+    public const float floorTileScaleX = 7;
 
     // 발위치 변수
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
     // 발 위치, 걸음, 점프, 펀치 기준 y 좌표
-    public const float footPrintY = 0.01f;
-    public const float stepCountY = 1;
-    public const float jumpConditionY = 1.1f;
-    public const float punchDistance = 0.4f;
+    public const float footPrintSize = 0.1f;
+    public const float stepCountY = 5.5f;
+    public const float jumpConditionY = 7;
+    public const float punchDistance = 3;
 
     // 아바타 상태 변수
     public static bool isJumping;
@@ -42,9 +42,9 @@ public class Avatar : MonoBehaviour
     public static List<float> steps;
 
     // 유저 위치 변수
-    public static float userSpineX;
-    public static float userSpineY;
-    public static float userSpineZ;
+    public static Vector3 userSpine;
+    public static Vector3 userSpineLeftFoot;
+    public static Vector3 userSpineRightFoot;
 
     // 일시정지 변수
     public static bool pauseHandler;
@@ -84,9 +84,9 @@ public class Avatar : MonoBehaviour
         stepRecordTime = 0;
 
         // 유저 위치 초기화
-        userSpineX = 0;
-        userSpineY = 0;
-        userSpineZ = 0;
+        userSpine = new Vector3(0, 0, 0);
+        userSpineLeftFoot = new Vector3(0, 0, 0);
+        userSpineRightFoot = new Vector3(0, 0, 0);
 
         InitialStepRecords();
     }
@@ -105,12 +105,9 @@ public class Avatar : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(userSpineX + "/" + userSpineY + "/" + userSpineZ);
-        Debug.Log(Tile.extraSpeed);
-
         // 아바타 업데이트
         HandleAvatarPosition();
-        HandleFootPrints();
+        HandleFootPrint();
 
         // 아바타와 바닥 UI 상호작용
         HandleFloorTiles();
@@ -123,14 +120,28 @@ public class Avatar : MonoBehaviour
 
     // 아바타 위치를 유저 위치로 변경
     void HandleAvatarPosition() {
-        avatar.transform.position = new Vector3(userSpineX, userSpineY, userSpineZ);
+        avatar.transform.position = new Vector3(userSpine.x, userSpine.y, -userSpine.z);
     }
 
-    // 발 위치 원 이동
-    void HandleFootPrints()
+    // 발 위치 원 설정
+    void HandleFootPrint()
     {
-        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x * 1.5f, footPrintY, leftFoot.transform.position.z - 10);
-        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x * 1.5f, footPrintY, rightFoot.transform.position.z - 10);
+        HandleFootPrintPosition();
+        HandleFootPrintSize();
+    }
+
+    // 발 위치 원 좌표 변경
+    void HandleFootPrintPosition() {
+        leftFootPrint.transform.position = new Vector3(userSpineLeftFoot.x, userSpineLeftFoot.y, -userSpineLeftFoot.z);
+        rightFootPrint.transform.position = new Vector3(userSpineRightFoot.x, userSpineRightFoot.y, -userSpineRightFoot.z);
+    }
+
+    // 발 위치 원 크기 변경
+    void HandleFootPrintSize() {
+        float newLeftFootPrintSize = (footPrintSize * 100 - userSpineLeftFoot.y) / 100;
+        float newRightFootPrintSize = (footPrintSize * 100 - userSpineRightFoot.y) / 100;
+        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, 0.01f, newLeftFootPrintSize);
+        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, 0.01f, newRightFootPrintSize);
     }
 
     // 바닥 스크린들의 밟은 판정
@@ -148,8 +159,8 @@ public class Avatar : MonoBehaviour
 
     // 결음 기록 조건 만족 시 함수 호출
     void HandleSteps() {
-        if ((stepSide == true && leftFoot.transform.position.y > stepCountY && rightFoot.transform.position.y < stepCountY)
-            || (stepSide == false && leftFoot.transform.position.y < stepCountY && rightFoot.transform.position.y > stepCountY))
+        if ((stepSide == true && userSpineLeftFoot.y > stepCountY && userSpineRightFoot.y < stepCountY)
+            || (stepSide == false && userSpineLeftFoot.y < stepCountY && userSpineRightFoot.y > stepCountY))
             HandleStep();
     }
 
@@ -182,7 +193,7 @@ public class Avatar : MonoBehaviour
 
     // 점프 조건
     void HandleJump() {
-        isJumping =  leftFoot.transform.position.y > jumpConditionY && rightFoot.transform.position.y > jumpConditionY;
+        isJumping = userSpineLeftFoot.y > jumpConditionY && userSpineRightFoot.y > jumpConditionY;
     }
 
     // 일시정지와 다시시작 조건

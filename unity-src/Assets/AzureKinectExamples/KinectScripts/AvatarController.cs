@@ -816,9 +816,10 @@ namespace com.rfilkov.components
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
-            Avatar.userSpineX = trans.x;
-            Avatar.userSpineY = trans.y;
-            Avatar.userSpineZ = -trans.z + 1.7f;
+            // 아바타와 상호작용
+            Avatar.userSpine = trans * 10;
+            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, 16) * 10;
+            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, 20) * 10;
 
             if (flipLeftRight)
                 trans.x = -trans.x;
