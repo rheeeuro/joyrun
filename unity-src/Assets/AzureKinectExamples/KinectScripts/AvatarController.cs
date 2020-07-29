@@ -353,12 +353,12 @@ namespace com.rfilkov.components
                 if (/**playerId == 0 &&*/ userId != 0)
                 {
                     SuccessfulCalibration(userId, false);
-                    Avatar.isPause = false;
+                    Avatar.pauseHandler = false;
                 }
                 else if (/**playerId != 0 &&*/ userId == 0)
                 {
                     ResetToInitialPosition();
-                    Avatar.isPause = true;
+                    Avatar.pauseHandler = true;
                 }
             }
 
@@ -816,9 +816,9 @@ namespace com.rfilkov.components
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
-            Avatar.userX = trans.x;
-            Avatar.userY = trans.y;
-            Avatar.userZ = trans.z;
+            Avatar.userSpineX = trans.x;
+            Avatar.userSpineY = trans.y;
+            Avatar.userSpineZ = trans.z;
 
             if (flipLeftRight)
                 trans.x = -trans.x;

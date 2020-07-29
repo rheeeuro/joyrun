@@ -7,9 +7,7 @@ public class Player : MonoBehaviour
 {
     // 오브젝트 변수 선언
     public static GameObject player;
-    public static GameObject playerPosition;
-    public static GameObject leftFoot;
-    public static GameObject rightFoot;
+    public static GameObject highlight;
     public static Player instance;
 
     // 애니매이션, 애니매이터 변수 선언
@@ -19,9 +17,7 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animWalk;
     RuntimeAnimatorController animSprint;
     RuntimeAnimatorController animJump;
-    RuntimeAnimatorController previousAnimator;
-
-    public Animation Ani;
+    
 
     //점수 변수 선언
     public static int point;
@@ -52,6 +48,7 @@ public class Player : MonoBehaviour
     public const float playerStartPositionY = 1.55f;
     public const float playerStartPositionZ = -40;
 
+    // 인스턴스 설정
     private void Awake()
     {
         instance = this;
@@ -70,32 +67,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
-        if (isJumping)
-        {
-            animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
-            HandleJump();
-        }
-        else
-        {
-            animator.runtimeAnimatorController = null;
-            //HandleRuntimeAnimatorController(Tile.actualSpeed);
-            HandleMoving();
-        }
-
-        HandleCharacterPosition();
+        HandlePlayer();
         HandleText();
     }
 
+    // 변수 초기화
     void InitialValues()
     {
-
+        // 오브젝트 변수 초기화
         player = gameObject;
-        playerPosition = GameObject.Find("playerPosition");
-
-        animator = GetComponent<Animator>();
-        player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-
+        highlight = GameObject.Find("highlight");
+        
         InitializePrefabs();
 
         myRank = 9999;
@@ -110,11 +92,13 @@ public class Player : MonoBehaviour
         isJumping = false;
         jumpTimer = 0;
 
-        InitialFoot();
     }
 
+    // 프리팹 불러오기
     void InitializePrefabs()
     {
+        animator = GetComponent<Animator>();
+        player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
         animIdle = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Idle") as RuntimeAnimatorController;
         animRun = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Run") as RuntimeAnimatorController;
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
@@ -123,14 +107,21 @@ public class Player : MonoBehaviour
         
     }
 
-    void InitialFoot()
+    // 플레이어 점프, 이동 설정 알고리즘
+    void HandlePlayer()
     {
-        leftFoot = GameObject.Find("joint_FootLT");
-        rightFoot = GameObject.Find("joint_FootRT");
+        if (isJumping)    
+            HandlePlayerJumping();
+        else
+            HandlePlayerMoving();
+
+        HandlePlayerPosition();
     }
 
-    void HandleJump()
+    // 플레이어 점프 애니메이션, 점프 타이머 설정
+    void HandlePlayerJumping()
     {
+        animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         jumpTimer += Time.deltaTime;
         if (jumpTimer >= 0.6)
         {
@@ -140,12 +131,12 @@ public class Player : MonoBehaviour
 
     }
 
+    // 타이머 변수 설정
     void HandleTimer()
     {
         if (!UIinGame.instance.bePause)
-        {
             timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
-        }
+ 
         if (timer < 0)
         {
             timer = 0;
@@ -153,66 +144,63 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 상태 텍스트 설정 (체력, 타이머, 콤보)
     void HandleText()
     {
         hpText.text = "HP : " + hp.ToString();
         timerText.text = "Timer : " + timer.ToString("00.00");
+
         if (comboTimer > 0)
-        {
             comboTimer -= Time.deltaTime;
-        }
         else
-        {
             comboText.text = "";
-        }
     }
 
-    void HandleRuntimeAnimatorController(float speed)
+    void HandlePlayerMoving()
+    {
+        animator.runtimeAnimatorController = null;
+
+        // 플레이어 달리기 애니메이션
+        // HandlePlayerRuntimeAnimatorController(Tile.actualSpeed); 
+
+        if (Avatar.isJumping)
+            isJumping = true;     
+    }
+
+    // 플레이어 달리기 애니메이션 설정
+    void HandlePlayerRuntimeAnimatorController(float speed)
     {
         if (speed <= 40)
-        {
             animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
-        }
         else if (speed > 40 && speed <= 60)
-        {
             animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
-        }
         else
-        {
             animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
-        }
     }
 
-
-    void HandleMoving()
+    // 아바타 위치로 플레이어 위치 고정
+    void HandlePlayerPosition()
     {
-        if (Avatar.isJumping)
-        {
-            isJumping = true;
-        }
+        player.transform.position = 
+            new Vector3(Avatar.avatar.transform.position.x * (Tile.scaleX / Avatar.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
     }
 
-    void HandleCharacterPosition()
-    {
-        player.transform.position = new Vector3(Avatar.avatar.transform.position.x * 17.5f + Tile.center, playerStartPositionY, playerStartPositionZ);
-        
-
-    }
-
+    // 하트에 충돌 시
     public void MeetHeart()
     {
         combo = combo + HeartInfo.Combo;
         ChangeCombo();
+
         if (hp < maxHp)
         {
             hp = hp + HeartInfo.life;
+
             if (hp > maxHp)
-            {
                 hp = maxHp;
-            }
         }
     }
 
+    // 장애물에 층돌 시
     public void MeetObstacle()
     {
         combo = 0;
@@ -221,47 +209,44 @@ public class Player : MonoBehaviour
         HavaDamaged();
 
     }
+
+    // 빈 칸을 지날 시
     public void MeetEmpty()
     {
         combo = combo + EmptyInfo.Combo;
         ChangeCombo();
     }
 
+    // 데미지 판정 알고리즘
     void HavaDamaged()
     {
         if ((hp / 2) > 10)
-        {
             hp = hp - (hp / 2);
-        }
         else
-        {
             hp -= 10;
-        }
 
 
         if (hp <= 0)
         {
             hp = 0;
             //GameEnd();
-
         }
         else if (hp > 100)
-        {
             hp = 100;
-        }
     }
 
+    // 콤보 변경 시 (증가 혹은 초기화)
     void ChangeCombo()
     {
         if (maxCombo <= combo)
-        {
             maxCombo = combo;
-        }
 
         comboText.text = combo.ToString() + " COMBO";
         comboTimer = 0.7f;
     }
 
+
+    // 점수 계산 알고리즘
     void CaculatePoint()
     {
         point = combo + (int)(60f - timer);
@@ -273,6 +258,8 @@ public class Player : MonoBehaviour
         UIgameOver.instance.point.text = "점수 : " + point;
 
     }
+
+    // 랭킹 등록 알고리즘
     void InsertRank(int score)
     {
         for (int i = 0; i < 5; i++)
@@ -303,6 +290,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 게임 종료 알고리즘
     void GameEnd()
     {
         CaculatePoint();

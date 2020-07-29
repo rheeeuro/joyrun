@@ -5,149 +5,190 @@ using UnityEngine;
 
 public class Avatar : MonoBehaviour
 {
+    // 아바타 변수
     public static GameObject avatar;
 
-    public static GameObject left;
-    public static GameObject center;
-    public static GameObject right;
-
+    // 아바타 내부
     public GameObject leftFoot;
     public GameObject rightFoot;
-
-    public GameObject leftFootPrint;
-    public GameObject rightFootPrint;
-
     public GameObject leftHand;
     public GameObject rightHand;
     public GameObject head;
 
-    public GameObject startButton;
+    // 바닥 UI 타일
+    public static GameObject leftFloorTile;
+    public static GameObject centerFloorTile;
+    public static GameObject rightFloorTile;
+    public static GameObject resumeTile;
 
-    public float footPrintY = 0.01f;
+    // 바닥 타일 너비
+    public const float floorTileScaleX = 0.8f;
 
+    // 발위치 변수
+    public GameObject leftFootPrint;
+    public GameObject rightFootPrint;
+
+    // 발 위치, 걸음 기준 y 좌표
+    public const float footPrintY = 0.01f;
+    public const float stepCountY = 0.1f;
+
+    // 아바타 상태 변수
     public static bool isJumping;
     public static bool stepSide;
-    public static float countStep;
+    public static float stepRecordTime;
     public static List<float> steps;
 
-    public static bool isPause;
+    // 유저 위치 변수
+    public static float userSpineX;
+    public static float userSpineY;
+    public static float userSpineZ;
 
-    public static float userX;
-    public static float userY;
-    public static float userZ;
+    // 일시정지 변수
+    public static bool pauseHandler;
 
     // Start is called before the first frame update
     void Start()
     {
+        InitialObjects();
+        InitialValues();
 
-        avatar = GameObject.Find("avatar");
-        left = GameObject.Find("floorTile-left");
-        center = GameObject.Find("floorTile-center");
-        right = GameObject.Find("floorTile-right");
+    }
+
+    // 게임오브젝트 불러오기
+    void InitialObjects() {
+        avatar = gameObject;
+
+        leftFloorTile = GameObject.Find("floorTile-left");
+        centerFloorTile = GameObject.Find("floorTile-center");
+        rightFloorTile = GameObject.Find("floorTile-right");
 
         leftFootPrint = GameObject.Find("footprint-left");
         rightFootPrint = GameObject.Find("footprint-right");
-        countStep = 0;
-        startButton.transform.gameObject.SetActive(false);
 
-        isJumping = false;
-        stepSide = false;
-        isPause = false;
-
-        userX = 0;
-        userY = 0;
-        userZ = 0;
-        InitialExtraSpeed();
+        resumeTile.transform.gameObject.SetActive(false);
     }
 
-    public static void InitialExtraSpeed() {
+    // 변수 초기화
+    void InitialValues() {
+        // 상태변수 초기화
+        isJumping = false;
+        stepSide = false;
+        pauseHandler = false;
+
+        stepRecordTime = 0;
+
+        // 유저 위치 초기화
+        userSpineX = 0;
+        userSpineY = 0;
+        userSpineZ = 0;
+
+        InitialStepRecords();
+    }
+
+    // 걸음 시간 리스트 초기화 (0)
+    public static void InitialStepRecords() {
         steps = Enumerable.Repeat<float>(0, 10).ToList<float>();
 
     }
 
+    // 걸음 시간 측정 (+ fixedDeltaTime)
     private void FixedUpdate()
     {
-        countStep += Time.fixedDeltaTime;
+        stepRecordTime += Time.fixedDeltaTime;
     }
 
     void Update()
     {
-        Debug.Log(userX + "/" + userY + "/" + userZ);
-        HandleFootPrint();
-        HandleUI();
+        Debug.Log(userSpineX + "/" + userSpineY + "/" + userSpineZ);
+
+        // 아바타 업데이트
+        HandleAvatarPosition();
+        HandleFootPrints();
+
+        // 아바타와 바닥 UI 상호작용
+        HandleFloorTiles();
         HandleJump();
-        HandleStep();
+        HandleSteps();
+
         HandlePause();
     }
 
-    void HandleUI() {
-        GameObject playerPosition = Player.playerPosition;
-
-        if (IsInside(left, leftFootPrint) && IsInside(left, rightFootPrint))
-        {
-            playerPosition.transform.position = new Vector3(Tile.left, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
-        if (IsInside(center, leftFootPrint) && IsInside(center, rightFootPrint))
-        {
-            playerPosition.transform.position = new Vector3(Tile.center, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
-        if (IsInside(right, leftFootPrint) && IsInside(right, rightFootPrint))
-        {
-            playerPosition.transform.position = new Vector3(Tile.right, playerPosition.transform.position.y, playerPosition.transform.position.z);
-        }
+    // 아바타 위치를 유저 위치로 변경
+    void HandleAvatarPosition() {
+        avatar.transform.position = new Vector3(userSpineX, userSpineY, userSpineZ);
     }
 
-    void HandleFootPrint() {
-        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z-10);
-        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z-10);
+    // 발 위치 원 이동
+    void HandleFootPrints()
+    {
+        leftFootPrint.transform.position = new Vector3(leftFoot.transform.position.x, footPrintY, leftFoot.transform.position.z - 10);
+        rightFootPrint.transform.position = new Vector3(rightFoot.transform.position.x, footPrintY, rightFoot.transform.position.z - 10);
     }
 
+    // 바닥 스크린들의 밟은 판정
+    void HandleFloorTiles() {
+        HandleFloorTile(Player.highlight, leftFloorTile, Tile.left);
+        HandleFloorTile(Player.highlight, centerFloorTile, Tile.center);
+        HandleFloorTile(Player.highlight, rightFloorTile, Tile.right);
+    }
+
+    // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
+    void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX) {
+        if (onTile(floorTile))
+            highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
+    }
+
+    // 결음 기록 조건 만족 시 함수 호출
+    void HandleSteps() {
+        if ((stepSide == true && leftFoot.transform.position.y > stepCountY && rightFoot.transform.position.y < stepCountY)
+            || (stepSide == false && leftFoot.transform.position.y < stepCountY && rightFoot.transform.position.y > stepCountY))
+            HandleStep();
+    }
+
+    // 걸음시간 기록 및 초기화, 결음 방향 변경
     void HandleStep() {
-        if (stepSide == true && (leftFoot.transform.position.y > 0.1 && rightFoot.transform.position.y < 0.1)) {
-            stepSide = false;
-            steps.RemoveAt(0);
-            steps.Add(10 / countStep);
-            Tile.extraSpeed = steps.Average();
-            countStep = 0;
-        }
-
-        if (stepSide == false && (leftFoot.transform.position.y < 0.1 && rightFoot.transform.position.y > 0.1))
-        {
-            stepSide = true;
-            steps.RemoveAt(0);
-            steps.Add(10 / countStep);
-            Tile.extraSpeed = steps.Average();
-            countStep = 0;
-        }
+        stepSide = !stepSide;
+        steps.RemoveAt(0);
+        steps.Add(10 / stepRecordTime);
+        Tile.extraSpeed = steps.Average();
+        stepRecordTime = 0;
     }
 
-    bool IsInside (GameObject button, GameObject obj) {
+    // 오브젝트가 타일 위에 있는지 판별
+    bool onTile(GameObject tile) {
+        return IsInside(tile, leftFootPrint) && IsInside(tile, rightFootPrint);
+    }
+
+    // 오브젝트가 타일 안에 있으면 true 반환
+    bool IsInside (GameObject tile, GameObject obj) {
         float objX = obj.transform.position.x;
         float objZ = obj.transform.position.z;
 
-        bool horizontal = (objX > button.transform.position.x - (button.transform.localScale.x / 2))
-            && (objX < button.transform.position.x + (button.transform.localScale.x / 2));
-        bool vertical = (objZ > button.transform.position.z - (button.transform.localScale.z / 2))
-            && (objZ < button.transform.position.z + (button.transform.localScale.z / 2));
+        bool horizontal = (objX > tile.transform.position.x - (tile.transform.localScale.x / 2))
+            && (objX < tile.transform.position.x + (tile.transform.localScale.x / 2));
+        bool vertical = (objZ > tile.transform.position.z - (tile.transform.localScale.z / 2))
+            && (objZ < tile.transform.position.z + (tile.transform.localScale.z / 2));
 
         return horizontal && vertical;
     }
 
+    // 점프 조건
     void HandleJump() {
         isJumping =  leftFoot.transform.position.y > 0.2 && rightFoot.transform.position.y > 0.2;
     }
 
+    // 일시정지와 다시시작 조건
     void HandlePause() {
-        if (isPause)
+        if (pauseHandler)
         {
             UIinGame.instance.bePause = true;
-            startButton.transform.gameObject.SetActive(true);
+            resumeTile.transform.gameObject.SetActive(true);
         }
         else {
             if ((leftHand.transform.position.y > head.transform.position.y && rightHand.transform.position.y > head.transform.position.y)
-                && (IsInside(startButton, leftFootPrint) && IsInside(startButton, rightFootPrint))) {
+                && (onTile(resumeTile))) {
                 UIinGame.instance.bePause = false;
-                startButton.transform.gameObject.SetActive(false);
+                resumeTile.transform.gameObject.SetActive(false);
             }
         }
 

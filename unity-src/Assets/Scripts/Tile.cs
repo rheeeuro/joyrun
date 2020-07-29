@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
-    // 게임 오브젝트 변수 선언
+    // 게임 오브젝트 변수 선언 (5가지)
     public GameObject heartTile;
     public GameObject obstacleTile;
     public GameObject emptyTile;
@@ -25,6 +25,8 @@ public class Tile : MonoBehaviour
     public const float startPositionY = 1;
     public const float startPositionZ = 80;
 
+    public const float scaleX = 14;
+
     public const float destroyLine = -65;
     public const float tileDistance = 60;
     public static float[] collisionPosition = { -30, -36, -42, -48 };
@@ -36,14 +38,18 @@ public class Tile : MonoBehaviour
     // 속도 변수, 상수
     public static float extraSpeed;
     public static float actualSpeed;
+    public const float actualSpeedStart = 30;
 
     // 시간 변수
     public float tileDelay;
     public const float startTileDelay = 2;
     public const float tileDelayIncrease = 0.1f;
     public int createTileCount;
+
+    // 이벤트 시작 시간 상수
     public const float obstableAnimStartTime = 20;
     public const float trapAnimStartTime = 30;
+    public const float tileAnimationLength = 2;
 
 
     void Start()
@@ -51,6 +57,7 @@ public class Tile : MonoBehaviour
         InitialValues();
     }
 
+    // 변수 초기화
     void InitialValues()
     {
         randomTiles = new List<GameObject>();
@@ -59,12 +66,11 @@ public class Tile : MonoBehaviour
 
         InitializePrefabs();
 
-        // 변수 초기화
+        tileDelay = startTileDelay;
+        actualSpeed = actualSpeedStart;
         createTileCount = 0;
         extraSpeed = 0;
-        actualSpeed = 30;
         heartDirection = 0;
-        tileDelay = startTileDelay;
     }
 
     void InitializePrefabs()
@@ -93,21 +99,22 @@ public class Tile : MonoBehaviour
         CheckCollision();
     }
 
+    // 타일 설정 (생성, 속도, 이동, 삭제)
     void HandleTiles()
     {
-
-        HandleCreateTiles();
-        HandleActualSpeed();
-        MoveTiles();
-        HandleDestroy();
+        HandleTileCreate();
+        HandleTileSpeed();
+        HandleTileMove();
+        HandleTileDestroy();
     }
 
-    void HandleCreateTiles()
+    // 타일 생성 알고리즘
+    void HandleTileCreate()
     {
         if (IsTimeToCreateTiles())
         {
             CreateTiles();
-            HandleAnimation();
+            HandleTileAnimation();
             if (createTileCount % 10 == 0)
             {
                 tileDelay -= tileDelayIncrease;
@@ -116,36 +123,36 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 마지막 줄 타일이 간격만큼 이동 시 타일 생성
     bool IsTimeToCreateTiles()
     {
         return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < startPositionZ - tileDistance;
     }
 
+    // 2분의 1 확률 랜덤 함수
     bool YesOrNo()
     {
         return Random.Range(0, 10) % 2 == 0;
     }
 
+    // 리스트에서 랜덤 오브젝트 반환
     GameObject GetRandomFromList(List<GameObject> list)
     {
         return list[Random.Range(0, list.Count)];
     }
 
-
+    // 마지막 줄 타일에 하트 존재 여부에 따른 타일 생성
     void CreateTiles()
     {
-
         if (heartDirection == 0)
-        {
             CreateTilesAfterEmpty();
-        }
         else
-        {
             CreateTilesAfterHeart();
-        }
+
         createTileCount++;
     }
 
+    // 마지막 줄에 하트가 없을 경우의 타일 생성
     void CreateTilesAfterEmpty()
     {
         switch (Random.Range(0, 3))
@@ -167,7 +174,8 @@ public class Tile : MonoBehaviour
                 break;
         }
     }
-
+    
+    // 마지막 줄에 하트가 있는 경우의 타일 생성
     void CreateTilesAfterHeart()
     {
         if (heartDirection == left)
@@ -187,6 +195,7 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 지나갈 수 있는 타일과 랜덤타일 생성
     void SetGoodAndRandomTile(float dir1, float dir2)
     {
         if (YesOrNo())
@@ -201,6 +210,7 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 지나갈 수 있는 길 생성 (하트 혹은 빈칸)
     void SetGoodTile(float direction)
     {
         if (YesOrNo())
@@ -216,47 +226,44 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 타일을 direction에 한 개 생성
     void CreateOne(GameObject tile, float direction)
     {
         activatedTiles.Add(Instantiate(tile, new Vector3(direction, startPositionY, startPositionZ), Player.player.transform.rotation) as GameObject);
     }
 
+    // 조건 만족 시 장애물 애니메이션 재생
     void HandleObstacleAnimation()
     {
         GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
         GameObject lastCenterTile = activatedTiles[activatedTiles.Count - 2];
         GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
 
-        if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile") // 중앙에 장애물이 있고
-            && ((IsPassDirection(lastLeftTile) && lastRightTile.tag == "empty-tile") || (IsPassDirection(lastRightTile) && lastLeftTile.tag == "empty-tile"))) // 좌, 우로 통과가 가능할 경우
+        // 중앙에 장애물이 있고 좌, 우로 통과가 가능한 경우
+        if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile") 
+            && ((IsPassDirection(lastLeftTile) && lastRightTile.tag == "empty-tile") || (IsPassDirection(lastRightTile) && lastLeftTile.tag == "empty-tile"))) 
         {
             if (IsPassDirection(lastLeftTile))
-            {   
                 HandleAnimation(lastRightTile, obstacleTile, activatedTiles.Count - 1, "obstacle-anim-right");
-            }
             else
-            {
                 HandleAnimation(lastLeftTile, obstacleTile, activatedTiles.Count - 3, "obstacle-anim-left");
-            }
         }
     }
 
+    // 타일이 최초 지나가는 길로 설정된 길인 지 판별
     bool IsPassDirection(GameObject tile) {
         return tile.tag == "heart-tile" || tile.tag == "empty-tile-pass";
     }
 
-    void HandleAnimation() {
+    // 이벤트 발생 알고리즘 (애니메이션)
+    void HandleTileAnimation() {
         if (Player.timer <= Player.gameTime - obstableAnimStartTime)
-        {
             HandleObstacleAnimation();
-        }
-
         if (Player.timer <= Player.gameTime - trapAnimStartTime)
-        {
             HandleTrapAnimation();
-        }
     }
 
+    // 조건 만족 시 구덩이 애니메이션 재생
     void HandleTrapAnimation()
     {
         GameObject lastLeftTile = activatedTiles[activatedTiles.Count - 3];
@@ -264,57 +271,47 @@ public class Tile : MonoBehaviour
         GameObject lastRightTile = activatedTiles[activatedTiles.Count - 1];
 
         if (lastLeftTile.tag == "empty-tile" && !IsPassDirection(lastLeftTile))
-        {
             HandleAnimation(lastLeftTile, trapTile, activatedTiles.Count - 3, "trap-anim");
-        }
         if (lastCenterTile.tag == "empty-tile" && !IsPassDirection(lastCenterTile))
-        {
             HandleAnimation(lastCenterTile, trapTile, activatedTiles.Count - 2, "trap-anim");
-        }
         if (lastRightTile.tag == "empty-tile" && !IsPassDirection(lastRightTile))
-        {
             HandleAnimation(lastRightTile, trapTile, activatedTiles.Count - 1, "trap-anim");
-        }
 
     }
 
+    // 애니메이션 재생 타일로 변경
     void HandleAnimation(GameObject oldTile, GameObject newTile, int index, string animationName)
     {
-        activatedTiles[index] = Instantiate(newTile,
-            new Vector3(oldTile.transform.position.x, startPositionY, oldTile.transform.position.z),
+        activatedTiles[index] = Instantiate(newTile, new Vector3(oldTile.transform.position.x, startPositionY, oldTile.transform.position.z), 
             Player.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
-        activatedTiles[index].GetComponent<Animation>()[animationName].speed = 2 / (40 / actualSpeed);
+        activatedTiles[index].GetComponent<Animation>()[animationName].speed = tileAnimationLength / (40 / actualSpeed);
         activatedTiles[index].GetComponent<Animation>().Play(animationName);
     }
 
 
-
-    void MoveTiles()
+    // 타일 이동 알고리즘
+    void HandleTileMove()
     {
-        // 타일 이동 후 끝까지 간 경우 삭제
         for (int i = 0; i < activatedTiles.Count; i++)
-        {
-            Vector3 movingVector = Vector3.back * actualSpeed * Time.deltaTime;
-            activatedTiles[i].transform.Translate(movingVector, Space.World);
-        }
+            activatedTiles[i].transform.Translate(Vector3.back * actualSpeed * Time.deltaTime);
     }
 
-    void HandleActualSpeed()
+    // 타일 속도 알고리즘
+    void HandleTileSpeed()
     {
         actualSpeed = (tileDistance / tileDelay) + extraSpeed;
-        if (actualSpeed > 90)
-        {
-            actualSpeed = 90;
-        }
 
-        if (UIinGame.instance.bePause) {
+        if (actualSpeed > 90)
+            actualSpeed = 90;
+
+        if (UIinGame.instance.bePause)
             actualSpeed = 0;
-        }
     }
 
-    void HandleDestroy()
+    // 타일 삭제 알고리즘
+    void HandleTileDestroy()
     {
         for (int i = 0; i < activatedTiles.Count; i++)
         {
@@ -327,6 +324,7 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 충동 판정 알고리즘
     void CheckCollision() // 하트 기준 좌표: 타일 + 30, 36, 42, 48
     {
         for (int i = 0; i < activatedTiles.Count; i++)
@@ -355,13 +353,14 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 하트 충돌 판정 알고리즘
     void CheckCollisionHeart(GameObject obj)
     {
         for (int i = 0; i < collisionPosition.Length; i++)
         {
             if (Mathf.Abs(obj.transform.position.z - collisionPosition[i]) < collisionGap
                 && GetChildTransform(obj, i * 2).localScale.x != 0
-                && obj.transform.position.x == Player.playerPosition.transform.position.x
+                && obj.transform.position.x == Player.highlight.transform.position.x
                 && !Player.isJumping)
             {
                 GetChildTransform(obj, i * 2).localScale = new Vector3(0, 0, 0);
@@ -371,11 +370,12 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // 장애물 충돌 판정 알고리즘
     void CheckCollisionObstacle(GameObject obj)
     {
         if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
-            && obj.transform.position.x == Player.playerPosition.transform.position.x
+            && obj.transform.position.x == Player.highlight.transform.position.x
             )
         {
             if (Player.isJumping)
@@ -390,23 +390,25 @@ public class Tile : MonoBehaviour
             {
                 GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
                 Player.instance.MeetObstacle();
-                Avatar.InitialExtraSpeed();
+                Avatar.InitialStepRecords();
             }
 
         }
     }
 
+    // 빈칸 충돌 판정 알고리즘
     void CheckCollisionEmpty(GameObject obj)
     {
         if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
-            && obj.transform.position.x == Player.playerPosition.transform.position.x)
+            && obj.transform.position.x == Player.highlight.transform.position.x)
         {
             GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
             Player.instance.MeetEmpty();
         }
     }
 
+    // 자식 오브젝트 tramsform 반환
     Transform GetChildTransform(GameObject obj, int index)
     {
         return obj.transform.GetChild(index).gameObject.transform;
