@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     // 타이머  변수 선언
     public static float timer;
     public const float gameTime = 60;
+    public static float updateTimer;
+    public const float updateTime = 1;
 
     // 텍스트 변수 선언
     public Text comboText;
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = -1;
         comboTimer = 0;
+        updateTimer = 0;
 
         hp = startHp;
         timer = gameTime;
@@ -183,11 +186,20 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
     }
 
+    void HandlePlayerPosition() {
+        updateTimer += Time.deltaTime;
+        if (updateTimer > updateTime) {
+            updateTimer = 0;
+            UpdatePlayerPosition();
+        }
+
+    }
+
     // 아바타 위치로 플레이어 위치 고정
-    void HandlePlayerPosition()
+    public static void UpdatePlayerPosition()
     {
         player.transform.position = 
-            new Vector3(Avatar.userPosition.x * 10 *(Tile.scaleX / InGameFloorTile.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
+            new Vector3(Avatar.userPosition.x *(Tile.scaleX / InGameFloorTile.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
     }
 
     // 하트에 충돌 시
