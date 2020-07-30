@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     // 오브젝트 변수 선언
     public static GameObject player;
     public static GameObject highlight;
+
     public static Player instance;
 
     // 애니매이션, 애니매이터 변수 선언
@@ -77,7 +79,10 @@ public class Player : MonoBehaviour
         // 오브젝트 변수 초기화
         player = gameObject;
         highlight = GameObject.Find("highlight");
-        
+
+
+
+
         InitializePrefabs();
 
         myRank = 9999;
@@ -236,7 +241,7 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            //GameEnd();
+            GameEnd();
         }
         else if (hp > 100)
             hp = 100;
@@ -257,8 +262,9 @@ public class Player : MonoBehaviour
     void CaculatePoint()
     {
         point = combo + (int)(60f - timer);
-        UIresultPage.instance.point.text = "내 점수 : " + point.ToString();
 
+     
+        //UIresultPage.instance.point.text = "내 점수 : " + point.ToString();
 
         UIgameOver.instance.maxCombo.text = "최대 콤보 횟수 : " + maxCombo.ToString() + " 회";
         UIgameOver.instance.playTime.text = "진행 시간 : " + (60f - timer) + " 초";
@@ -301,7 +307,7 @@ public class Player : MonoBehaviour
     void GameEnd()
     {
         CaculatePoint();
-        InsertRank(point);
+        //InsertRank(point);
         point = 0;
         UIgameOver.instance.Show();
     }

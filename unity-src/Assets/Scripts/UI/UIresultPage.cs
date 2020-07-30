@@ -20,10 +20,8 @@ public class UIresultPage : MonoBehaviour
         instance = this;
 
 
-        //게임이 시작되면 안보이도록 설정
+        //시작할 때는 안보이도록 설정
         transform.gameObject.SetActive(false);
-
-        //첫 시작때는 안보이도록 설정
     }
     public void Show()
     {

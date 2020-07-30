@@ -9,12 +9,10 @@ public class UIgameStart : MonoBehaviour
     void Awake()
     {
         transform.gameObject.SetActive(true);
-        UIgameOver.instance.transform.gameObject.SetActive(false);
         
     }
     void Start()
     {
-        Player.instance.transform.gameObject.SetActive(false);
         Time.timeScale = 0f;
         if (UIinGame.instance != null)
         {
@@ -31,7 +29,11 @@ public class UIgameStart : MonoBehaviour
     public void StartButton()
     {
         //Start the game
-        Player.instance.transform.gameObject.SetActive(true);
+
+        Debug.Log("Game Scene 로드");
+        SceneManager.LoadScene("Game");
+
+
         transform.gameObject.SetActive(false);
         GameManager.instance.StartGame();
         UIinGame.instance.transform.gameObject.SetActive(true);

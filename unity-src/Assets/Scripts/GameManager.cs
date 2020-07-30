@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Awake() // Start 시작하기 전에 실행
     {
+        //싱글턴 사용을 위한 오브젝트 연결
         instance = this;
     }
 
