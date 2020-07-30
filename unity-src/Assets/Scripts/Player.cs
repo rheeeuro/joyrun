@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            GameEnd();
+            //GameEnd();
         }
         else if (hp > 100)
             hp = 100;
