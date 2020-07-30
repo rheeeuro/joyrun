@@ -37,12 +37,11 @@ public class Player : MonoBehaviour
     // 점프 관련 번수 선언
     public static bool isJumping;
     public float jumpTimer;
+    public const float jumpTime = 0.6f;
 
     // 타이머  변수 선언
     public static float timer;
     public const float gameTime = 60;
-    public static float updateTimer;
-    public const float updateTime = 1;
 
     // 텍스트 변수 선언
     public Text comboText;
@@ -92,7 +91,6 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = -1;
         comboTimer = 0;
-        updateTimer = 0;
 
         hp = startHp;
         timer = gameTime;
@@ -118,12 +116,11 @@ public class Player : MonoBehaviour
     // 플레이어 점프, 이동 설정 알고리즘
     void HandlePlayer()
     {
+        HandlePlayerPosition();
         if (isJumping)    
             HandlePlayerJumping();
         else
             HandlePlayerMoving();
-
-        HandlePlayerPosition();
     }
 
     // 플레이어 점프 애니메이션, 점프 타이머 설정
@@ -131,7 +128,7 @@ public class Player : MonoBehaviour
     {
         animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         jumpTimer += Time.deltaTime;
-        if (jumpTimer >= 0.6)
+        if (jumpTimer >= jumpTime)
         {
             isJumping = false;
             jumpTimer = 0;
@@ -186,17 +183,8 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
     }
 
-    void HandlePlayerPosition() {
-        updateTimer += Time.deltaTime;
-        if (updateTimer > updateTime) {
-            updateTimer = 0;
-            UpdatePlayerPosition();
-        }
-
-    }
-
     // 아바타 위치로 플레이어 위치 고정
-    public static void UpdatePlayerPosition()
+    public static void HandlePlayerPosition()
     {
         player.transform.position = 
             new Vector3(Avatar.userPosition.x *(Tile.scaleX / InGameFloorTile.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);

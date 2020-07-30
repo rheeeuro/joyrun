@@ -40,7 +40,7 @@ namespace com.rfilkov.components
         public bool fingerOrientations = false;
 
         [Tooltip("Rate at which the avatar will move through the scene.")]
-        public float moveRate = 15.55f;
+        public float moveRate = 1f;
 
         [Tooltip("Smooth factor used for avatar movements and joint rotations.")]
         public float smoothFactor = 10f;
@@ -354,7 +354,6 @@ namespace com.rfilkov.components
                 {
                     SuccessfulCalibration(userId, false);
                     InGameFloorTile.pauseHandler = false;
-                    Player.UpdatePlayerPosition();
                 }
                 else if (/**playerId != 0 &&*/ userId == 0)
                 {

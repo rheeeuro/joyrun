@@ -20,8 +20,8 @@ public class InGameFloorTile : MonoBehaviour
     public const float footPrintStartSize = 0.7f;
     public const float foorPrintScaleY = 0.005f;
 
-    public const float stepCountY = 0.2f;
-    public const float jumpConditionY = 0.2f;
+    public const float stepCountY = 2;
+    public const float jumpConditionY = 2;
     public const float punchDistance = 3;
 
     // 유저 상태 변수
