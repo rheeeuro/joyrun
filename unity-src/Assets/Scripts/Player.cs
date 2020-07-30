@@ -168,7 +168,7 @@ public class Player : MonoBehaviour
         // 플레이어 달리기 애니메이션
         // HandlePlayerRuntimeAnimatorController(Tile.actualSpeed); 
 
-        if (Avatar.isJumping)
+        if (InGameFloorTile.isJumping)
             isJumping = true;     
     }
 
@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
     void HandlePlayerPosition()
     {
         player.transform.position = 
-            new Vector3(Avatar.userSpine.x * 10 *(Tile.scaleX / Avatar.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
+            new Vector3(Avatar.userPosition.x * 10 *(Tile.scaleX / InGameFloorTile.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
     }
 
     // 하트에 충돌 시

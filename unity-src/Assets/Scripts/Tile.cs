@@ -398,7 +398,7 @@ public class Tile : MonoBehaviour
             {
                 GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);
                 Player.instance.MeetObstacle();
-                Avatar.InitialStepRecords();
+                InGameFloorTile.InitialStepRecords();
             }
 
         }
@@ -409,7 +409,7 @@ public class Tile : MonoBehaviour
         if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
         && GetChildTransform(obj, 0).localScale.x != 0
         && obj.transform.position.x == Player.highlight.transform.position.x
-        && Avatar.isPunching)
+        && InGameFloorTile.isPunching)
         {
             Player.instance.MeetBalloon();
             GetChildTransform(obj, 0).localScale = new Vector3(0, 0, 0);

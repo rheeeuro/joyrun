@@ -40,7 +40,7 @@ namespace com.rfilkov.components
         public bool fingerOrientations = false;
 
         [Tooltip("Rate at which the avatar will move through the scene.")]
-        public float moveRate = 17.5f;
+        public float moveRate = 1f;
 
         [Tooltip("Smooth factor used for avatar movements and joint rotations.")]
         public float smoothFactor = 10f;
@@ -353,12 +353,12 @@ namespace com.rfilkov.components
                 if (/**playerId == 0 &&*/ userId != 0)
                 {
                     SuccessfulCalibration(userId, false);
-                    Avatar.pauseHandler = false;
+                    InGameFloorTile.pauseHandler = false;
                 }
                 else if (/**playerId != 0 &&*/ userId == 0)
                 {
                     ResetToInitialPosition();
-                    Avatar.pauseHandler = true;
+                    InGameFloorTile.pauseHandler = true;
                 }
             }
 
@@ -818,10 +818,12 @@ namespace com.rfilkov.components
 
 
             // 아바타와 상호작용
-            Avatar.userSpine = trans;
-
-            Avatar.userSpineLeftFoot = kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft);
-            Avatar.userSpineRightFoot = kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootRight);
+            Avatar.userPosition = Avatar.HandleKinectPosition(trans);
+            Avatar.userPositionLeftFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft));
+            Avatar.userPositionRightFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootRight));
+            Avatar.userPositionLeftHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandLeft));
+            Avatar.userPositionRightHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandRight));
+            Avatar.userPositionHead = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.Head));
 
             if (flipLeftRight)
                 trans.x = -trans.x;

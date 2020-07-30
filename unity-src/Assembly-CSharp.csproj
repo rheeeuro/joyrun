@@ -166,6 +166,8 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HeartInfo.cs" />
     <Compile Include="Assets\Scripts\Highlight.cs" />
+    <Compile Include="Assets\Scripts\InGameFloorTile.cs" />
+    <Compile Include="Assets\Scripts\MenuFloorTile.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <Compile Include="Assets\Scripts\UI\UIgameOver.cs" />
