@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
     void HandlePlayerPosition()
     {
         player.transform.position = 
-            new Vector3(Avatar.avatar.transform.position.x * (Tile.scaleX / Avatar.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
+            new Vector3(Avatar.userSpine.x * 10 *(Tile.scaleX / Avatar.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
     }
 
     // 하트에 충돌 시

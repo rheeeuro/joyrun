@@ -148,18 +148,24 @@ public class Avatar : MonoBehaviour
     }
 
     // 바닥 스크린들의 밟은 판정   
+    
     void HandleFloorTiles() {
-        HandleFloorTile(Player.highlight, leftFloorTile, Tile.left);
-        HandleFloorTile(Player.highlight, centerFloorTile, Tile.center);
-        HandleFloorTile(Player.highlight, rightFloorTile, Tile.right);
+        if (Player.highlight != null)
+        {
+            HandleFloorTile(Player.highlight, leftFloorTile, Tile.left);
+            HandleFloorTile(Player.highlight, centerFloorTile, Tile.center);
+            HandleFloorTile(Player.highlight, rightFloorTile, Tile.right);
+        }
+   
     }
+    
 
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX) {
         if (onTile(floorTile))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
-
+    
     // 결음 기록 조건 만족 시 함수 호출
     void HandleSteps() {
         if ((stepSide == true && userSpineLeftFoot.y > stepCountY && userSpineRightFoot.y < stepCountY)
