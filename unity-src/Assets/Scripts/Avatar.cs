@@ -181,6 +181,17 @@ public class Avatar : MonoBehaviour
         return IsInside(tile, leftFootPrint) && IsInside(tile, rightFootPrint);
     }
 
+    bool OnCircleTile (GameObject tile)
+    {
+        bool leftFootOnCircleTile =  (((leftFootPrint.transform.position.x - tile.transform.position.x) * (leftFootPrint.transform.position.x - tile.transform.position.x))
+            + ((leftFootPrint.transform.position.z - tile.transform.position.z) * (leftFootPrint.transform.position.x - tile.transform.position.z)))
+        <= (tile.transform.localScale.x * tile.transform.localScale.x);
+        bool rightFootOnCircleTile = (((rightFootPrint.transform.position.x - tile.transform.position.x) * (rightFootPrint.transform.position.x - tile.transform.position.x))
+            + ((rightFootPrint.transform.position.z - tile.transform.position.z) * (rightFootPrint.transform.position.x - tile.transform.position.z)))
+            <= (tile.transform.localScale.x * tile.transform.localScale.x);
+        return leftFootOnCircleTile && rightFootOnCircleTile;
+    }
+
     // 오브젝트가 타일 안에 있으면 true 반환
     bool IsInside (GameObject tile, GameObject obj) {
         float objX = obj.transform.position.x;
@@ -208,7 +219,7 @@ public class Avatar : MonoBehaviour
         }
         else {
             if ((leftHand.transform.position.y > head.transform.position.y && rightHand.transform.position.y > head.transform.position.y)
-                && (onTile(resumeTile))) {
+                && (OnCircleTile(resumeTile))) {
                 UIinGame.instance.bePause = false;
                 resumeTile.transform.gameObject.SetActive(false);
             }
