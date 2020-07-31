@@ -24,21 +24,38 @@ public class MenuFloorTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        upArrowTile = GameObject.Find("leftArrowTile");
-        downArrowTile = GameObject.Find("rightArrowTile");
-        confirmTile = GameObject.Find("confirmTile");
-        cancelTile = GameObject.Find("cancelTile");
+        upArrowTile = GameObject.Find("UpArrowTile");
+        downArrowTile = GameObject.Find("DownArrowTile");
+        confirmTile = GameObject.Find("ConfirmTile");
+        cancelTile = GameObject.Find("CancelTile");
 
         uiTimer = new float[4] { 0, 0, 0, 0 }; 
-        
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        HandleTileActive();
         HandleFootPrint();
         HandleMenuTiles();    
+    }
+
+    // 바닥 UI 타일 보여주기, 감추기
+    void HandleTileActive() {
+        if (GameManager.instance.currentGameState == GameState.menu)
+        {
+            upArrowTile.SetActive(true);
+            downArrowTile.SetActive(true);
+            confirmTile.SetActive(true);
+            cancelTile.SetActive(false);
+        }
+        else if (GameManager.instance.currentGameState == GameState.ranking) {
+            upArrowTile.SetActive(false);
+            downArrowTile.SetActive(false);
+            confirmTile.SetActive(false);
+            cancelTile.SetActive(true);
+        }
     }
 
     // 발 위치 원 설정
@@ -132,7 +149,7 @@ public class MenuFloorTile : MonoBehaviour
 
     void HandleCancel() {
         Debug.Log("Cancel !");
-        UIgameStart.instance.HandleCancel();
+        UIranking.instance.HandleCancel();
         uiTimer[3] = 0;
     }
 

@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MenuResult : MonoBehaviour
+public class UIranking : MonoBehaviour
 {
     //오브젝트 변수 및 랭킹, 점수 텍스트 변수 선언
-    public static MenuResult instance;
+    public static UIranking instance;
 
     public Text ranking;
 
@@ -29,9 +29,10 @@ public class MenuResult : MonoBehaviour
 
         //보이도록 설정
         transform.gameObject.SetActive(true);
+        
     }
 
-    public void backButton()
+    public void HandleCancel()
     {
         //When Click the retryButton
         transform.gameObject.SetActive(false);
@@ -45,7 +46,6 @@ public class MenuResult : MonoBehaviour
     {
         //새로 저장된 랭킹은 Result화면으로 올떄마다 한 번만 부르면 되기 때문에 Start에 배정
         UpdateRanking();
-
     }
 
 

@@ -55,9 +55,9 @@ public class InGameFloorTile : MonoBehaviour
     // 게임오브젝트 불러오기
     void InitialObjects()
     {
-        leftFloorTile = GameObject.Find("floorTile-left");
-        centerFloorTile = GameObject.Find("floorTile-center");
-        rightFloorTile = GameObject.Find("floorTile-right");
+        leftFloorTile = GameObject.Find("FloorTile-left");
+        centerFloorTile = GameObject.Find("FloorTile-center");
+        rightFloorTile = GameObject.Find("FloorTile-right");
 
         resumeTile = GameObject.Find("ResumeTile");
         resumeTile.transform.gameObject.SetActive(false);

@@ -84,8 +84,6 @@ public class UIgameStart : MonoBehaviour
         }
     }
 
-    public void HandleCancel() { }
-
     public void HandleStart()
     {
         //Start the game
@@ -102,8 +100,8 @@ public class UIgameStart : MonoBehaviour
     public void HandleRanking()
     {
         transform.gameObject.SetActive(false);
-        GameManager.instance.Result();
-        MenuResult.instance.Show();
+        GameManager.instance.Ranking();
+        UIranking.instance.Show();
     }
 
     public void HandleQuit()

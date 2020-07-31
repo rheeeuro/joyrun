@@ -11,7 +11,8 @@ public enum GameState
     inGame,
     gameOver,
     inPause,
-    result
+    result,
+    ranking
 }
 
 
@@ -61,6 +62,11 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.result);
     }
 
+    public void Ranking()
+    {
+        SetGameState(GameState.ranking);
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -89,8 +95,10 @@ public class GameManager : MonoBehaviour
         {
 
         }
-        else if (newGameState == GameState.result)
-        //현재 게임 상태값
-        currentGameState = newGameState;
+        else if (newGameState == GameState.result) {
+        }
+        else if (newGameState == GameState.ranking)
+            //현재 게임 상태값
+            currentGameState = newGameState;
     }
 }

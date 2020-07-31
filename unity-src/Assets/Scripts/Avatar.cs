@@ -68,7 +68,7 @@ public class Avatar : MonoBehaviour
     public static bool IsInsideCircle(GameObject tile, Vector3 obj) {
         return (((obj.x - tile.transform.position.x) * (obj.x - tile.transform.position.x))
             + ((obj.z - tile.transform.position.z) * (obj.z - tile.transform.position.z)))
-        <= (tile.transform.localScale.x * tile.transform.localScale.x);
+        <= (tile.transform.localScale.x/2 * tile.transform.localScale.x/2);
     }
 
     // 벡터3가 오브젝트가 타일 안에 있으면 true 반환

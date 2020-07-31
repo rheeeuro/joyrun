@@ -170,10 +170,10 @@
     <Compile Include="Assets\Scripts\MenuFloorTile.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
-    <Compile Include="Assets\Scripts\UI\MenuResult.cs" />
     <Compile Include="Assets\Scripts\UI\UIgameOver.cs" />
     <Compile Include="Assets\Scripts\UI\UIgameStart.cs" />
     <Compile Include="Assets\Scripts\UI\UIinGame.cs" />
+    <Compile Include="Assets\Scripts\UI\UIranking.cs" />
     <Compile Include="Assets\Scripts\UI\UIresultPage.cs" />
     <None Include="Assets\AzureKinectExamples\KinectDemos\PointCloudDemo\VFX\DownloadMoreVFX.txt" />
     <None Include="Assets\AzureKinectExamples\Resources\MedianShader.shader" />
