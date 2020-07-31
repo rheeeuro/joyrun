@@ -71,13 +71,15 @@ public class MenuFloorTile : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = (1 - Avatar.userPositionLeftFoot.y) * footPrintStartSize;
-        float newRightFootPrintSize = (1 - Avatar.userPositionRightFoot.y) * footPrintStartSize;
+        float newLeftFootPrintSize = footPrintStartSize / Avatar.userPositionLeftFoot.y;
+        float newRightFootPrintSize = footPrintStartSize / Avatar.userPositionRightFoot.y;
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, foorPrintScaleY, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, foorPrintScaleY, newRightFootPrintSize);
     }
 
     void HandleMenuTiles() {
+        Debug.Log("timer" + buttonTimer);
+
         if (Avatar.OneFootOnCircleTile(leftArrowTile))
             HandleLeftArrowTile();
         else if (Avatar.OneFootOnCircleTile(rightArrowTile))
@@ -93,6 +95,7 @@ public class MenuFloorTile : MonoBehaviour
 
 
     void HandleLeftArrowTile() {
+        Debug.Log("left pushing!");
         if (leftArrowState)
             buttonTimer += Time.deltaTime;
         else
@@ -102,6 +105,7 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     void HandleRightArrowTile() {
+        Debug.Log("right pushing!");
         if (rightArrowState)
             buttonTimer += Time.deltaTime;
         else
@@ -111,6 +115,7 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     void HandleConfirmTile() {
+        Debug.Log("confirm pushing!");
         if (confirmState)
             buttonTimer += Time.deltaTime;
         else
@@ -120,6 +125,7 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     void HandleCancelTile() {
+        Debug.Log("cancel pushing!");
         if (cancelState)
             buttonTimer += Time.deltaTime;
         else
