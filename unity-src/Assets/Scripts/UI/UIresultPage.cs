@@ -38,7 +38,7 @@ public class UIresultPage : MonoBehaviour
         //When Click the retryButton
         transform.gameObject.SetActive(false);
         //Main Scene Loaded
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Game");
         GameManager.instance.StartGame();
 
 

@@ -42,6 +42,13 @@ public class UIgameStart : MonoBehaviour
 
     }
 
+    public void RankingButton()
+    {
+        transform.gameObject.SetActive(false);
+        GameManager.instance.Result();
+        MenuResult.instance.Show();
+    }
+
     public void QuitButton()
     {
         Application.Quit();
