@@ -199,11 +199,10 @@ public class InGameFloorTile : MonoBehaviour
             resumeTile.transform.gameObject.SetActive(true);
             newGameTile.transform.gameObject.SetActive(true);
             toMenuTile.transform.gameObject.SetActive(true);
-
-            HandleUITimer();
         }
         else
         {
+            HandleUITimer();
             if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y && Avatar.userPositionRightHand.y > Avatar.userPositionHead.y)
                 && (Avatar.OnCircleTile(resumeTile)))
             {

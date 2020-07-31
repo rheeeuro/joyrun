@@ -73,7 +73,7 @@ MonoBehaviour:
   m_MinSize: {x: 332, y: 272}
   m_MaxSize: {x: 14002, y: 10022}
   vertical: 0
-  controlID: 87
+  controlID: 136
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -96,7 +96,7 @@ MonoBehaviour:
     y: 0
     width: 1522
     height: 767
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 544}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &5
 MonoBehaviour:
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 494}
   m_MaxSize: {x: 18002, y: 14044}
   vertical: 0
-  controlID: 61
+  controlID: 157
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 494}
   m_MaxSize: {x: 14002, y: 14044}
   vertical: 1
-  controlID: 62
+  controlID: 135
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -609,23 +609,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: ac2b0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 22b6ffff0aceffffc6daffffe6eeffffc8f1ffff60f4ffff08f7ffff6afbffffe6450000fc4a0000a2500000d85000001a7e0000
+      m_ExpandedIDs: 6afbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: CancelTile
-        m_OriginalName: CancelTile
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 20408
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 4
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 10}
       m_SearchString: 
@@ -704,11 +704,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.15240702, y: -0.062224306, z: 0.00961503, w: 0.9863108}
     speed: 2
-    m_Value: {x: 0.15388623, y: -0.062209778, z: 0.0097083505, w: 0.98608047}
+    m_Value: {x: 0.15240693, y: -0.06222427, z: 0.009615025, w: 0.9863102}
   m_Size:
     m_Target: 614.2953
     speed: 2
-    m_Value: 643.24115
+    m_Value: 614.2953
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -799,19 +799,19 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\joyfun\internship-2020h2\unity-src
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 455}
-    m_SelectedIDs: 74310000
-    m_LastClickedID: 12660
+    scrollPos: {x: 0, y: 403}
+    m_SelectedIDs: 262f0000
+    m_LastClickedID: 12070
     m_ExpandedIDs: 00000000342e0000782e0000002f0000122f0000262f0000362f0000f82f00004e330000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
