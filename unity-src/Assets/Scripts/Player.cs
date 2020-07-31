@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            //GameEnd();
+            GameEnd();
         }
         else if (hp > 100)
             hp = 100;
@@ -270,6 +270,7 @@ public class Player : MonoBehaviour
         UIgameOver.instance.playTime.text = "진행 시간 : " + (60f - timer) + " 초";
         UIgameOver.instance.point.text = "점수 : " + point;
 
+        UIresultPage.instance.point.text = "점수 : " + point;
     }
 
     // 랭킹 등록 알고리즘
@@ -290,15 +291,13 @@ public class Player : MonoBehaviour
 
                 if (myRank <= 5)
                     UIresultPage.instance.myRank.text = "내 순위 : " + myRank.ToString();
-
+                else
+                    UIresultPage.instance.myRank.text = "5위 미만입니다.";
 
                 UIresultPage.instance.UpdateRanking();
                 break; // 종료
 
-            }
-            if (myRank > 5)
-            {
-                UIresultPage.instance.myRank.text = "5위 미만입니다.";
+                
             }
         }
     }
@@ -307,7 +306,7 @@ public class Player : MonoBehaviour
     void GameEnd()
     {
         CaculatePoint();
-        //InsertRank(point);
+        InsertRank(point);
         point = 0;
         UIgameOver.instance.Show();
     }

@@ -50,8 +50,7 @@ public class UIgameOver : MonoBehaviour
 
         transform.gameObject.SetActive(false);
         //Main Scene Loaded
-        SceneManager.LoadScene("Main");
-        UIresultPage.instance.Show();
+        UIresultPage.instance.transform.gameObject.SetActive(true);
 
     }
 }
