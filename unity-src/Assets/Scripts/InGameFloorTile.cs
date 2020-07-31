@@ -1,5 +1,6 @@
 ﻿    using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class InGameFloorTile : MonoBehaviour
     public static GameObject centerFloorTile;
     public static GameObject rightFloorTile;
     public static GameObject resumeTile;
+    public static GameObject newGameTile;
+    public static GameObject toMenuTile;
 
     // 발위치 원 변수
     public GameObject leftFootPrint;
@@ -38,6 +41,10 @@ public class InGameFloorTile : MonoBehaviour
     public const float floorTileScaleX = 9;
 
 
+    public const float pushTime = 1;
+    // 버튼 타이머 변수 - 0: newgame, 1: menu
+    public float[] uiTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +61,10 @@ public class InGameFloorTile : MonoBehaviour
 
         resumeTile = GameObject.Find("ResumeTile");
         resumeTile.transform.gameObject.SetActive(false);
+        newGameTile = GameObject.Find("NewGameTile");
+        newGameTile.transform.gameObject.SetActive(false);
+        toMenuTile = GameObject.Find("ToMenuTile");
+        toMenuTile.transform.gameObject.SetActive(false);
     }
 
     // 변수 초기화
@@ -68,6 +79,9 @@ public class InGameFloorTile : MonoBehaviour
         // 걸음 관련 변수 초기화
         stepRecordTime = 0;
         InitialStepRecords();
+
+        // UI 타이머 배열 초기화
+        uiTimer = new float[2] { 0, 0 };
     }
 
     // 걸음 시간 리스트 초기화 (0)
@@ -137,7 +151,7 @@ public class InGameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (Avatar.onTile(floorTile))
+        if (Avatar.OnTile(floorTile))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
@@ -183,6 +197,10 @@ public class InGameFloorTile : MonoBehaviour
         {
             UIinGame.instance.bePause = true;
             resumeTile.transform.gameObject.SetActive(true);
+            newGameTile.transform.gameObject.SetActive(true);
+            toMenuTile.transform.gameObject.SetActive(true);
+
+            HandleUITimer();
         }
         else
         {
@@ -194,4 +212,35 @@ public class InGameFloorTile : MonoBehaviour
             }
         }
     }
+
+    void HandleUITimer() {
+
+        if (Avatar.OneFootOnCircleTile(newGameTile))
+            HandleNewGameTile();
+        else
+            uiTimer[0] = 0;
+
+        if (Avatar.OneFootOnCircleTile(toMenuTile))
+            HandleToMenuTile();
+        else
+            uiTimer[1] = 0;
+
+    }
+
+    void HandleNewGameTile() {
+        uiTimer[0] += Time.deltaTime;
+        if (uiTimer[0] > pushTime) {
+            UIinGame.instance.bePause = false;
+            SceneManager.LoadScene("Game");
+        }
+    }
+
+    void HandleToMenuTile() {
+        uiTimer[1] += Time.deltaTime;
+        if (uiTimer[1] > pushTime) {
+            UIinGame.instance.bePause = false;
+            SceneManager.LoadScene("Main");
+        }
+    }
+
 }

@@ -12,7 +12,7 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
-
+    public static float buttonPushLimitY = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -42,32 +42,33 @@ public class Avatar : MonoBehaviour
         return new Vector3(kinectPosition.x * 10, kinectPosition.y * 10, (kinectPosition.z - 1.45f) * -10);
     }
 
+    public static bool OneFootOnTile(GameObject tile)
+    {
+        return IsInside(tile, userPositionLeftFoot) || IsInside(tile, userPositionRightFoot);
+    }
+
     // 오브젝트가 타일 위에 있는지 판별
-    public static bool onTile(GameObject tile) {
+    public static bool OnTile(GameObject tile) {
         return IsInside(tile, userPositionLeftFoot) && IsInside(tile, userPositionRightFoot);
     }
 
-    // 두 발이 원 타일 안에 있는지 확인
+    // 두 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
     public static bool OnCircleTile (GameObject tile)
     {
-        bool leftFootOnCircleTile =  (((userPositionLeftFoot.x - tile.transform.position.x) * (userPositionLeftFoot.x - tile.transform.position.x))
-            + ((userPositionLeftFoot.z - tile.transform.position.z) * (userPositionLeftFoot.z - tile.transform.position.z)))
-        <= (tile.transform.localScale.x * tile.transform.localScale.x);
-        bool rightFootOnCircleTile = (((userPositionRightFoot.x - tile.transform.position.x) * (userPositionRightFoot.x - tile.transform.position.x))
-            + ((userPositionRightFoot.z - tile.transform.position.z) * (userPositionRightFoot.z - tile.transform.position.z)))
-        <= (tile.transform.localScale.x * tile.transform.localScale.x);
-        return leftFootOnCircleTile && rightFootOnCircleTile;
+        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < buttonPushLimitY) 
+            && (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < buttonPushLimitY);
     }
 
-    // 한 발이 원 타일 안에 있는지 확인
+    // 한 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
     public static bool OneFootOnCircleTile(GameObject tile) {
-        bool leftFootOnCircleTile = (((userPositionLeftFoot.x - tile.transform.position.x) * (userPositionLeftFoot.x - tile.transform.position.x))
-            + ((userPositionLeftFoot.z - tile.transform.position.z) * (userPositionLeftFoot.z - tile.transform.position.z)))
+        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < buttonPushLimitY)
+            || (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < buttonPushLimitY);
+    }
+
+    public static bool IsInsideCircle(GameObject tile, Vector3 obj) {
+        return (((obj.x - tile.transform.position.x) * (obj.x - tile.transform.position.x))
+            + ((obj.z - tile.transform.position.z) * (obj.z - tile.transform.position.z)))
         <= (tile.transform.localScale.x * tile.transform.localScale.x);
-        bool rightFootOnCircleTile = (((userPositionRightFoot.x - tile.transform.position.x) * (userPositionRightFoot.x - tile.transform.position.x))
-            + ((userPositionRightFoot.z - tile.transform.position.z) * (userPositionRightFoot.z - tile.transform.position.z)))
-        <= (tile.transform.localScale.x * tile.transform.localScale.x);
-        return leftFootOnCircleTile || rightFootOnCircleTile;
     }
 
     // 벡터3가 오브젝트가 타일 안에 있으면 true 반환

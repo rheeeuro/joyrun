@@ -5,8 +5,8 @@ using UnityEngine;
 public class MenuFloorTile : MonoBehaviour
 {
     // 바닥 UI 타일
-    GameObject leftArrowTile;
-    GameObject rightArrowTile;
+    GameObject upArrowTile;
+    GameObject downArrowTile;
     GameObject confirmTile;
     GameObject cancelTile;
 
@@ -14,22 +14,22 @@ public class MenuFloorTile : MonoBehaviour
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
-    public const float pushTime = 0.5f;
+    public const float pushTime = 1;
     public const float footPrintStartSize = 0.7f;
     public const float foorPrintScaleY = 0.005f;
 
-    // 버튼 타이머 변수 - 0: leftArrow, 1: rightArrow, 2: confirm, 3: cancel
-    public float[] menuTimer;
+    // 버튼 타이머 변수 - 0: up, 1: down, 2: confirm, 3: cancel
+    public float[] uiTimer;
     
     // Start is called before the first frame update
     void Start()
     {
-        leftArrowTile = GameObject.Find("leftArrowTile");
-        rightArrowTile = GameObject.Find("rightArrowTile");
+        upArrowTile = GameObject.Find("leftArrowTile");
+        downArrowTile = GameObject.Find("rightArrowTile");
         confirmTile = GameObject.Find("confirmTile");
         cancelTile = GameObject.Find("cancelTile");
 
-        menuTimer = new float[4] { 0, 0, 0, 0 }; 
+        uiTimer = new float[4] { 0, 0, 0, 0 }; 
         
     }
 
@@ -65,71 +65,75 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     void HandleMenuTiles() {
-        if (Avatar.OneFootOnCircleTile(leftArrowTile))
-            HandleLeftArrowTile();
+        if (Avatar.OneFootOnCircleTile(upArrowTile))
+            HandleUpArrowTile();
         else
-            menuTimer[0] = 0;
+            uiTimer[0] = 0;
 
-        if (Avatar.OneFootOnCircleTile(rightArrowTile))
-            HandleRightArrowTile();
+        if (Avatar.OneFootOnCircleTile(downArrowTile))
+            HandleDownArrowTile();
         else
-            menuTimer[1] = 0;
+            uiTimer[1] = 0;
 
         if (Avatar.OneFootOnCircleTile(confirmTile))
             HandleConfirmTile();
         else
-            menuTimer[2] = 0;
+            uiTimer[2] = 0;
 
         if (Avatar.OneFootOnCircleTile(cancelTile))
             HandleCancelTile();
         else
-            menuTimer[3] = 0;
+            uiTimer[3] = 0;
     }
 
 
 
-    void HandleLeftArrowTile() {
-        menuTimer[0] += Time.deltaTime;
-        if (menuTimer[0] > pushTime)
-            HandleLeftArrow();
+    void HandleUpArrowTile() {
+        uiTimer[0] += Time.deltaTime;
+        if (uiTimer[0] > pushTime)
+            HandleUpArrow();
     }
 
-    void HandleRightArrowTile() {
-        menuTimer[1] += Time.deltaTime;
-        if(menuTimer[1] > pushTime)
-            HandleRightArrow();
+    void HandleDownArrowTile() {
+        uiTimer[1] += Time.deltaTime;
+        if(uiTimer[1] > pushTime)
+            HandleDownArrow();
     }
 
     void HandleConfirmTile() {
-        menuTimer[2] += Time.deltaTime;
-        if (menuTimer[2] > pushTime)
+        uiTimer[2] += Time.deltaTime;
+        if (uiTimer[2] > pushTime)
             HandleConfirm();
     }
 
     void HandleCancelTile() {
-        menuTimer[3] += Time.deltaTime;
-        if (menuTimer[3] > pushTime)
+        uiTimer[3] += Time.deltaTime;
+        if (uiTimer[3] > pushTime)
             HandleCancel();
     }
 
-    void HandleLeftArrow() {
+    void HandleUpArrow() {
         Debug.Log("Left Arrow !");
-        menuTimer[0] = 0;
+        UIgameStart.instance.HandleUp();
+        uiTimer[0] = 0;
     }
 
-    void HandleRightArrow() {
+    void HandleDownArrow() {
         Debug.Log("Right Arrow !");
-        menuTimer[1] = 0;
+        UIgameStart.instance.HandleDown();
+        uiTimer[1] = 0;
     }
 
     void HandleConfirm() {
         Debug.Log("Confirm !");
-        menuTimer[2] = 0;
+        UIgameStart.instance.HandleConfirm();
+        uiTimer[2] = 0;
     }
 
     void HandleCancel() {
         Debug.Log("Cancel !");
-        menuTimer[3] = 0;
+        UIgameStart.instance.HandleCancel();
+        uiTimer[3] = 0;
     }
 
 
