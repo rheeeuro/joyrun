@@ -29,7 +29,6 @@ public class MenuResult : MonoBehaviour
 
         //보이도록 설정
         transform.gameObject.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     public void backButton()

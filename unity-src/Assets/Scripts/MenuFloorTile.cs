@@ -14,15 +14,12 @@ public class MenuFloorTile : MonoBehaviour
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
 
-    public float buttonTimer;
     public const float pushTime = 0.5f;
     public const float footPrintStartSize = 0.7f;
     public const float foorPrintScaleY = 0.005f;
 
-    public bool leftArrowState;
-    public bool rightArrowState;
-    public bool confirmState;
-    public bool cancelState;
+    // 버튼 타이머 변수 - 0: leftArrow, 1: rightArrow, 2: confirm, 3: cancel
+    public float[] menuTimer;
     
     // Start is called before the first frame update
     void Start()
@@ -32,25 +29,15 @@ public class MenuFloorTile : MonoBehaviour
         confirmTile = GameObject.Find("confirmTile");
         cancelTile = GameObject.Find("cancelTile");
 
-        InitialState();
+        menuTimer = new float[4] { 0, 0, 0, 0 }; 
         
     }
 
-    void InitialState()
-    {
-        leftArrowState = false;
-        rightArrowState = false;
-        confirmState = false;
-        cancelState = false;
-        buttonTimer = 0;
-    }
 
     // Update is called once per frame
     void Update()
     {
-        // 위치 업데이트
         HandleFootPrint();
-
         HandleMenuTiles();    
     }
 
@@ -71,87 +58,78 @@ public class MenuFloorTile : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = footPrintStartSize / Avatar.userPositionLeftFoot.y;
-        float newRightFootPrintSize = footPrintStartSize / Avatar.userPositionRightFoot.y;
+        float newLeftFootPrintSize = Avatar.userPositionLeftFoot.y < 2 ? 1 : 0;
+        float newRightFootPrintSize = Avatar.userPositionRightFoot.y < 2 ? 1 : 0;
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, foorPrintScaleY, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, foorPrintScaleY, newRightFootPrintSize);
     }
 
     void HandleMenuTiles() {
-        Debug.Log("timer" + buttonTimer);
-
         if (Avatar.OneFootOnCircleTile(leftArrowTile))
             HandleLeftArrowTile();
-        else if (Avatar.OneFootOnCircleTile(rightArrowTile))
+        else
+            menuTimer[0] = 0;
+
+        if (Avatar.OneFootOnCircleTile(rightArrowTile))
             HandleRightArrowTile();
-        else if (Avatar.OneFootOnCircleTile(confirmTile))
+        else
+            menuTimer[1] = 0;
+
+        if (Avatar.OneFootOnCircleTile(confirmTile))
             HandleConfirmTile();
-        else if (Avatar.OneFootOnCircleTile(cancelTile))
+        else
+            menuTimer[2] = 0;
+
+        if (Avatar.OneFootOnCircleTile(cancelTile))
             HandleCancelTile();
         else
-            InitialState();
+            menuTimer[3] = 0;
     }
 
 
 
     void HandleLeftArrowTile() {
-        Debug.Log("left pushing!");
-        if (leftArrowState)
-            buttonTimer += Time.deltaTime;
-        else
-            InitialState();
-        if (buttonTimer > pushTime)
+        menuTimer[0] += Time.deltaTime;
+        if (menuTimer[0] > pushTime)
             HandleLeftArrow();
     }
 
     void HandleRightArrowTile() {
-        Debug.Log("right pushing!");
-        if (rightArrowState)
-            buttonTimer += Time.deltaTime;
-        else
-            InitialState();
-        if (buttonTimer > pushTime)
+        menuTimer[1] += Time.deltaTime;
+        if(menuTimer[1] > pushTime)
             HandleRightArrow();
     }
 
     void HandleConfirmTile() {
-        Debug.Log("confirm pushing!");
-        if (confirmState)
-            buttonTimer += Time.deltaTime;
-        else
-            InitialState();
-        if (buttonTimer > pushTime)
+        menuTimer[2] += Time.deltaTime;
+        if (menuTimer[2] > pushTime)
             HandleConfirm();
     }
 
     void HandleCancelTile() {
-        Debug.Log("cancel pushing!");
-        if (cancelState)
-            buttonTimer += Time.deltaTime;
-        else
-            InitialState();
-        if (buttonTimer > pushTime)
+        menuTimer[3] += Time.deltaTime;
+        if (menuTimer[3] > pushTime)
             HandleCancel();
     }
 
     void HandleLeftArrow() {
         Debug.Log("Left Arrow !");
-        InitialState();
+        menuTimer[0] = 0;
     }
 
     void HandleRightArrow() {
         Debug.Log("Right Arrow !");
-        InitialState();
+        menuTimer[1] = 0;
     }
 
     void HandleConfirm() {
         Debug.Log("Confirm !");
-        InitialState();
+        menuTimer[2] = 0;
     }
 
     void HandleCancel() {
         Debug.Log("Cancel !");
-        InitialState();
+        menuTimer[3] = 0;
     }
 
 

@@ -30,7 +30,6 @@ public class UIresultPage : MonoBehaviour
 
         //보이도록 설정
         transform.gameObject.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     public void RetryButton()
@@ -44,7 +43,6 @@ public class UIresultPage : MonoBehaviour
 
 
         //Allow time to flow again
-        Time.timeScale = 1f;
     }
 
     void Start()

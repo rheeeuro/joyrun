@@ -13,14 +13,10 @@ public class UIgameStart : MonoBehaviour
     }
     void Start()
     {
-        Time.timeScale = 0f;
         if (UIinGame.instance != null)
         {
             UIinGame.instance.transform.gameObject.SetActive(false);
         }
-        Time.timeScale = 0f;
-
-
     }
 
 
@@ -37,9 +33,6 @@ public class UIgameStart : MonoBehaviour
         transform.gameObject.SetActive(false);
         GameManager.instance.StartGame();
         UIinGame.instance.transform.gameObject.SetActive(true);
-        Time.timeScale = 1f;
-
-
     }
 
     public void RankingButton()

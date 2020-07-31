@@ -26,7 +26,6 @@ public class UIgameOver : MonoBehaviour
         GameManager.instance.GameOver();
         transform.gameObject.SetActive(true);
         UIinGame.instance.transform.gameObject.SetActive(false);
-        Time.timeScale = 0f;
     }
 
 
@@ -41,7 +40,6 @@ public class UIgameOver : MonoBehaviour
 
 
         //Allow time to flow again
-        Time.timeScale = 1f;
 
     }
 

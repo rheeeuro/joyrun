@@ -128,8 +128,8 @@ public class InGameFloorTile : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = footPrintStartSize / Avatar.userPositionLeftFoot.y;
-        float newRightFootPrintSize = footPrintStartSize / Avatar.userPositionRightFoot.y;
+        float newLeftFootPrintSize = Avatar.userPositionLeftFoot.y < 2 ? 1 : 0;
+        float newRightFootPrintSize = Avatar.userPositionRightFoot.y < 2 ? 1 : 0;
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, foorPrintScaleY, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, foorPrintScaleY, newRightFootPrintSize);
     }

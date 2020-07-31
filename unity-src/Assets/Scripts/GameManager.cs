@@ -37,14 +37,12 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         // 점프해야 시작하도록 추후에 조건문 설정
-        Time.timeScale = 1f;
         SetGameState(GameState.inGame);
     }
 
     public void GameOver()
     {
         // life가 0이 되면 시작
-        Time.timeScale = 0f;
         SetGameState(GameState.gameOver);
     }
 
@@ -55,12 +53,10 @@ public class GameManager : MonoBehaviour
 
     public void Menu()
     {
-        Time.timeScale = 0f;
         SetGameState(GameState.menu);
     }
     public void Result()
     {
-        Time.timeScale = 0f;
         SetGameState(GameState.result);
     }
 
@@ -70,7 +66,6 @@ public class GameManager : MonoBehaviour
     {
         //GameObject.Find("Canvas").transform.Find("UIgameStartPanel").gameObject.SetActive(true);
         //GameObject.Find("Canvas").transform.Find("UlgameOverPanel").gameObject.SetActive(false);
-        Time.timeScale = 0f;
         Menu();
 
     }
