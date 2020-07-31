@@ -29,9 +29,9 @@ public class UIgameOver : MonoBehaviour
     }
 
 
-    public void RankingButton()
+    public void HandleNextPage()
     {
-
+        GameManager.instance.Result();
         transform.gameObject.SetActive(false);
         //Main Scene Loaded
         UIresultPage.instance.transform.gameObject.SetActive(true);

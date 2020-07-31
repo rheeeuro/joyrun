@@ -94,7 +94,6 @@ public class UIgameStart : MonoBehaviour
 
         transform.gameObject.SetActive(false);
         GameManager.instance.StartGame();
-        UIinGame.instance.transform.gameObject.SetActive(true);
     }
 
     public void HandleRanking()

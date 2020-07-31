@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
     {
         //GameObject.Find("Canvas").transform.Find("UIgameStartPanel").gameObject.SetActive(true);
         //GameObject.Find("Canvas").transform.Find("UlgameOverPanel").gameObject.SetActive(false);
-        Menu();
 
     }
 
@@ -95,9 +94,10 @@ public class GameManager : MonoBehaviour
         {
 
         }
-        else if (newGameState == GameState.result) {
+        else if (newGameState == GameState.result)
+        {
         }
-        else if (newGameState == GameState.ranking)
+        else if (newGameState == GameState.ranking) { }
             //현재 게임 상태값
             currentGameState = newGameState;
     }

@@ -311,7 +311,7 @@ public class Tile : MonoBehaviour
         if (actualSpeed > 90)
             actualSpeed = 90;
 
-        if (UIinGame.instance.bePause)
+        if (GameManager.instance.currentGameState != GameState.inGame)
             actualSpeed = 0;
     }
 

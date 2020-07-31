@@ -12,6 +12,7 @@ public class UIinGame : MonoBehaviour
     void Awake()
     {
         instance = this;
+        GameManager.instance.StartGame();
     }
 
     // Update is called once per frame
@@ -31,9 +32,15 @@ public class UIinGame : MonoBehaviour
     public void Pause()
     {
         if (bePause == false)
+        {
             bePause = true;
+            GameManager.instance.Pause();
+        }
         else
+        {
             bePause = false;
+            GameManager.instance.StartGame();
+        }
 
     }
 }

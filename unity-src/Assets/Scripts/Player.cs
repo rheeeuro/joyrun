@@ -310,6 +310,7 @@ public class Player : MonoBehaviour
         CaculatePoint();
         InsertRank(point);
         point = 0;
+        GameManager.instance.GameOver();
         UIgameOver.instance.Show();
     }
 }
