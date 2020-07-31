@@ -42,7 +42,16 @@ public class UIresultPage : MonoBehaviour
 
 
 
-        //Allow time to flow again
+    }
+
+    public void ToMenuButton()
+    {
+        transform.gameObject.SetActive(false);
+        //Main Scene Loaded
+        SceneManager.LoadScene("Main");
+        GameManager.instance.Menu();
+
+
     }
 
     void Start()

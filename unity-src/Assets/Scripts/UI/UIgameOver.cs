@@ -29,20 +29,6 @@ public class UIgameOver : MonoBehaviour
     }
 
 
-    public void RetryButton()
-    {
-        //When Click the retryButton
-        transform.gameObject.SetActive(false);
-        //Main Scene Loaded
-        SceneManager.LoadScene("Main");
-        GameManager.instance.StartGame();
-
-
-
-        //Allow time to flow again
-
-    }
-
     public void RankingButton()
     {
 
