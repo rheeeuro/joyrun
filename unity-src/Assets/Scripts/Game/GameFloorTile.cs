@@ -170,9 +170,9 @@ public class GameFloorTile : MonoBehaviour
     {
         if (Player.highlight != null)
         {
-            HandleFloorTile(Player.highlight, leftFloorTile, Tile.left);
-            HandleFloorTile(Player.highlight, centerFloorTile, Tile.center);
-            HandleFloorTile(Player.highlight, rightFloorTile, Tile.right);
+            HandleFloorTile(Player.highlight, leftFloorTile, ConstInfo.left);
+            HandleFloorTile(Player.highlight, centerFloorTile, ConstInfo.center);
+            HandleFloorTile(Player.highlight, rightFloorTile, ConstInfo.right);
         }
 
     }

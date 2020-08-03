@@ -37,19 +37,14 @@ public class Player : MonoBehaviour
     // 점프 관련 번수 선언
     public static bool isJumping;
     public float jumpTimer;
-    public const float jumpTime = 0.6f;
 
     // 타이머  변수 선언
     public static float timer;
-    public const float gameTime = 60;
 
     // 텍스트 변수 선언
     public Text comboText;
     public Text hpText;
     public Text timerText;
-
-    public const float playerStartPositionY = 1.55f;
-    public const float playerStartPositionZ = -40;
 
     // 인스턴스 설정
     private void Awake()
@@ -93,7 +88,7 @@ public class Player : MonoBehaviour
         comboTimer = 0;
 
         hp = ConstInfo.startHp;
-        timer = gameTime;
+        timer = ConstInfo.gameTime;
 
         isJumping = false;
         jumpTimer = 0;
@@ -128,7 +123,7 @@ public class Player : MonoBehaviour
     {
         animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         jumpTimer += Time.deltaTime;
-        if (jumpTimer >= jumpTime)
+        if (jumpTimer >= ConstInfo.jumpTime)
         {
             isJumping = false;
             jumpTimer = 0;
@@ -188,9 +183,9 @@ public class Player : MonoBehaviour
     {
         if (GameManager.instance.GetGameState() == GameState.game)
             player.transform.position = 
-                new Vector3(Avatar.userPosition.x * (Tile.scaleX / ConstInfo.floorTileScaleX) + Tile.center, playerStartPositionY, playerStartPositionZ);
+                new Vector3(Avatar.userPosition.x * (Tile.scaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         else
-            player.transform.position = new Vector3(Tile.center, playerStartPositionY, playerStartPositionZ);
+            player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
 
     }
 

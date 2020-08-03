@@ -18,14 +18,6 @@ public class Tile : MonoBehaviour
     public static List<GameObject> badTiles;
     public static List<GameObject> activatedTiles;
 
-    // 지정 위치 상수
-    public const float left = 100;
-    public const float center = 114;
-    public const float right = 128;
-
-    public const float startPositionY = 1;
-    public const float startPositionZ = 80;
-
     public const float scaleX = 14;
 
     public const float destroyLine = -65;
@@ -128,7 +120,7 @@ public class Tile : MonoBehaviour
     // 마지막 줄 타일이 간격만큼 이동 시 타일 생성
     bool IsTimeToCreateTiles()
     {
-        return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < startPositionZ - tileDistance;
+        return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < ConstInfo.tileStartPositionZ - tileDistance;
     }
 
     // 2분의 1 확률 랜덤 함수
@@ -160,19 +152,19 @@ public class Tile : MonoBehaviour
         switch (Random.Range(0, 3))
         {
             case 0:
-                SetGoodTile(left);
-                CreateOne(GetRandomFromList(randomTiles), center);
-                CreateOne(GetRandomFromList(randomTiles), right);
+                SetGoodTile(ConstInfo.left);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
                 break;
             case 1:
-                CreateOne(GetRandomFromList(randomTiles), left);
-                SetGoodTile(center);
-                CreateOne(GetRandomFromList(randomTiles), right);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
+                SetGoodTile(ConstInfo.center);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
                 break;
             case 2:
-                CreateOne(GetRandomFromList(randomTiles), left);
-                CreateOne(GetRandomFromList(randomTiles), center);
-                SetGoodTile(right);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
+                CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
+                SetGoodTile(ConstInfo.right);
                 break;
         }
     }
@@ -180,20 +172,20 @@ public class Tile : MonoBehaviour
     // 마지막 줄에 하트가 있는 경우의 타일 생성
     void CreateTilesAfterHeart()
     {
-        if (heartDirection == left)
+        if (heartDirection == ConstInfo.left)
         {
-            CreateOne(GetRandomFromList(badTiles), left);
-            SetGoodAndRandomTile(center, right);
+            CreateOne(GetRandomFromList(badTiles), ConstInfo.left);
+            SetGoodAndRandomTile(ConstInfo.center, ConstInfo.right);
         }
-        else if (heartDirection == center)
+        else if (heartDirection == ConstInfo.center)
         {
-            CreateOne(GetRandomFromList(badTiles), center);
-            SetGoodAndRandomTile(left, right);
+            CreateOne(GetRandomFromList(badTiles), ConstInfo.center);
+            SetGoodAndRandomTile(ConstInfo.left, ConstInfo.right);
         }
-        else if (heartDirection == right)
+        else if (heartDirection == ConstInfo.right)
         {
-            CreateOne(GetRandomFromList(badTiles), right);
-            SetGoodAndRandomTile(left, center);
+            CreateOne(GetRandomFromList(badTiles), ConstInfo.right);
+            SetGoodAndRandomTile(ConstInfo.left, ConstInfo.center);
         }
     }
 
@@ -235,7 +227,7 @@ public class Tile : MonoBehaviour
     // 타일을 direction에 한 개 생성
     void CreateOne(GameObject tile, float direction)
     {
-        activatedTiles.Add(Instantiate(tile, new Vector3(direction, startPositionY, startPositionZ), Player.player.transform.rotation) as GameObject);
+        activatedTiles.Add(Instantiate(tile, new Vector3(direction, ConstInfo.tileStartPositionY, ConstInfo.tileStartPositionZ), Player.player.transform.rotation) as GameObject);
     }
 
     // 조건 만족 시 장애물 애니메이션 재생
@@ -263,9 +255,9 @@ public class Tile : MonoBehaviour
 
     // 이벤트 발생 알고리즘 (애니메이션)
     void HandleTileAnimation() {
-        if (Player.timer <= Player.gameTime - obstableAnimStartTime)
+        if (Player.timer <= ConstInfo.gameTime - obstableAnimStartTime)
             HandleObstacleAnimation();
-        if (Player.timer <= Player.gameTime - trapAnimStartTime)
+        if (Player.timer <= ConstInfo.gameTime - trapAnimStartTime)
             HandleTrapAnimation();
     }
 
@@ -288,7 +280,7 @@ public class Tile : MonoBehaviour
     // 애니메이션 재생 타일로 변경
     void HandleAnimation(GameObject oldTile, GameObject newTile, int index, string animationName)
     {
-        activatedTiles[index] = Instantiate(newTile, new Vector3(oldTile.transform.position.x, startPositionY, oldTile.transform.position.z), 
+        activatedTiles[index] = Instantiate(newTile, new Vector3(oldTile.transform.position.x, ConstInfo.tileStartPositionY, oldTile.transform.position.z), 
             Player.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
