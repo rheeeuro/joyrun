@@ -3143,7 +3143,6 @@ MonoBehaviour:
   leftFloorTile: {fileID: 0}
   centerFloorTile: {fileID: 0}
   rightFloorTile: {fileID: 0}
-  centerTile: {fileID: 0}
   newGameTilePause: {fileID: 0}
   newGameTileResult: {fileID: 0}
   toMenuTilePause: {fileID: 0}
@@ -7375,7 +7374,7 @@ MonoBehaviour:
   maxLeftRightDistance: 0
   maxTrackedUsers: 0
   showAllowedUsersOnly: 0
-  userDetectionOrder: 0
+  userDetectionOrder: 3
   ignoreInferredJoints: 0
   ignoreZCoordinates: 0
   boneOrientationConstraints: 1

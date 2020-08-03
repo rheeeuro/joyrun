@@ -11,7 +11,7 @@ public class GameFloorTile : MonoBehaviour
     public GameObject centerFloorTile;
     public GameObject rightFloorTile;
     
-    public GameObject centerTile;
+    public static GameObject centerTile;
     public GameObject newGameTilePause;
     public GameObject newGameTileResult;
     public GameObject toMenuTilePause;

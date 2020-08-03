@@ -71,7 +71,7 @@ namespace com.rfilkov.kinect
         [Tooltip("Whether to display only the users within the allowed distances, or all users.")]
         public bool showAllowedUsersOnly = false;
 
-        public enum UserDetectionOrder : int { Appearance = 0, Distance = 1, LeftToRight = 2 }
+        public enum UserDetectionOrder : int { Appearance = 0, Distance = 1, LeftToRight = 2, Custom = 3 }
         [Tooltip("How to assign users to player indices - by order of appearance, distance or left-to-right.")]
         public UserDetectionOrder userDetectionOrder = UserDetectionOrder.Appearance;
 

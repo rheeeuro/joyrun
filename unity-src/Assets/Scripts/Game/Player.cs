@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = 0;
         hp = ConstInfo.startHp;
-        currentMovingState = MovingState.kinect;
+        currentMovingState = MovingState.animation;
     }
 
     void HandleGame(float timer) {
