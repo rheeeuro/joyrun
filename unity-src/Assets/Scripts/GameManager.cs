@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    private void Update()
+    {
+        Debug.Log(currentGameState);
+    }
     public void Game() {
         SetGameState(GameState.game);
     }

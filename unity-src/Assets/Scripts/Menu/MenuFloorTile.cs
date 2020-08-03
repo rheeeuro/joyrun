@@ -15,7 +15,7 @@ public class MenuFloorTile : MonoBehaviour
     public GameObject rightFootPrint;
 
     // 버튼 타이머 변수 - 0: up, 1: down, 2: confirm, 3: cancel
-    private float[] uiTimer;
+    public float[] uiTimer;
 
     void Start()
     {

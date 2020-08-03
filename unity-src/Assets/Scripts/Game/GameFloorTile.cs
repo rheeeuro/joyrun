@@ -30,7 +30,7 @@ public class GameFloorTile : MonoBehaviour
     public static List<float> steps;
 
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
-    private float[] uiTimer;
+    public float[] uiTimer;
 
     void Start()
     {
@@ -101,7 +101,7 @@ public class GameFloorTile : MonoBehaviour
 
         HandleGameTiles();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
-        //HandlePause();
+        HandlePause();
     }
 
     // 바닥 UI 타일 보여주기, 감추기
@@ -258,12 +258,12 @@ public class GameFloorTile : MonoBehaviour
         else
             uiTimer[2] = 0;
 
-        if (Avatar.OneFootOnCircleTile(newGameTileResult) && GameManager.instance.GetGameState() == GameState.ranking)
+        if (Avatar.OneFootOnCircleTile(newGameTileResult) && GameManager.instance.GetGameState() == GameState.myRank)
             HandleNewGameTileResult();
         else
             uiTimer[3] = 0;
 
-        if (Avatar.OneFootOnCircleTile(toMenuTileResult) && GameManager.instance.GetGameState() == GameState.ranking)
+        if (Avatar.OneFootOnCircleTile(toMenuTileResult) && GameManager.instance.GetGameState() == GameState.myRank)
             HandleToMenuTileResult();
         else
             uiTimer[4] = 0;
@@ -327,8 +327,12 @@ public class GameFloorTile : MonoBehaviour
 
     // 다음 페이지 버튼을 누른 경우
     void HandleNextPageTile() {
-        ResultUI.instance.HandleNextPage();
-        uiTimer[2] = 0;
+        uiTimer[2] += Time.deltaTime;
+        if (uiTimer[2] > ConstInfo.pushTime)
+        {
+            uiTimer[2] = 0;
+            ResultUI.instance.HandleNextPage();
+        }
     }
 
 }
