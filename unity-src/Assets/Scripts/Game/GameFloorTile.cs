@@ -10,8 +10,7 @@ public class GameFloorTile : MonoBehaviour
     public GameObject leftFloorTile;
     public GameObject centerFloorTile;
     public GameObject rightFloorTile;
-
-    public GameObject resumeTile;
+    
     public GameObject centerTile;
     public GameObject newGameTilePause;
     public GameObject newGameTileResult;
@@ -35,7 +34,7 @@ public class GameFloorTile : MonoBehaviour
 
     void Start()
     {
-        GameUI.instance.Show();
+        GameManager.instance.Game();
         InitialObjects();
         InitialValues();
     }
@@ -43,6 +42,18 @@ public class GameFloorTile : MonoBehaviour
     // 게임오브젝트 불러오기
     void InitialObjects()
     {
+        leftFloorTile = GameObject.Find("FloorTile-left");
+        centerFloorTile = GameObject.Find("FloorTile-center");
+        rightFloorTile = GameObject.Find("FloorTile-right");
+        centerTile = GameObject.Find("CenterTile");
+        newGameTilePause = GameObject.Find("NewGameTilePause");
+        newGameTileResult = GameObject.Find("NewGameTileResult");
+        toMenuTilePause = GameObject.Find("ToMenuTilePause");
+        toMenuTileResult = GameObject.Find("ToMenuTileResult");
+        nextPageTile = GameObject.Find("NextPageTile");
+
+        leftFootPrint = GameObject.Find("Footprint-left");
+        rightFootPrint = GameObject.Find("Footprint-right");
     }
 
     // 변수 초기화
@@ -101,8 +112,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(true);
             centerFloorTile.SetActive(true);
             rightFloorTile.SetActive(true);
-
-            resumeTile.SetActive(false);
+            
             centerTile.SetActive(false);
 
             newGameTilePause.SetActive(false);
@@ -116,9 +126,8 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-
-            resumeTile.SetActive(true);
-            centerTile.SetActive(false);
+            
+            centerTile.SetActive(true);
 
             newGameTilePause.SetActive(true);
             toMenuTilePause.SetActive(true);
@@ -131,8 +140,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-
-            resumeTile.SetActive(false);
+            
             centerTile.SetActive(true);
 
             newGameTilePause.SetActive(false);
@@ -146,8 +154,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-
-            resumeTile.SetActive(false);
+            
             centerTile.SetActive(true);
 
             newGameTilePause.SetActive(false);
@@ -270,7 +277,7 @@ public class GameFloorTile : MonoBehaviour
         {
             if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y 
                 && Avatar.userPositionRightHand.y > Avatar.userPositionHead.y)
-                && Avatar.OnCircleTile(resumeTile) && GameManager.instance.GetGameState() == GameState.pause)
+                && Avatar.OnCircleTile(centerTile) && GameManager.instance.GetGameState() == GameState.pause)
                 GameUI.instance.Pause();
         }
         else

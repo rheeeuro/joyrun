@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-
     // 게임 오브젝트 변수 선언 (5가지)
     public GameObject heartTile;
     public GameObject obstacleTile;
@@ -18,37 +17,24 @@ public class Tile : MonoBehaviour
     public static List<GameObject> badTiles;
     public static List<GameObject> activatedTiles;
 
-    public const float scaleX = 14;
-
-    public const float destroyLine = -65;
-    public const float tileDistance = 60;
-    public static float[] collisionPosition = { -30, -36, -42, -48 };
-    public const float collisionGap = 5;
-
     // 마지막 줄의 하트 위치 변수
     public static float heartDirection;
 
-    // 속도 변수, 상수
+    // 추가속도, 실제속도 변수
     public static float extraSpeed;
     public static float actualSpeed;
-    public const float actualSpeedStart = 30;
 
-    // 시간 변수
+    // 타일이 나온 뒤 다음타일이 나오기까지의 시간
     public float tileDelay;
-    public const float startTileDelay = 2;
-    public const float tileDelayIncrease = 0.1f;
+
+    // 생성된 타일의 줄 수 변수
     public int createTileCount;
-
-    // 이벤트 시작 시간 상수
-    public const float obstableAnimStartTime = 20;
-    public const float trapAnimStartTime = 30;
-    public const float tileAnimationLength = 2;
-
 
     void Start()
     {
         InitialValues();
-        GameManager.instance.Game();
+        InitializePrefabs();
+        SetTileLists();
     }
 
     // 변수 초기화
@@ -58,26 +44,26 @@ public class Tile : MonoBehaviour
         badTiles = new List<GameObject>();
         activatedTiles = new List<GameObject>();
 
-        InitializePrefabs();
-
-        tileDelay = startTileDelay;
-        actualSpeed = actualSpeedStart;
+        tileDelay = ConstInfo.startTileDelay;
+        actualSpeed = ConstInfo.actualSpeedStart;
         createTileCount = 0;
         extraSpeed = 0;
         heartDirection = 0;
     }
 
+    // Prefab 불러오기
     void InitializePrefabs()
     {
-        // Prefab 불러오기
         heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
         obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
         emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
         balloonTile = Resources.Load("Prefabs/balloon-tile") as GameObject;
+    }
 
-        // List 설정
+    // List 설정
+    void SetTileLists() {
         randomTiles.Add(obstacleTile);
         randomTiles.Add(emptyTile);
         randomTiles.Add(trapTile);
@@ -111,7 +97,7 @@ public class Tile : MonoBehaviour
             HandleTileAnimation();
             if (createTileCount % 10 == 0)
             {
-                tileDelay -= tileDelayIncrease;
+                tileDelay -= ConstInfo.tileDelayIncrease;
                 createTileCount = 0;
             }
         }
@@ -120,7 +106,7 @@ public class Tile : MonoBehaviour
     // 마지막 줄 타일이 간격만큼 이동 시 타일 생성
     bool IsTimeToCreateTiles()
     {
-        return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < ConstInfo.tileStartPositionZ - tileDistance;
+        return activatedTiles.Count == 0 || activatedTiles[activatedTiles.Count - 1].transform.position.z < ConstInfo.tileStartPositionZ - ConstInfo.tileDistance;
     }
 
     // 2분의 1 확률 랜덤 함수
@@ -255,9 +241,9 @@ public class Tile : MonoBehaviour
 
     // 이벤트 발생 알고리즘 (애니메이션)
     void HandleTileAnimation() {
-        if (Player.timer <= ConstInfo.gameTime - obstableAnimStartTime)
+        if (GameUI.timer <= ConstInfo.gameTime - ConstInfo.obstableAnimStartTime)
             HandleObstacleAnimation();
-        if (Player.timer <= ConstInfo.gameTime - trapAnimStartTime)
+        if (GameUI.timer <= ConstInfo.gameTime - ConstInfo.trapAnimStartTime)
             HandleTrapAnimation();
     }
 
@@ -284,7 +270,7 @@ public class Tile : MonoBehaviour
             Player.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
-        activatedTiles[index].GetComponent<Animation>()[animationName].speed = tileAnimationLength / (40 / actualSpeed);
+        activatedTiles[index].GetComponent<Animation>()[animationName].speed = ConstInfo.tileAnimationLength / (40 / actualSpeed);
         activatedTiles[index].GetComponent<Animation>().Play(animationName);
     }
 
@@ -299,7 +285,7 @@ public class Tile : MonoBehaviour
     // 타일 속도 알고리즘
     void HandleTileSpeed()
     {
-        actualSpeed = (tileDistance / tileDelay) + extraSpeed;
+        actualSpeed = (ConstInfo.tileDistance / tileDelay) + extraSpeed;
 
         if (actualSpeed > 90)
             actualSpeed = 90;
@@ -313,7 +299,7 @@ public class Tile : MonoBehaviour
     {
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            if (activatedTiles[i].transform.position.z < destroyLine)
+            if (activatedTiles[i].transform.position.z < ConstInfo.destroyLine)
             {
                 activatedTiles[i].SetActive(false);
                 Destroy(activatedTiles[i]);
@@ -357,9 +343,9 @@ public class Tile : MonoBehaviour
     // 하트 충돌 판정 알고리즘
     void CheckCollisionHeart(GameObject obj)
     {
-        for (int i = 0; i < collisionPosition.Length; i++)
+        for (int i = 0; i < ConstInfo.collisionPosition.Length; i++)
         {
-            if (Mathf.Abs(obj.transform.position.z - collisionPosition[i]) < collisionGap
+            if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[i]) < ConstInfo.collisionGap
                 && GetChildTransform(obj, i * 2).localScale.x != 0
                 && obj.transform.position.x == Player.highlight.transform.position.x
                 && !Player.isJumping)
@@ -374,7 +360,7 @@ public class Tile : MonoBehaviour
     // 장애물 충돌 판정 알고리즘
     void CheckCollisionObstacle(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
             && obj.transform.position.x == Player.highlight.transform.position.x
             )
@@ -399,7 +385,7 @@ public class Tile : MonoBehaviour
 
     void CheckCollisionBalloon(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
         && GetChildTransform(obj, 0).localScale.x != 0
         && obj.transform.position.x == Player.highlight.transform.position.x
         && GameFloorTile.isPunching)
@@ -413,7 +399,7 @@ public class Tile : MonoBehaviour
     // 빈칸 충돌 판정 알고리즘
     void CheckCollisionEmpty(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - collisionPosition[0]) < collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
             && obj.transform.position.x == Player.highlight.transform.position.x)
         {

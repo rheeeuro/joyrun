@@ -19,23 +19,41 @@ public class ConstInfo : MonoBehaviour
     public const int emptyTileComboIncrease = 1;
     public const int heartTileComboIncrease = 2;
     public const int heartTileHpIncrease = 2;
+    public const int balloonComboIncrease = 10;
 
     // 게임 위치 관련 상수
     public const float left = 100;
     public const float center = 114;
     public const float right = 128;
-    public const float playerStartPositionY = 1.55f;
-    public const float playerStartPositionZ = -40;
     public const float tileStartPositionY = 1;
     public const float tileStartPositionZ = 80;
+    public const float tileScaleX = 14;
+
+    public const float destroyLine = -65;
+    public const float tileDistance = 60;
+    public static float[] collisionPosition = { -30, -36, -42, -48 };
+    public const float collisionGap = 5;
+
+    // 게임 플레이어 위치 관련 상수
+    public const float playerStartPositionY = 1.55f;
+    public const float playerStartPositionZ = -40;
+
     public const float stepCountY = 2;
     public const float jumpConditionY = 2;
     public const float punchDistance = 3;
 
+    // 속도 관련 상수
+    public const float actualSpeedStart = 30;
+    public const float startTileDelay = 2;
+    public const float tileDelayIncrease = 0.1f;
+
+    // 이벤트 관련 상수
+    public const float obstableAnimStartTime = 20;
+    public const float trapAnimStartTime = 30;
+    public const float tileAnimationLength = 2;
+
     // 게임 시간 관련 상수
     public const float gameTime = 60;
     public const float jumpTime = 0.6f;
-
-    //
 
 }

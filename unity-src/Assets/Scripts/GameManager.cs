@@ -22,12 +22,7 @@ public class GameManager : MonoBehaviour
     void Awake() 
     {        
         instance = this;
-    }
-     
-    void Start()
-    {
         Time.timeScale = 1;
-        Menu();
     }
 
     public void Game() {

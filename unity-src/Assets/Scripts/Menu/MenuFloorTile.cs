@@ -20,12 +20,18 @@ public class MenuFloorTile : MonoBehaviour
     void Start()
     {
         GameManager.instance.Menu();
+        InitialObjects();
+        uiTimer = new float[4] { 0, 0, 0, 0 }; 
+    }
+
+    void InitialObjects() {
         upArrowTile = GameObject.Find("UpArrowTile");
         downArrowTile = GameObject.Find("DownArrowTile");
         confirmTile = GameObject.Find("ConfirmTile");
         cancelTile = GameObject.Find("CancelTile");
 
-        uiTimer = new float[4] { 0, 0, 0, 0 }; 
+        leftFootPrint = GameObject.Find("Footprint-left");
+        rightFootPrint = GameObject.Find("Footprint-right");
     }
 
 
