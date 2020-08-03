@@ -90,7 +90,7 @@ public class GameFloorTile : MonoBehaviour
 
         HandleGameTiles();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
-        HandlePause();
+        //HandlePause();
     }
 
     // 바닥 UI 타일 보여주기, 감추기
