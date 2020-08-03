@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Avatar : MonoBehaviour
 {
+    // 유저 인스턴스, 존재 여부
+    public static Avatar instance;
+    private static bool userValid;
+
     // 유저 위치 변수
     public static Vector3 userPosition;
     public static Vector3 userPositionLeftFoot;
@@ -12,28 +16,31 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
-    public static float buttonPushLimitY = 2;
-
-    // Start is called before the first frame update
     void Start()
     {
-        InitialUserSpineVector();
+        InitialUserPosition();
+    }
+
+    // 유저 존재 여부 getter
+    public static bool GetUserValid()
+    {
+        return userValid;
+    }
+
+    // 유저 존재 여부 setter
+    public static void SetUserValid(bool newUserValid)
+    {
+        userValid = newUserValid;
     }
 
     // 유저 벡터 초기화
-    void InitialUserSpineVector() {
-        // 유저 위치 초기화
+    void InitialUserPosition() {
         userPosition = new Vector3(0, 0, 0);
         userPositionLeftFoot = new Vector3(0, 0, 0);
         userPositionRightFoot = new Vector3(0, 0, 0);
         userPositionLeftHand = new Vector3(0, 0, 0);
         userPositionRightHand = new Vector3(0, 0, 0);
         userPositionHead = new Vector3(0, 0, 0);
-    }
-    
-    void Update()
-    {
-
     }
 
     // 키넥트 좌표를 게임 상의 좌표로 변환
@@ -42,6 +49,17 @@ public class Avatar : MonoBehaviour
         return new Vector3(kinectPosition.x * 10, kinectPosition.y * 10, (kinectPosition.z - 1.45f) * -10);
     }
 
+    // 발 위치 원 크기 설정
+    public static float HandleFootprintSize(float footPositionY) {
+        if (footPositionY < 1.5)
+            return 0.7f;
+        else if (footPositionY >= 1.5 && footPositionY < 2.5)
+            return 2.5f - footPositionY;
+        else
+            return 0;
+    }
+
+    // 한 발이 타일 위에 있는지 판별
     public static bool OneFootOnTile(GameObject tile)
     {
         return IsInside(tile, userPositionLeftFoot) || IsInside(tile, userPositionRightFoot);
@@ -55,16 +73,17 @@ public class Avatar : MonoBehaviour
     // 두 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
     public static bool OnCircleTile (GameObject tile)
     {
-        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < buttonPushLimitY) 
-            && (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < buttonPushLimitY);
+        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < ConstInfo.buttonPushLimitY) 
+            && (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < ConstInfo.buttonPushLimitY);
     }
 
     // 한 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
     public static bool OneFootOnCircleTile(GameObject tile) {
-        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < buttonPushLimitY)
-            || (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < buttonPushLimitY);
+        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < ConstInfo.buttonPushLimitY)
+            || (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < ConstInfo.buttonPushLimitY);
     }
 
+    // 두 발이 원 타일 위에 있는지 확인
     public static bool IsInsideCircle(GameObject tile, Vector3 obj) {
         return (((obj.x - tile.transform.position.x) * (obj.x - tile.transform.position.x))
             + ((obj.z - tile.transform.position.z) * (obj.z - tile.transform.position.z)))
@@ -77,9 +96,6 @@ public class Avatar : MonoBehaviour
             && (obj.x < tile.transform.position.x + (tile.transform.localScale.x / 2));
         bool vertical = (obj.z > tile.transform.position.z - (tile.transform.localScale.z / 2))
             && (obj.z < tile.transform.position.z + (tile.transform.localScale.z / 2));
-
         return horizontal && vertical;
     }
-
-
 }

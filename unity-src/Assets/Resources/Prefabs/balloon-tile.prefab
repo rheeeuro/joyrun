@@ -103,7 +103,6 @@ GameObject:
   - component: {fileID: 8926384528699621342}
   - component: {fileID: 7540281305365325025}
   - component: {fileID: 6113303408479863876}
-  - component: {fileID: 7599340044441389249}
   - component: {fileID: 4170575869530833369}
   - component: {fileID: 6679262449842973274}
   m_Layer: 0
@@ -175,18 +174,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &7599340044441389249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5471411465510363513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be7cf59564e859e46b80d32b0241fc28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &4170575869530833369
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +199,7 @@ Animation:
   m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: b9c40330b03c0be409148183877bb676, type: 2}
-  - {fileID: 7400000, guid: b34895371f04a3341a00e8845435d03e, type: 2}
+  - {fileID: 0}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0

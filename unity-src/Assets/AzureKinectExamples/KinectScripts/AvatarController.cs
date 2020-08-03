@@ -353,12 +353,12 @@ namespace com.rfilkov.components
                 if (/**playerId == 0 &&*/ userId != 0)
                 {
                     SuccessfulCalibration(userId, false);
-                    InGameFloorTile.pauseHandler = false;
+                    Avatar.SetUserValid(true);
                 }
                 else if (/**playerId != 0 &&*/ userId == 0)
                 {
                     ResetToInitialPosition();
-                    InGameFloorTile.pauseHandler = true;
+                    Avatar.SetUserValid(false);
                 }
             }
 
