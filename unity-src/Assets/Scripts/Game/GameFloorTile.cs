@@ -244,12 +244,12 @@ public class GameFloorTile : MonoBehaviour
     // 게임 바닥타일과 유저의 상호작용
     void HandleGameTiles() {
         if (Avatar.OneFootOnCircleTile(newGameTilePause) && GameManager.instance.GetGameState() == GameState.pause)
-            HandleNewGameTile();
+            HandleNewGameTilePause();
         else
             uiTimer[0] = 0;
 
         if (Avatar.OneFootOnCircleTile(toMenuTilePause) && GameManager.instance.GetGameState() == GameState.pause)
-            HandleToMenuTile();
+            HandleToMenuTilePause();
         else
             uiTimer[1] = 0;
 
@@ -259,12 +259,12 @@ public class GameFloorTile : MonoBehaviour
             uiTimer[2] = 0;
 
         if (Avatar.OneFootOnCircleTile(newGameTileResult) && GameManager.instance.GetGameState() == GameState.ranking)
-            HandleNewGameTile();
+            HandleNewGameTileResult();
         else
             uiTimer[3] = 0;
 
         if (Avatar.OneFootOnCircleTile(toMenuTileResult) && GameManager.instance.GetGameState() == GameState.ranking)
-            HandleToMenuTile();
+            HandleToMenuTileResult();
         else
             uiTimer[4] = 0;
     }
@@ -288,31 +288,46 @@ public class GameFloorTile : MonoBehaviour
     }
 
     // 새 게임 버튼을 누른 경우
-    void HandleNewGameTile() {
+    void HandleNewGameTilePause() {
         uiTimer[0] += Time.deltaTime;
-        uiTimer[3] += Time.deltaTime;
-        if (uiTimer[0] > ConstInfo.pushTime || uiTimer[3] > ConstInfo.pushTime) {
+        if (uiTimer[0] > ConstInfo.pushTime) {
             uiTimer[0] = 0;
-            uiTimer[3] = 0;
             GameUI.instance.HandleNewGame();
         }
     }
 
+    void HandleNewGameTileResult()
+    {
+        uiTimer[3] += Time.deltaTime;
+        if (uiTimer[3] > ConstInfo.pushTime)
+        {
+            uiTimer[3] = 0;
+            MyRankUI.instance.HandleRetry();
+        }
+    }
+
     // 메뉴로 버튼을 누른 경우
-    void HandleToMenuTile() {
+    void HandleToMenuTilePause() {
         uiTimer[1] += Time.deltaTime;
-        uiTimer[4] += Time.deltaTime;
-        if (uiTimer[1] > ConstInfo.pushTime || uiTimer[4] > ConstInfo.pushTime) {
+        if (uiTimer[1] > ConstInfo.pushTime) {
             uiTimer[1] = 0;
-            uiTimer[4] = 0;
             GameUI.instance.HandleToMenu();
+        }
+    }
+
+    void HandleToMenuTileResult()
+    {
+        uiTimer[4] += Time.deltaTime;
+        if (uiTimer[4] > ConstInfo.pushTime)
+        {
+            uiTimer[4] = 0;
+            MyRankUI.instance.HandleToMenu();
         }
     }
 
     // 다음 페이지 버튼을 누른 경우
     void HandleNextPageTile() {
         ResultUI.instance.HandleNextPage();
-        GameManager.instance.Result();
         uiTimer[2] = 0;
     }
 

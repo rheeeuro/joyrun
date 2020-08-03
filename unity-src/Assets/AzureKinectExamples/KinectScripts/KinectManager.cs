@@ -168,7 +168,7 @@ namespace com.rfilkov.kinect
         protected KinectInterop.BodyData[] alTrackedBodies = new KinectInterop.BodyData[0];  // new List<KinectInterop.BodyData>();
 
         protected int btSensorIndex = -1;
-        protected int selectedBodyIndex = 255;
+        protected int selectedBodyIndex = 0;
         protected bool bLimitedUsers = false;
 
         protected BoneOrientationConstraints boneConstraints = null;
@@ -3107,7 +3107,9 @@ namespace com.rfilkov.kinect
                 // display the image on screen
                 if(imageTex != null)
                 {
-                    KinectInterop.DisplayGuiTexture(i, displayImageWidthPercent, imageScale, imageTex);
+                    // 여기
+                    if(i == 0)
+                        KinectInterop.DisplayGuiTexture(i, displayImageWidthPercent, imageScale, imageTex);
                 }
             }
         }

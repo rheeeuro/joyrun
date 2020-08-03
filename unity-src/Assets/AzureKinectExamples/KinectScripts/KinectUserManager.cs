@@ -81,8 +81,8 @@ namespace com.rfilkov.kinect
                     if ((Avatar.IsInsideCircle(tile, leftFoot) && Avatar.IsInsideCircle(tile, rightFoot))
                         && (leftHand.y > head.y && rightHand.y > head.y)) {
                         ulong tmpUserId = aUserIndexIds[i];
-                        aUserIndexIds[i] = aUserIndexIds[1];
-                        aUserIndexIds[1] = tmpUserId;
+                        aUserIndexIds[i] = aUserIndexIds[0];
+                        aUserIndexIds[0] = tmpUserId;
                     }
                 }
             }

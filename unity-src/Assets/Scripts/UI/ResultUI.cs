@@ -33,7 +33,6 @@ public class ResultUI : MonoBehaviour
     // 다음페이지 버튼을 누른 경우
     public void HandleNextPage()
     {
-        GameManager.instance.MyRank();
         transform.gameObject.SetActive(false);
         MyRankUI.instance.Show();
     }

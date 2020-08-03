@@ -70,11 +70,8 @@ public class MenuFloorTile : MonoBehaviour
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition()
     {
-        if (Avatar.instance) {
-
-            leftFootPrint.transform.position = new Vector3(Avatar.userPositionLeftFoot.x, 0, Avatar.userPositionLeftFoot.z);
-            rightFootPrint.transform.position = new Vector3(Avatar.userPositionRightFoot.x, 0, Avatar.userPositionRightFoot.z);
-        }
+        leftFootPrint.transform.position = new Vector3(Avatar.userPositionLeftFoot.x, 0, Avatar.userPositionLeftFoot.z);
+        rightFootPrint.transform.position = new Vector3(Avatar.userPositionRightFoot.x, 0, Avatar.userPositionRightFoot.z);
     }
 
     // 발 위치 원 크기 변경
