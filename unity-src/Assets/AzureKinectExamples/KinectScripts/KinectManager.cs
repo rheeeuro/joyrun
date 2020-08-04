@@ -71,6 +71,9 @@ namespace com.rfilkov.kinect
         [Tooltip("Whether to display only the users within the allowed distances, or all users.")]
         public bool showAllowedUsersOnly = false;
 
+        [Tooltip("손들고 있는 사람")]
+        public bool showHandsUp = false;
+
         public enum UserDetectionOrder : int { Appearance = 0, Distance = 1, LeftToRight = 2, Custom = 3 }
         [Tooltip("How to assign users to player indices - by order of appearance, distance or left-to-right.")]
         public UserDetectionOrder userDetectionOrder = UserDetectionOrder.Appearance;
@@ -1185,7 +1188,7 @@ namespace com.rfilkov.kinect
         }
 
         /// <summary>
-        /// Sets the body index, if a single body must be displayed on the user map, or -1 if all bodies must be displayed.
+        /// Sets the body index, if a single body Fmust be displayed on the user map, or -1 if all bodies must be displayed.
         /// </summary>
         /// <returns><c>true</c>, if the change was successful, <c>false</c> otherwise.</returns>
         /// <param name="iBodyIndex">The single body index, or -1 if all bodies must be displayed.</param>
@@ -3107,9 +3110,7 @@ namespace com.rfilkov.kinect
                 // display the image on screen
                 if(imageTex != null)
                 {
-                    // 여기
-                    if(i == 0)
-                        KinectInterop.DisplayGuiTexture(i, displayImageWidthPercent, imageScale, imageTex);
+                    KinectInterop.DisplayGuiTexture(i, displayImageWidthPercent, imageScale, imageTex);
                 }
             }
         }
@@ -3280,8 +3281,9 @@ namespace com.rfilkov.kinect
             List<ulong> lostUsers = new List<ulong>();
             lostUsers.AddRange(userManager.alUserIds);
 
+
             bLimitedUsers = showAllowedUsersOnly && 
-                (maxTrackedUsers > 0 || minUserDistance >= 0.01f || maxUserDistance >= 0.01f || maxLeftRightDistance >= 0.01f);
+                (maxTrackedUsers > 0 || minUserDistance >= 0.01f || maxUserDistance >= 0.01f || maxLeftRightDistance >= 0.01f || showHandsUp);
 
             for (int i = 0; i < trackedBodiesCount; i++)
             {
@@ -3290,9 +3292,18 @@ namespace com.rfilkov.kinect
 
                 //Debug.Log("  (M)User ID: " + userId + ", body: " + i + ", bi: " + bodyData.iBodyIndex + ", pos: " + bodyData.joint[0].kinectPos + ", rot: " + bodyData.joint[0].normalRotation.eulerAngles);
 
+                Vector3 leftFoot = GetJointPosition(userId, (int)KinectInterop.JointType.FootLeft);
+                Vector3 rightFoot = GetJointPosition(userId, (int)KinectInterop.JointType.FootRight);
+
+                Vector3 leftHand = GetJointPosition(userId, (int)KinectInterop.JointType.HandLeft);
+                Vector3 rightHand = GetJointPosition(userId, (int)KinectInterop.JointType.HandRight);
+                Vector3 head = GetJointPosition(userId, (int)KinectInterop.JointType.Head);
+
+
                 if (bodyData.bIsTracked && userId != 0 && Mathf.Abs(bodyData.position.z) >= minUserDistance &&
                    (maxUserDistance < 0.01f || Mathf.Abs(bodyData.position.z) <= maxUserDistance) &&
-                   (maxLeftRightDistance < 0.01f || Mathf.Abs(bodyData.position.x) <= maxLeftRightDistance))
+                   (maxLeftRightDistance < 0.01f || Mathf.Abs(bodyData.position.x) <= maxLeftRightDistance) &&
+                   (!showHandsUp || (leftHand.y > head.y && rightHand.y > head.y)))
                 {
                     // add userId to the list of new users
                     if (!addedUsers.Contains(userId))

@@ -5134,6 +5134,7 @@ MonoBehaviour:
   maxLeftRightDistance: 0
   maxTrackedUsers: 0
   showAllowedUsersOnly: 0
+  showHandsUp: 0
   userDetectionOrder: 3
   ignoreInferredJoints: 0
   ignoreZCoordinates: 0
