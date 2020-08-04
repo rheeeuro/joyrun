@@ -19,7 +19,7 @@ public class MenuFloorTile : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.Menu();
+        GameManager.instance.SetGameState(GameState.menu);
         InitialObjects();
         uiTimer = new float[4] { 0, 0, 0, 0 }; 
     }

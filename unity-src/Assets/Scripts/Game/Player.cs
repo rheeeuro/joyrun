@@ -71,7 +71,10 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = 0;
         hp = ConstInfo.startHp;
-        currentMovingState = MovingState.kinect;
+        if (GameManager.instance.GetKinectState())
+            currentMovingState = MovingState.kinect;
+        else
+            currentMovingState = MovingState.animation;
     }
 
     void HandleGame(float timer) {
@@ -98,7 +101,10 @@ public class Player : MonoBehaviour
     // 플레이어 점프, 이동 설정 알고리즘
     void HandlePlayer()
     {
-        HandlePlayerPosition();
+        if (GameManager.instance.GetKinectState())
+            HandlePlayerPosition();
+        else
+            HandleKeyboard();
         if (isJumping)    
             HandlePlayerJumping();
         else
@@ -126,7 +132,7 @@ public class Player : MonoBehaviour
             HandlePlayerRuntimeAnimatorController(Tile.actualSpeed);
 
         if (GameFloorTile.isJumping)
-            isJumping = true;     
+            isJumping = true;
     }
 
     // 플레이어 달리기 애니메이션 설정
@@ -195,7 +201,7 @@ public class Player : MonoBehaviour
     public void HavaDamaged()
     {
         if ((hp / 2) > 10)
-            hp = hp - (hp / 2);
+            hp -= (hp / 2);
         else
             hp -= 10;
 
@@ -229,5 +235,29 @@ public class Player : MonoBehaviour
         CaculatePoint();
         GameUI.instance.InsertRank(point);
         GameUI.instance.HandleGameEnd();
+    }
+
+    // 키보드 입력
+    void HandleKeyboard() {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.LeftAlt))
+            isJumping = true;
+        if (Input.GetKey(KeyCode.LeftControl))
+            Tile.extraSpeed += 0.1f;
+
     }
 }

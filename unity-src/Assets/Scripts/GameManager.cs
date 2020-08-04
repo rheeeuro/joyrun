@@ -18,39 +18,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     private GameState currentGameState;
+    private bool kinectState;
 
     void Awake() 
     {        
         instance = this;
+        kinectState = false;
         Time.timeScale = 1;
     }
 
-    private void Update()
-    {
-        Debug.Log(currentGameState);
-    }
-    public void Game() {
-        SetGameState(GameState.game);
+
+    public bool GetKinectState() {
+        return kinectState;
     }
 
-    public void Menu() {
-        SetGameState(GameState.menu);
-    }
-
-    public void MyRank() {
-        SetGameState(GameState.myRank);
-    }
-
-    public void Pause() {
-        SetGameState(GameState.pause);
-    }
-
-    public void Ranking() {
-        SetGameState(GameState.ranking);
-    }
-
-    public void Result() {
-        SetGameState(GameState.result);
+    public void SetKinectState(bool newKinectState) {
+        kinectState = newKinectState;
     }
 
     public GameState GetGameState() {

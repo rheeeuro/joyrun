@@ -26,7 +26,7 @@ public class RankingUI : MonoBehaviour
     // 보이도록 설정
     public void Show()
     {
-        GameManager.instance.Ranking();
+        GameManager.instance.SetGameState(GameState.ranking);
         transform.gameObject.SetActive(true);   
     }
 

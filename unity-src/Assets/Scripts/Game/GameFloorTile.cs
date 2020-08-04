@@ -34,7 +34,7 @@ public class GameFloorTile : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.Game();
+        GameManager.instance.SetGameState(GameState.game);
         InitialObjects();
         InitialValues();
     }
@@ -76,7 +76,6 @@ public class GameFloorTile : MonoBehaviour
     public static void InitialStepRecords()
     {
         steps = Enumerable.Repeat<float>(0, 10).ToList<float>();
-
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
@@ -101,7 +100,8 @@ public class GameFloorTile : MonoBehaviour
 
         HandleGameTiles();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
-        HandlePause();
+        if (GameManager.instance.GetKinectState()) 
+            HandlePause();
     }
 
     // 바닥 UI 타일 보여주기, 감추기
@@ -181,7 +181,6 @@ public class GameFloorTile : MonoBehaviour
             HandleFloorTile(Player.highlight, centerFloorTile, ConstInfo.center);
             HandleFloorTile(Player.highlight, rightFloorTile, ConstInfo.right);
         }
-
     }
 
     // 발 위치 원 좌표 변경
@@ -203,15 +202,16 @@ public class GameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (Avatar.OnTile(floorTile))
+        if (GameManager.instance.GetKinectState() && Avatar.OnTile(floorTile))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
     // 결음 기록 조건 만족 시 함수 호출
     void HandleSteps()
     {
-        if ((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepCountY && Avatar.userPositionRightFoot.y < ConstInfo.stepCountY)
+        if (((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepCountY && Avatar.userPositionRightFoot.y < ConstInfo.stepCountY)
             || (stepSide == false && Avatar.userPositionLeftFoot.y < ConstInfo.stepCountY && Avatar.userPositionRightFoot.y > ConstInfo.stepCountY))
+            && GameManager.instance.GetKinectState())
             HandleStep();
     }
 
@@ -285,6 +285,7 @@ public class GameFloorTile : MonoBehaviour
             if (GameManager.instance.GetGameState() == GameState.game)
                 GameUI.instance.Pause();
         }
+
     }
 
     // 새 게임 버튼을 누른 경우

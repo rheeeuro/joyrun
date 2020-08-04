@@ -2841,7 +2841,7 @@ namespace com.rfilkov.kinect
                 if (sensorInterfaces.Count > 0)
                 {
                     kinectInitialized = true;
-
+                   
                     if(sensorInterfaces.Count > 1)
                     {
                         // create body merger for multiple sensors
@@ -2863,6 +2863,7 @@ namespace com.rfilkov.kinect
                         statusInfoText.text = sErrorMessage;
                     }
                 }
+                GameManager.instance.SetKinectState(kinectInitialized);
             }
             //catch (DllNotFoundException ex)
             //{

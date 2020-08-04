@@ -44,7 +44,7 @@ public class MenuUI : MonoBehaviour
 
     // 메뉴 UI 보여주기
     public void Show() {
-        GameManager.instance.Menu();
+        GameManager.instance.SetGameState(GameState.menu);
         transform.gameObject.SetActive(true);
     }
 

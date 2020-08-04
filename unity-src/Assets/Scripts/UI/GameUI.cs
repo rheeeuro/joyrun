@@ -105,7 +105,7 @@ public class GameUI : MonoBehaviour
     // UI 보여주기
     public void Show()
     {
-        GameManager.instance.Game();
+        GameManager.instance.SetGameState(GameState.game);
         transform.gameObject.SetActive(true);
     }
 
@@ -113,9 +113,9 @@ public class GameUI : MonoBehaviour
     public void Pause()
     {
         if (isPausing)
-            GameManager.instance.Game();
+            GameManager.instance.SetGameState(GameState.game);
         else
-            GameManager.instance.Pause();
+            GameManager.instance.SetGameState(GameState.pause);
 
         isPausing = !isPausing;
     }

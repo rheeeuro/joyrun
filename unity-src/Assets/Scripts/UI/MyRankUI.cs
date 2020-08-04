@@ -27,7 +27,7 @@ public class MyRankUI : MonoBehaviour
     // 보이도록 설정
     public void Show()
     {
-        GameManager.instance.MyRank();
+        GameManager.instance.SetGameState(GameState.myRank);
         transform.gameObject.SetActive(true);
     }
     

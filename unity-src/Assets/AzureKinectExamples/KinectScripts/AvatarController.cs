@@ -348,6 +348,7 @@ namespace com.rfilkov.components
             }
 
             ulong userId = kinectManager ? kinectManager.GetUserIdByIndex(playerIndex) : 0;
+
             if (playerId != userId)
             {
                 if (/**playerId == 0 &&*/ userId != 0)

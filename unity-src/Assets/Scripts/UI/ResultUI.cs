@@ -26,7 +26,7 @@ public class ResultUI : MonoBehaviour
     // 보이도록 설정
     public void Show()
     {
-        GameManager.instance.Result();
+        GameManager.instance.SetGameState(GameState.result);
         transform.gameObject.SetActive(true);
     }
 
