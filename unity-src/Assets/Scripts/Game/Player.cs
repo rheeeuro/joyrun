@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = 0;
         hp = ConstInfo.startHp;
-        currentMovingState = MovingState.animation;
+        currentMovingState = MovingState.kinect;
     }
 
     void HandleGame(float timer) {
@@ -132,12 +132,15 @@ public class Player : MonoBehaviour
     // 플레이어 달리기 애니메이션 설정
     void HandlePlayerRuntimeAnimatorController(float speed)
     {
-        if (speed <= 40)
-            animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
-        else if (speed > 40 && speed <= 60)
-            animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
+        if (GameManager.instance.GetGameState() == GameState.game)
+            if (speed <= 40)
+                animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
+            else if (speed > 40 && speed <= 60)
+                animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
+            else
+                animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
         else
-            animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
+            animator.runtimeAnimatorController = animIdle as RuntimeAnimatorController;
     }
 
     // 아바타 위치로 플레이어 위치 고정

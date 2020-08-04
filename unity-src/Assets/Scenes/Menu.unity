@@ -3734,6 +3734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftFootPrint: {fileID: 753082970}
   rightFootPrint: {fileID: 1128361442}
+  uiTimer: []
 --- !u!1 &1418117812
 GameObject:
   m_ObjectHideFlags: 0
