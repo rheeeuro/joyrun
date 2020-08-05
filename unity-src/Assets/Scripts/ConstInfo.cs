@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConstInfo : MonoBehaviour
+public static class ConstInfo
 {
     // 바닥 UI 관련 상수
     public const float buttonPushLimitY = 1.5f;

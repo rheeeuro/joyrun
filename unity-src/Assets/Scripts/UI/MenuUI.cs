@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public enum MenuState
 {
     start,
+    setting,
     ranking,
     quit
 }
@@ -22,6 +23,7 @@ public class MenuUI : MonoBehaviour
 
     // 메뉴 버튼 변수
     public GameObject startButton;
+    public GameObject settingButton;
     public GameObject rankingButton;
     public GameObject quitButton;
 
@@ -52,6 +54,7 @@ public class MenuUI : MonoBehaviour
     void UnselectButtons()
     {
         startButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
+        settingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
         rankingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
         quitButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
     }
@@ -62,6 +65,9 @@ public class MenuUI : MonoBehaviour
         {
             case MenuState.start:
                 startButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                break;
+            case MenuState.setting:
+                settingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
             case MenuState.ranking:
                 rankingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
@@ -94,6 +100,9 @@ public class MenuUI : MonoBehaviour
             case MenuState.start:
                 HandleStart();
                 break;
+            case MenuState.setting:
+                HandleSetting();
+                break;
             case MenuState.ranking:
                 HandleRanking();
                 break;
@@ -107,6 +116,12 @@ public class MenuUI : MonoBehaviour
     public void HandleStart()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    public void HandleSetting()
+    {
+        transform.gameObject.SetActive(false);
+        SettingUI.instance.Show();
     }
 
     // 랭킹 상태에서 확인 버튼을 눌렀을 경우

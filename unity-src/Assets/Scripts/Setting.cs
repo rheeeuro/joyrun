@@ -8,42 +8,25 @@ public enum MovingState
     animation
 }
 
-public enum TimeState
-{
-    normal,
-    infinite
-}
-
 public enum HpState
 {
     normal,
     immortal
 }
 
-public class Setting : MonoBehaviour
+public enum TimeState
 {
+    normal,
+    infinite
+}
 
-    public static Setting instance;
-    private static MovingState currentMovingState;
-    private static TimeState currentTimeState;
-    private static HpState currentHpState;
 
-    public static void InitialSetting()
-    {
-        DisplaySetting();
-        currentMovingState = MovingState.animation;
-        currentTimeState = TimeState.normal;
-        currentHpState = HpState.normal;
 
-    }
-
-    public static void DisplaySetting()
-    {
-        if (Display.displays.Length > 1)
-            Display.displays[1].Activate();
-        if (Display.displays.Length > 2)
-            Display.displays[2].Activate();
-    }
+public static class Setting
+{
+    private static MovingState currentMovingState = MovingState.animation;
+    private static HpState currentHpState = HpState.normal;
+    private static TimeState currentTimeState = TimeState.normal;
 
     public static MovingState GetCurrentMovingState() {
         return currentMovingState;
@@ -51,14 +34,6 @@ public class Setting : MonoBehaviour
 
     public static void SetCurrentMovingState(MovingState newMovingState) {
         currentMovingState = newMovingState;
-    }
-
-    public static TimeState GetCurrentTimeState() {
-        return currentTimeState;
-    }
-
-    public static void SetCurrentTimeState(TimeState newTimeState) {
-        currentTimeState = newTimeState;
     }
 
     public static HpState GetCurrentHpState()
@@ -70,4 +45,14 @@ public class Setting : MonoBehaviour
     {
         currentHpState = newHpState;
     }
+
+    public static TimeState GetCurrentTimeState() {
+        return currentTimeState;
+    }
+
+    public static void SetCurrentTimeState(TimeState newTimeState) {
+        currentTimeState = newTimeState;
+    }
+
+
 }

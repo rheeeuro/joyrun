@@ -28,9 +28,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Setting.InitialSetting();
+        DisplaySetting();
         kinectState = false;
         Time.timeScale = 1;
+    }
+
+    public void DisplaySetting()
+    {
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
+        if (Display.displays.Length > 2)
+            Display.displays[2].Activate();
     }
 
     public bool GetKinectState() {
