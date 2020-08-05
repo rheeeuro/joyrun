@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
     public bool GetKinectState() {
         return kinectState;
     }

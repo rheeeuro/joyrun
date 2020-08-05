@@ -3150,6 +3150,7 @@ MonoBehaviour:
   nextPageTile: {fileID: 0}
   leftFootPrint: {fileID: 0}
   rightFootPrint: {fileID: 0}
+  uiTimer: []
 --- !u!1 &786390189
 GameObject:
   m_ObjectHideFlags: 0
