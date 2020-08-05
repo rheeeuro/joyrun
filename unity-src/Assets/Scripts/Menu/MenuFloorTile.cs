@@ -104,12 +104,12 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     void HandleMenuTiles() {
-        if (Avatar.OneFootOnCircleTile(upArrowTile) && GameManager.instance.GetGameState() == GameState.menu)
+        if (Avatar.OneFootOnCircleTile(upArrowTile) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
             HandleUpArrowTile();
         else
             uiTimer[0] = 0;
 
-        if (Avatar.OneFootOnCircleTile(downArrowTile) && GameManager.instance.GetGameState() == GameState.menu)
+        if (Avatar.OneFootOnCircleTile(downArrowTile) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
             HandleDownArrowTile();
         else
             uiTimer[1] = 0;
@@ -129,7 +129,7 @@ public class MenuFloorTile : MonoBehaviour
         else
             uiTimer[4] = 0;
 
-        if (Avatar.OneFootOnCircleTile(cancelTile) && GameManager.instance.GetGameState() == GameState.ranking)
+        if (Avatar.OneFootOnCircleTile(cancelTile) && (GameManager.instance.GetGameState() == GameState.ranking || GameManager.instance.GetGameState() == GameState.setting))
             HandleCancelTile();
         else
             uiTimer[5] = 0;
@@ -160,7 +160,7 @@ public class MenuFloorTile : MonoBehaviour
         uiTimer[2] += Time.deltaTime;
         if (uiTimer[2] > ConstInfo.pushTime)
         {
-            // handle left
+            SettingUI.instance.HandleLeft();
             uiTimer[2] = 0;
         }
     }
@@ -170,7 +170,7 @@ public class MenuFloorTile : MonoBehaviour
         uiTimer[3] += Time.deltaTime;
         if (uiTimer[3] > ConstInfo.pushTime)
         {
-            // handle right
+            SettingUI.instance.HandleRight();
             uiTimer[3] = 0;
         }
     }
