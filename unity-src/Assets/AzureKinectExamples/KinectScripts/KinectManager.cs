@@ -2863,7 +2863,6 @@ namespace com.rfilkov.kinect
                         statusInfoText.text = sErrorMessage;
                     }
                 }
-                GameManager.instance.SetKinectState(kinectInitialized);
             }
             //catch (DllNotFoundException ex)
             //{
@@ -2998,6 +2997,7 @@ namespace com.rfilkov.kinect
 
         void Update()
         {
+            GameManager.instance.SetKinectState(sensorDatas.Count > 0);
             if (!kinectInitialized)
                 return;
 
