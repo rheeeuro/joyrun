@@ -36,15 +36,23 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleTimer();
+        if (Setting.GetCurrentTimeState() == TimeState.normal)
+            HandleTimer();
         HandleText();
     }
 
     // 상태 텍스트 설정 (체력, 타이머, 콤보)
     void HandleText()
     {
-        hpText.text = "HP : " + Player.instance.hp.ToString();
-        timerText.text = "Timer : " + timer.ToString("00.00");
+        if (Setting.GetCurrentHpState() == HpState.normal)
+            hpText.text = "HP : " + Player.instance.hp.ToString();
+        else if (Setting.GetCurrentHpState() == HpState.immortal)
+            hpText.text = "Immortal Mode";
+
+        if (Setting.GetCurrentTimeState() == TimeState.normal)
+            timerText.text = "Timer : " + timer.ToString("00.00");
+        else if (Setting.GetCurrentTimeState() == TimeState.infinite)
+            timerText.text = "Infinite Mode";
 
         if (comboTimer > 0)
             comboTimer -= Time.deltaTime;
@@ -55,7 +63,7 @@ public class GameUI : MonoBehaviour
     // 타이머 변수 설정
     void HandleTimer()
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.game && Setting.GetCurrentTimeState() == TimeState.normal)
             timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
         if (timer < 0)
             timer = 0;
@@ -78,7 +86,7 @@ public class GameUI : MonoBehaviour
         {
             if (score > PlayerPrefs.GetInt(i.ToString()))
             {
-                for (int j = 4 - 1; j < 0; j--)
+                for (int j = 4; j > 0; j--)
                 {
                     PlayerPrefs.SetInt(j.ToString(), PlayerPrefs.GetInt((j - 1).ToString()));
                     // 스코어가 1등 기준으로 PlayerPrefs의 Key값(j의 위치값 4(5등))을 j-1위치의 값(4등)으로 바꾼다.
@@ -90,7 +98,7 @@ public class GameUI : MonoBehaviour
                 if (myRank <= 5)
                     MyRankUI.instance.myRank.text = "내 순위 : " + myRank.ToString();
 
-
+                    
                 MyRankUI.instance.UpdateRanking();
                 break; // 종료
 
@@ -98,7 +106,7 @@ public class GameUI : MonoBehaviour
             }
 
             if (myRank > 5)
-                MyRankUI.instance.myRank.text = "5위 미만입니다.";
+                MyRankUI.instance.myRank.text = "순위권에 들지 못했습니다.";
         }
     }
 

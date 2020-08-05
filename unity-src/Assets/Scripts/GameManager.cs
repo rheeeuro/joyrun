@@ -23,6 +23,11 @@ public class GameManager : MonoBehaviour
     void Awake() 
     {        
         instance = this;
+    }
+
+    void Start()
+    {
+        Setting.InitialSetting();
         kinectState = false;
         Time.timeScale = 1;
     }

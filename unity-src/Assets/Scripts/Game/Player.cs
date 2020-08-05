@@ -4,11 +4,7 @@ using UnityEngine;
 
 using UnityEngine.SceneManagement;
 
-public enum MovingState
-{
-    kinect,
-    animation
-}
+
 
 public class Player : MonoBehaviour
 {
@@ -27,7 +23,6 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animWalk;
     RuntimeAnimatorController animSprint;
     RuntimeAnimatorController animJump;
-    MovingState currentMovingState;
 
     // 점프 관련 번수 선언
     public static bool isJumping;
@@ -71,14 +66,10 @@ public class Player : MonoBehaviour
         combo = 0;
         maxCombo = 0;
         hp = ConstInfo.startHp;
-        if (GameManager.instance.GetKinectState())
-            currentMovingState = MovingState.kinect;
-        else
-            currentMovingState = MovingState.animation;
     }
 
     void HandleGame(float timer) {
-        if (timer == 0)
+        if (timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal)
             GameEnd();
         else
             HandlePlayer();
@@ -108,7 +99,7 @@ public class Player : MonoBehaviour
         if (isJumping)    
             HandlePlayerJumping();
         else
-            HandlePlayerMoving(currentMovingState);
+            HandlePlayerMoving(Setting.GetCurrentMovingState());
     }
 
     // 플레이어 점프 애니메이션, 점프 타이머 설정
@@ -163,7 +154,8 @@ public class Player : MonoBehaviour
     // 하트에 충돌 시
     public void MeetHeart()
     {
-        GameUI.instance.ChangeCombo(combo + ConstInfo.heartTileComboIncrease);
+        combo += ConstInfo.heartTileComboIncrease;
+        GameUI.instance.ChangeCombo(combo);
 
         if (hp < ConstInfo.maxHp)
         {
@@ -185,7 +177,8 @@ public class Player : MonoBehaviour
     public void MeetObstacle()
     {
         Tile.extraSpeed = 0;
-        GameUI.instance.ChangeCombo(0);
+        combo = 0;
+        GameUI.instance.ChangeCombo(combo);
         HavaDamaged();
 
     }
@@ -200,19 +193,22 @@ public class Player : MonoBehaviour
     // 데미지 판정 알고리즘
     public void HavaDamaged()
     {
-        if ((hp / 2) > 10)
-            hp -= (hp / 2);
-        else
-            hp -= 10;
-
-
-        if (hp <= 0)
+        if (Setting.GetCurrentHpState() == HpState.normal)
         {
-            hp = 0;
-            GameEnd();
+            if ((hp / 2) > 10)
+                hp -= (hp / 2);
+            else
+                hp -= 10;
+
+
+            if (hp <= 0)
+            {
+                hp = 0;
+                GameEnd();
+            }
+            else if (hp > 100)
+                hp = 100;
         }
-        else if (hp > 100)
-            hp = 100;
     }
 
     // 점수 계산 알고리즘
