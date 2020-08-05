@@ -21,13 +21,13 @@ public class MyRankUI : MonoBehaviour
     void Start()
     {
         transform.gameObject.SetActive(false);
-        UpdateRanking();
     }
 
     // 보이도록 설정
     public void Show()
     {
         GameManager.instance.SetGameState(GameState.myRank);
+        UpdateRanking();
         transform.gameObject.SetActive(true);
     }
     

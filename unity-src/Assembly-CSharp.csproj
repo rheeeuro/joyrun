@@ -175,6 +175,7 @@
     <Compile Include="Assets\Scripts\UI\MyRankUI.cs" />
     <Compile Include="Assets\Scripts\UI\RankingUI.cs" />
     <Compile Include="Assets\Scripts\UI\ResultUI.cs" />
+    <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <None Include="Assets\AzureKinectExamples\KinectDemos\PointCloudDemo\VFX\DownloadMoreVFX.txt" />
     <None Include="Assets\AzureKinectExamples\Resources\MedianShader.shader" />
     <None Include="Assets\AzureKinectExamples\Resources\UserHistImageShader.shader" />

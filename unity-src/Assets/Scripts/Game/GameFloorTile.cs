@@ -75,7 +75,7 @@ public class GameFloorTile : MonoBehaviour
     // 걸음 시간 리스트 초기화 (0)
     public static void InitialStepRecords()
     {
-        steps = Enumerable.Repeat<float>(0, 10).ToList<float>();
+        steps = Enumerable.Repeat<float>(0, 5).ToList<float>();
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
@@ -99,6 +99,7 @@ public class GameFloorTile : MonoBehaviour
         HandleAvatarPunch();
 
         HandleGameTiles();
+        HandleKeyboard();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
         if (GameManager.instance.GetKinectState()) 
             HandlePause();
@@ -234,8 +235,8 @@ public class GameFloorTile : MonoBehaviour
     // 펀치 조건
     void HandleAvatarPunch()
     {
-        if ((-Avatar.userPositionLeftHand.z > -Avatar.userPositionHead.z + ConstInfo.punchDistance)
-            || (-Avatar.userPositionRightHand.z > -Avatar.userPositionHead.z + ConstInfo.punchDistance))
+        if ((Avatar.userPositionLeftHand.z > Avatar.userPositionHead.z + ConstInfo.punchDistance)
+            || (Avatar.userPositionRightHand.z > Avatar.userPositionHead.z + ConstInfo.punchDistance))
             isPunching = true;
         else
             isPunching = false;
@@ -336,4 +337,47 @@ public class GameFloorTile : MonoBehaviour
         }
     }
 
+    // 키보드 입력
+    void HandleKeyboard()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Player.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            Player.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Player.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        }
+        if (Input.GetKey(KeyCode.LeftAlt))
+            isJumping = true;
+        if (Input.GetKey(KeyCode.LeftControl))
+            Tile.extraSpeed += 0.1f;
+        if (Input.GetKey(KeyCode.LeftShift))
+            isPunching = true;
+
+        if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.pause || GameManager.instance.GetGameState() == GameState.game))
+            GameUI.instance.Pause();
+
+            if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.pause)
+            GameUI.instance.HandleToMenu();
+        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.pause)
+            GameUI.instance.HandleNewGame();
+
+        if (Input.GetKey(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.result)
+            ResultUI.instance.HandleNextPage();
+
+        if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.myRank)
+            MyRankUI.instance.HandleToMenu();
+        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.myRank)
+            MyRankUI.instance.HandleRetry();
+
+
+    }
 }

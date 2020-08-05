@@ -7,7 +7,7 @@ public class ConstInfo : MonoBehaviour
     // 바닥 UI 관련 상수
     public const float buttonPushLimitY = 1.5f;
     public const float floorTileScaleX = 9;
-    public const float pushTime = 1;
+    public const float pushTime = 0.8f;
 
     // 바닥 UI 발 위치 원 관련 상수
     public const float footPrintStartSize = 0.7f;

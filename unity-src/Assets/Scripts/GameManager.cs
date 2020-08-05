@@ -11,7 +11,8 @@ public enum GameState
     myRank,
     pause,
     ranking,
-    result
+    result,
+    setting
 }
 
 public class GameManager : MonoBehaviour
