@@ -13,6 +13,7 @@ public class GameUI : MonoBehaviour
     public Text comboText;
     public Text hpText;
     public Text timerText;
+    public Text speedText;
 
     // 타이머  변수 선언
     public static float timer;
@@ -53,6 +54,9 @@ public class GameUI : MonoBehaviour
             timerText.text = "Timer : " + timer.ToString("00.00");
         else if (Setting.GetCurrentTimeState() == TimeState.infinite)
             timerText.text = "Infinite Mode";
+
+        float speed = Mathf.Round((((Tile.actualSpeed - ConstInfo.actualSpeedStart) /4) + 5) * 100) / 100;
+        speedText.text = speed.ToString("#0.00") + " km/s";
 
         if (comboTimer > 0)
             comboTimer -= Time.deltaTime;

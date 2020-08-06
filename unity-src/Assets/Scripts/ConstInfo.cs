@@ -44,6 +44,7 @@ public static class ConstInfo
 
     // 속도 관련 상수
     public const float actualSpeedStart = 30;
+    public const float actualSpeedMax = 90;
     public const float startTileDelay = 2;
     public const float tileDelayIncrease = 0.1f;
 

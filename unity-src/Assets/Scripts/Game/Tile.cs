@@ -287,8 +287,8 @@ public class Tile : MonoBehaviour
     {
         actualSpeed = (ConstInfo.tileDistance / tileDelay) + extraSpeed;
 
-        if (actualSpeed > 90)
-            actualSpeed = 90;
+        if (actualSpeed > ConstInfo.actualSpeedMax)
+            actualSpeed = ConstInfo.actualSpeedMax;
 
         if (GameManager.instance.GetGameState() != GameState.game)
             actualSpeed = 0;
