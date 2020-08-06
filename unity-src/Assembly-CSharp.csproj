@@ -202,6 +202,7 @@
     <None Include="Assets\AzureKinectExamples\_Readme\ToPiracyUsers.txt" />
     <None Include="Assets\AzureKinectExamples\Resources\DepthTexShader.shader" />
     <None Include="Assets\AzureKinectExamples\Resources\DepthHistImageShader.shader" />
+    <None Include="Assets\Resources\paladin\shaders\pbrDoublesided.shader" />
     <None Include="Assets\AzureKinectExamples\Resources\InfraredImageShader.shader" />
     <None Include="Assets\AzureKinectExamples\Resources\ColorBodyIndexShaderK2.compute" />
     <None Include="Assets\AzureKinectExamples\Resources\ForegroundFiltDistShader.compute" />
