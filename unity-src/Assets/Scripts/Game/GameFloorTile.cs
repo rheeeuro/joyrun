@@ -228,6 +228,24 @@ public class GameFloorTile : MonoBehaviour
     void HandleJump()
     {
         isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
+        /**
+        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+        if (isJumping == false)
+        {
+            if (Avatar.userPositionLeftFoot.y > 1.6 && Avatar.userPositionRightFoot.y > 1.6)
+            {
+                watch.Start();
+            }
+            else
+                watch.Reset();
+        }
+
+
+        isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
+        watch.Stop();
+        Debug.Log("Jump delay time : " + watch.ElapsedMilliseconds + " ms");
+        watch.Reset();
+        */
     }
 
     // 펀치 조건
