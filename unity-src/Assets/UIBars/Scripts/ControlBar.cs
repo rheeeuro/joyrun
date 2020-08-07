@@ -22,8 +22,8 @@ public class ControlBar : MonoBehaviour {
 	void UpdateBar () 
 	{
 		//get the string in the input boxes
-		string StrHP = gameObject.transform.FindChild("HP").gameObject.GetComponent<InputField>().text;
-		string StrMaxHP = gameObject.transform.FindChild("MaxHP").gameObject.GetComponent<InputField>().text;
+		string StrHP = gameObject.transform.Find("HP").gameObject.GetComponent<InputField>().text;
+		string StrMaxHP = gameObject.transform.Find("MaxHP").gameObject.GetComponent<InputField>().text;
 
 		//convert to int
 		int HP = int.Parse(StrHP);

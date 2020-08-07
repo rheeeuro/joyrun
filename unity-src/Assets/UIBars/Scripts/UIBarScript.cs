@@ -54,10 +54,10 @@ public class UIBarScript : MonoBehaviour {
 	//Sets the variables
 	void Awake () 
 	{
-		Mask = gameObject.transform.FindChild("Mask").gameObject;
-		Filler = Mask.transform.FindChild("Filler").gameObject;
-		PercentTxt = gameObject.transform.FindChild("PercentTxt").gameObject;
-		RatioTxt = gameObject.transform.FindChild("RatioTxt").gameObject;
+		Mask = gameObject.transform.Find("Mask").gameObject;
+		Filler = Mask.transform.Find("Filler").gameObject;
+		PercentTxt = gameObject.transform.Find("PercentTxt").gameObject;
+		RatioTxt = gameObject.transform.Find("RatioTxt").gameObject;
 
 		RectTransform FRT = (Filler.transform as RectTransform);
 

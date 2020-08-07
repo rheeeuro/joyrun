@@ -2997,6 +2997,9 @@ namespace com.rfilkov.kinect
 
         void Update()
         {
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+
             GameManager.instance.SetKinectState(sensorDatas.Count > 0);
             if (!kinectInitialized)
                 return;
@@ -3020,7 +3023,10 @@ namespace com.rfilkov.kinect
                     UpdateTrackedBodies(i, sensorData, prevBodyFrameTime);
                 }
             }
-
+            watch.Stop();
+            Debug.Log("Update sensor data time : " + watch.ElapsedMilliseconds + " ms");
+            watch.Reset();
+            watch.Start();
             // filter orientation constraints
             if (lastBodyFrameTime != prevBodyFrameTime && boneOrientationConstraints && boneConstraints != null)
             {
@@ -3029,6 +3035,11 @@ namespace com.rfilkov.kinect
                     boneConstraints.Constrain(ref alTrackedBodies[i]);
                 }
             }
+            watch.Stop();
+            Debug.Log("filter orientation constraints time : " + watch.ElapsedMilliseconds + " ms");
+            watch.Reset();
+            watch.Start();
+
 
             if (!isPlayModeEnabled)
             {
@@ -3038,6 +3049,9 @@ namespace com.rfilkov.kinect
                     KinectInterop.UpdateSensorTextures(sensorDatas[i], this);
                 }
             }
+            watch.Stop();
+            Debug.Log("update the sensor textures time : " + watch.ElapsedMilliseconds + " ms");
+            watch.Reset();
         }
 
 
