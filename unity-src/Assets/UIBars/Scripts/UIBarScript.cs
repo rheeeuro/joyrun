@@ -34,9 +34,10 @@ public class UIBarScript : MonoBehaviour {
 
 	//speed
 	public float Speed = 10f;
+    static float t = 0.0f;
 
-	//Text bools
-	public bool DisplayPercentTxt;
+    //Text bools
+    public bool DisplayPercentTxt;
 	public bool DisplayRatioTxt;
 
 	[HideInInspector]//this hides the StartUpdate variable
@@ -104,8 +105,14 @@ public class UIBarScript : MonoBehaviour {
 			Mask0 = new Vector3(MRT.position.x ,MRT.position.y - MRT.rect.height + MaskOffset,MRT.position.z );
 		}
 
-		//move the Current Value to the NewValue
-		Value = Mathf.Lerp(Value,NewValue, Speed * Time.deltaTime);
+        //move the Current Value to the NewValue
+        
+		Value = Mathf.Lerp(Value, NewValue, t);
+        t += 0.5f * Time.deltaTime;
+        if (t > 1.0f)
+            t = 0.0f;
+
+        Debug.Log("Value: " + Value + " / newValue: " + NewValue);
 		Value = Mathf.Clamp(Value,0f,1f);//make sure the Value is between 0 and 1
 
 		//move the Filler position to display the Correct Percent
@@ -169,7 +176,6 @@ public class UIBarScript : MonoBehaviour {
 
 		//NewValue
 		NewValue = (float) HP/MaxHP;
-
 		//trigger the start of the animation
 		StartAnimate = true;
 	}

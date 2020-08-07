@@ -11,9 +11,9 @@ public class GameUI : MonoBehaviour
 
     // 텍스트 변수 선언
     public Text comboText;
-    public Text hpText;
     public Text timerText;
     public Text speedText;
+    public UIBarScript barHp;
 
     // 타이머  변수 선언
     public static float timer;
@@ -45,10 +45,7 @@ public class GameUI : MonoBehaviour
     // 상태 텍스트 설정 (체력, 타이머, 콤보)
     void HandleText()
     {
-        if (Setting.GetCurrentHpState() == HpState.normal)
-            hpText.text = "HP : " + Player.instance.hp.ToString();
-        else if (Setting.GetCurrentHpState() == HpState.immortal)
-            hpText.text = "Immortal Mode";
+        barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
 
         if (Setting.GetCurrentTimeState() == TimeState.normal)
             timerText.text = "Timer : " + timer.ToString("00.00");

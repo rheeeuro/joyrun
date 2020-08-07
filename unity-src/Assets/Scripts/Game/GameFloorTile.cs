@@ -378,6 +378,7 @@ public class GameFloorTile : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
             isPunching = true;
 
+
         if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.pause || GameManager.instance.GetGameState() == GameState.game))
             GameUI.instance.Pause();
 

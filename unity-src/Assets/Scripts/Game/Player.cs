@@ -49,7 +49,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        HandleGame(GameUI.timer);
+        if (GameManager.instance.GetGameState() == GameState.game)
+            HandleGame(GameUI.timer);
+        else
+            animator.runtimeAnimatorController = animIdle as RuntimeAnimatorController;
     }
 
     // 변수 초기화
@@ -69,7 +72,7 @@ public class Player : MonoBehaviour
     }
 
     void HandleGame(float timer) {
-        if (timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal && GameManager.instance.GetGameState() == GameState.game)
+        if (timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal)
             GameEnd();
         else
             HandlePlayer();
@@ -92,12 +95,16 @@ public class Player : MonoBehaviour
     // 플레이어 점프, 이동 설정 알고리즘
     void HandlePlayer()
     {
+        if (Setting.GetCurrentHpState() == HpState.immortal)
+            hp = 100;
+
         if (GameManager.instance.GetKinectState())
             HandlePlayerPosition();
-            
+        /**
         if (isJumping)    
             HandlePlayerJumping();
         else
+    **/
             HandlePlayerMoving(Setting.GetCurrentMovingState());
     }
 
@@ -122,30 +129,32 @@ public class Player : MonoBehaviour
         else if (state == MovingState.animation)// 플레이어 달리기 애니메이션 
             HandlePlayerRuntimeAnimatorController(Tile.actualSpeed);
 
-        if (GameFloorTile.isJumping)
-            isJumping = true;
+
+        isJumping = GameFloorTile.isJumping;
     }
 
     // 플레이어 달리기 애니메이션 설정
     void HandlePlayerRuntimeAnimatorController(float speed)
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
-            if (speed <= 40)
-                animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
-            else if (speed > 40 && speed <= 60)
-                animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
-            else
-                animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
+        if (speed <= 40)
+            animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
+        else if (speed > 40 && speed <= 60)
+            animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
         else
-            animator.runtimeAnimatorController = animIdle as RuntimeAnimatorController;
+            animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
+            
     }
 
     // 아바타 위치로 플레이어 위치 고정
     public static void HandlePlayerPosition()
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
-            player.transform.position = 
-                new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        /**
+        player.transform.position = 
+            new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+    **/
+        player.transform.position =
+        new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, Avatar.userPosition.y, ConstInfo.playerStartPositionZ);
+
     }
 
     // 하트에 충돌 시
