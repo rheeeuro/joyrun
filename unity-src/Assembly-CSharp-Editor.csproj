@@ -65,6 +65,7 @@
     <Compile Include="Assets\PlayerPrefs\Editor\PlayerPrefsEditor\PlayerPrefsEditorUtility.cs" />
     <Compile Include="Assets\PlayerPrefs\Editor\PlayerPrefsEditor\PlayerPrefsEditorWindow.cs" />
     <Compile Include="Assets\PlayerPrefs\Editor\PlayerPrefsExtension.cs" />
+    <Compile Include="Assets\Resources\UI\SlimUI\Editor\SlimUIWindow.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/joyfun/internship-2020h2/unity-src/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>

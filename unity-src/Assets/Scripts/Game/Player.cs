@@ -100,11 +100,10 @@ public class Player : MonoBehaviour
 
         if (GameManager.instance.GetKinectState())
             HandlePlayerPosition();
-        /**
+
         if (isJumping)    
             HandlePlayerJumping();
         else
-    **/
             HandlePlayerMoving(Setting.GetCurrentMovingState());
     }
 
@@ -148,12 +147,8 @@ public class Player : MonoBehaviour
     // 아바타 위치로 플레이어 위치 고정
     public static void HandlePlayerPosition()
     {
-        /**
         player.transform.position = 
             new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-    **/
-        player.transform.position =
-        new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, Avatar.userPosition.y, ConstInfo.playerStartPositionZ);
 
     }
 

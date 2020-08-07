@@ -188,7 +188,7 @@ public class MenuFloorTile : MonoBehaviour
         uiTimer[5] += Time.deltaTime;
         if (uiTimer[5] > ConstInfo.pushTime)
         {
-            
+            HandleCancel();
             uiTimer[5] = 0;
         }
     }

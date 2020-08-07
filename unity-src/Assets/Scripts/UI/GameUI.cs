@@ -19,9 +19,6 @@ public class GameUI : MonoBehaviour
     public static float timer;
     public float comboTimer;
 
-
-    public static int myRank;
-
     void Awake()
     {
         instance = this;
@@ -30,7 +27,6 @@ public class GameUI : MonoBehaviour
     void Start()
     {
         isPausing = false;
-        myRank = 9999;
         comboTimer = 0;
         timer = ConstInfo.gameTime;
     }
@@ -48,7 +44,7 @@ public class GameUI : MonoBehaviour
         barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
 
         if (Setting.GetCurrentTimeState() == TimeState.normal)
-            timerText.text = "Timer : " + timer.ToString("00.00");
+            timerText.text = timer.ToString("Time : 00.00");
         else if (Setting.GetCurrentTimeState() == TimeState.infinite)
             timerText.text = "Infinite Mode";
 
@@ -82,7 +78,8 @@ public class GameUI : MonoBehaviour
 
     // 랭킹 등록 알고리즘
     public void InsertRank(int score)
-    {   
+    {
+        int myRank = 0;
         List<int> scores = new List<int>();
         scores.Add(-1 * score);
         for (int i = 0; i < 5; i++)
@@ -93,13 +90,12 @@ public class GameUI : MonoBehaviour
             PlayerPrefs.SetInt(i.ToString(), scores[i] * -1);
 
             if (scores[i] == -1 * score)
-                myRank = i+1;
+                myRank = i + 1;
         }
-
-        if(myRank <= 5)
-            MyRankUI.instance.myRank.text = "내 순위 : " + myRank.ToString();
-        else
+        if (myRank == 0)
             MyRankUI.instance.myRank.text = "순위권에 들지 못했습니다.";
+        else
+            MyRankUI.instance.myRank.text = "내 순위 : " + myRank.ToString();
 
     }
 
