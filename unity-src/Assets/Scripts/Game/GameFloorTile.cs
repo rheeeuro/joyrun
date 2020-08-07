@@ -93,7 +93,8 @@ public class GameFloorTile : MonoBehaviour
         HandleFootPrint();
 
         // 아바타와 바닥 UI 상호작용
-        HandleFloorTiles();
+        if (GameManager.instance.GetKinectState() && GameManager.instance.GetGameState() == GameState.game)
+            HandleFloorTiles();
         HandleJump();
         HandleSteps();
         HandleAvatarPunch();
@@ -176,12 +177,9 @@ public class GameFloorTile : MonoBehaviour
     // 바닥 스크린들의 밟은 판정   
     void HandleFloorTiles()
     {
-        if (Player.highlight != null)
-        {
-            HandleFloorTile(Player.highlight, leftFloorTile, ConstInfo.left);
-            HandleFloorTile(Player.highlight, centerFloorTile, ConstInfo.center);
-            HandleFloorTile(Player.highlight, rightFloorTile, ConstInfo.right);
-        }
+        HandleFloorTile(Player.highlight, leftFloorTile, ConstInfo.left);
+        HandleFloorTile(Player.highlight, centerFloorTile, ConstInfo.center);
+        HandleFloorTile(Player.highlight, rightFloorTile, ConstInfo.right);
     }
 
     // 발 위치 원 좌표 변경
@@ -203,7 +201,7 @@ public class GameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (GameManager.instance.GetKinectState() && Avatar.OnTile(floorTile))
+        if (Avatar.OnTile(floorTile))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
@@ -340,17 +338,17 @@ public class GameFloorTile : MonoBehaviour
     // 키보드 입력
     void HandleKeyboard()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && GameManager.instance.GetGameState() == GameState.game)
         {
             Player.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
             Player.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && GameManager.instance.GetGameState() == GameState.game)
         {
             Player.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
             Player.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && GameManager.instance.GetGameState() == GameState.game)
         {
             Player.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
             Player.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);

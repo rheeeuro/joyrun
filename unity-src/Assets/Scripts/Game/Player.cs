@@ -146,9 +146,6 @@ public class Player : MonoBehaviour
         if (GameManager.instance.GetGameState() == GameState.game)
             player.transform.position = 
                 new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-        else
-            player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-
     }
 
     // 하트에 충돌 시

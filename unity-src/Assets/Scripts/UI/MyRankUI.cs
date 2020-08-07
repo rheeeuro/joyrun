@@ -48,11 +48,12 @@ public class MyRankUI : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            ranking.text = "Ranking\n\n" + "1. " + PlayerPrefs.GetInt("0") + "\n\n" +
-            "2. " + PlayerPrefs.GetInt("1") + "\n\n" +
-            "3. " + PlayerPrefs.GetInt("2") + "\n\n" +
-            "4. " + PlayerPrefs.GetInt("3") + "\n\n" +
-            "5. " + PlayerPrefs.GetInt("4") + "\n\n";
+            ranking.text = "Ranking\n\n" + 
+                "1. " + PlayerPrefs.GetInt("0") + "\n" +
+                "2. " + PlayerPrefs.GetInt("1") + "\n" +
+                "3. " + PlayerPrefs.GetInt("2") + "\n" +
+                "4. " + PlayerPrefs.GetInt("3") + "\n" +
+                "5. " + PlayerPrefs.GetInt("4") + "\n";
         }
     }
 
