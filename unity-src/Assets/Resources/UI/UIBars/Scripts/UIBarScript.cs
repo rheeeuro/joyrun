@@ -111,8 +111,6 @@ public class UIBarScript : MonoBehaviour {
         t += 0.5f * Time.deltaTime;
         if (t > 1.0f)
             t = 0.0f;
-
-        Debug.Log("Value: " + Value + " / newValue: " + NewValue);
 		Value = Mathf.Clamp(Value,0f,1f);//make sure the Value is between 0 and 1
 
 		//move the Filler position to display the Correct Percent
