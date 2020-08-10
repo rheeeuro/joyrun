@@ -29,6 +29,9 @@ public class GameFloorTile : MonoBehaviour
     public static float stepRecordTime;
     public static List<float> steps;
 
+    public static List<float> left;
+    public static List<float> right;
+
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
 
@@ -76,6 +79,8 @@ public class GameFloorTile : MonoBehaviour
     public static void InitialStepRecords()
     {
         steps = Enumerable.Repeat<float>(0, 5).ToList<float>();
+        left = Enumerable.Repeat<float>(5, 5).ToList<float>();
+        right = Enumerable.Repeat<float>(5, 5).ToList<float>();
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
@@ -227,8 +232,25 @@ public class GameFloorTile : MonoBehaviour
     // 점프 조건
     void HandleJump()
     {
-        isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
-        /**
+        bool jump = true;
+        for (int i = 0; i < left.Count - 1 ; i++) {
+            if (left[i] >= left[i + 1] || right[i] >= right[i + 1])
+                jump = false;
+        }
+        isJumping = jump;
+
+        left.Add(Avatar.userPositionLeftFoot.y);
+        right.Add(Avatar.userPositionRightFoot.y);
+        left.RemoveAt(0);
+        right.RemoveAt(0);
+        Debug.Log("left: " + left);
+        Debug.Log("right: " + right);
+
+        // isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
+        // CountJumpDelay();
+    }
+
+    void CountJumpDelay() {
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
         if (isJumping == false)
         {
@@ -245,7 +267,6 @@ public class GameFloorTile : MonoBehaviour
         watch.Stop();
         Debug.Log("Jump delay time : " + watch.ElapsedMilliseconds + " ms");
         watch.Reset();
-        */
     }
 
     // 펀치 조건

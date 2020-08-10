@@ -179,7 +179,6 @@ public class Player : MonoBehaviour
     {
         Tile.extraSpeed = 0;
         combo = 0;
-        GameUI.instance.ChangeCombo(combo);
         HavaDamaged();
 
     }
