@@ -35,7 +35,8 @@ public class GameUI : MonoBehaviour
     {
         if (Setting.GetCurrentTimeState() == TimeState.normal)
             HandleTimer();
-        HandleText();
+        if (GameManager.instance.GetGameState() == GameState.game)
+            HandleText();
     }
 
     // 상태 텍스트 설정 (체력, 타이머, 콤보)
@@ -115,6 +116,7 @@ public class GameUI : MonoBehaviour
             GameManager.instance.SetGameState(GameState.pause);
 
         isPausing = !isPausing;
+        Player.InitialJumpState();
     }
 
     // 게임이 종료된 경우

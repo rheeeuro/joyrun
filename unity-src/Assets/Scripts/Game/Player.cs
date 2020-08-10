@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     // 점프 관련 번수 선언
     public static bool isJumping;
-    public float jumpTimer;
+    public static float jumpTimer;
 
     //점수 변수 선언
     public static int point;
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         if (GameManager.instance.GetGameState() == GameState.game)
             HandleGame(GameUI.timer);
         else
-            animator.runtimeAnimatorController = Setting.GetCurrentMovingState() == MovingState.animation ? animIdle as RuntimeAnimatorController : null;         
+            animator.runtimeAnimatorController = Setting.GetCurrentMovingState() == MovingState.animation ? animIdle as RuntimeAnimatorController : null;
     }
 
     // 변수 초기화
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
-        
+
     }
 
     // 플레이어 점프, 이동 설정 알고리즘
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
         if (GameManager.instance.GetKinectState())
             HandlePlayerPosition();
 
-        if (isJumping)    
+        if (isJumping)
             HandlePlayerJumping();
         else
             HandlePlayerMoving(Setting.GetCurrentMovingState());
@@ -115,10 +115,14 @@ public class Player : MonoBehaviour
         if (jumpTimer >= ConstInfo.jumpTime)
         {
             animator.runtimeAnimatorController = null;
-            isJumping = false;
-            jumpTimer = 0;
+            InitialJumpState();
         }
 
+    }
+
+    public static void InitialJumpState() {
+        isJumping = false;
+        jumpTimer = 0;
     }
 
     void HandlePlayerMoving(MovingState state)

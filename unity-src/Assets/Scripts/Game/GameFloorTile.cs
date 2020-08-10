@@ -81,7 +81,7 @@ public class GameFloorTile : MonoBehaviour
     // 걸음 시간 리스트 초기화 (0)
     public static void InitialStepRecords()
     {
-        steps = Enumerable.Repeat<float>(0, 5).ToList<float>();
+        steps = Enumerable.Repeat<float>(0, 3).ToList<float>();
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
