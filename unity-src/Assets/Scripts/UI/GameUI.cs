@@ -13,12 +13,15 @@ public class GameUI : MonoBehaviour
     public Text comboText;
     public Text timerText;
     public Text speedText;
+    public Text lastTimer;
     public UIBarScript barHp;
 
     // 타이머  변수 선언
     public static float timer;
     public float comboTimer;
     public float damageTimer;
+
+    public float currentSpeed;
 
     void Awake()
     {
@@ -30,6 +33,7 @@ public class GameUI : MonoBehaviour
         isPausing = false;
         comboTimer = 0;
         damageTimer = 0;
+        currentSpeed = 0;
         timer = ConstInfo.gameTime;
     }
 
@@ -52,20 +56,34 @@ public class GameUI : MonoBehaviour
     void HandleText()
     {
         barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
+        HandleTImeText();
+        HandleComboText();
 
+      
+        speedText.text = currentSpeed.ToString("#0.00") + " km/s";
+
+
+    }
+
+    void HandleTImeText() {
         if (Setting.GetCurrentTimeState() == TimeState.normal)
             timerText.text = timer.ToString("Time : 00.00");
         else if (Setting.GetCurrentTimeState() == TimeState.infinite)
-            timerText.text = "Infinite Mode";
+            timerText.text = "Infinite";
 
-        float speed = Mathf.Round((((Tile.actualSpeed - ConstInfo.actualSpeedStart) /4) + 5) * 100) / 100;
-        speedText.text = speed.ToString("#0.00") + " km/s";
+        if (timer < 5 && timer > 0)
+            lastTimer.text = Mathf.Floor(timer+1).ToString();
+        else
+            lastTimer.text = "";
+    }
 
+    void HandleComboText() {
         if (comboTimer > 0)
             comboTimer -= Time.fixedDeltaTime;
         else
             comboText.text = "";
     }
+
 
     // 타이머 변수 설정
     void HandleTimer()

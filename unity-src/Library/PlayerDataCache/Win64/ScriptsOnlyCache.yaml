@@ -6,7 +6,6 @@ ScriptsOnlyBuild:
     - GameManager
     - GameUI
     - Ground
-    - Highlight
     - MenuFloorTile
     - MenuUI
     - MyRankUI
@@ -100,8 +99,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 10198}
     - Class: 114
       Script: {instanceID: 10200}
-    - Class: 114
-      Script: {instanceID: 10304}
     - Class: 114
       Script: {instanceID: 10326}
     - Class: 114
@@ -258,9 +255,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11750}
     - Class: 114
-      Script: {instanceID: 26568}
-    - Class: 114
-      Script: {instanceID: 26838}
+      Script: {instanceID: 25866}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -964,7 +959,7 @@ ScriptsOnlyBuild:
     className: TimelineAsset
   - hash:
       serializedVersion: 2
-      Hash: 6041d89e67ff358d146b4fd5fbb69a5b
+      Hash: 259f7abf8cc7a93ce3185502f0cedfb7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameUI

@@ -10,7 +10,7 @@ public class GameFloorTile : MonoBehaviour
     public GameObject leftFloorTile;
     public GameObject centerFloorTile;
     public GameObject rightFloorTile;
-    
+
     public static GameObject centerTile;
     public GameObject newGameTilePause;
     public GameObject newGameTileResult;
@@ -103,9 +103,8 @@ public class GameFloorTile : MonoBehaviour
             HandleFloorTiles();
 
 
-        // 점프 판정
-        // HandleJump();
-        HandleJump2();
+        // 점프 판정 (버전 확인)
+        HandleJump5();
 
 
         HandleSteps();
@@ -114,7 +113,7 @@ public class GameFloorTile : MonoBehaviour
         HandleGameTiles();
         HandleKeyboard();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
-        if (GameManager.instance.GetKinectState()) 
+        if (GameManager.instance.GetKinectState())
             HandlePause();
     }
 
@@ -126,7 +125,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(true);
             centerFloorTile.SetActive(true);
             rightFloorTile.SetActive(true);
-            
+
             centerTile.SetActive(false);
 
             newGameTilePause.SetActive(false);
@@ -140,7 +139,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-            
+
             centerTile.SetActive(true);
 
             newGameTilePause.SetActive(true);
@@ -154,7 +153,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-            
+
             centerTile.SetActive(true);
 
             newGameTilePause.SetActive(false);
@@ -168,7 +167,7 @@ public class GameFloorTile : MonoBehaviour
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
-            
+
             centerTile.SetActive(true);
 
             newGameTilePause.SetActive(false);
@@ -266,6 +265,18 @@ public class GameFloorTile : MonoBehaviour
             && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
         lastPositionLeftFoot = Avatar.userPositionLeftFoot;
         lastPositionRightFoot = Avatar.userPositionRightFoot;
+    }
+
+    void HandleJump5() {
+        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
+            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
+            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < 0.3f
+            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < 5
+            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
+
+        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
+        lastPositionRightFoot = Avatar.userPositionRightFoot;
+
     }
 
     // 펀치 조건
