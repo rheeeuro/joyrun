@@ -28,11 +28,11 @@ public static class ConstInfo
     public const float center = 114;
     public const float right = 128;
     public const float tileStartPositionY = 1;
-    public const float tileStartPositionZ = 180;
+    public const float tileStartPositionZ = 80;
     public const float tileScaleX = 14;
 
     public const float destroyLine = -65;
-    public const float tileDistance = 100;
+    public const float tileDistance = 60;
     public static float[] collisionPosition = { -30, -36, -42, -48 };
     public const float collisionGap = 5;
 
@@ -45,8 +45,8 @@ public static class ConstInfo
     public const float punchDistance = 3;
 
     // 속도 관련 상수
-    public const float actualSpeedStart = 50;
-    public const float actualSpeedMax = 120;
+    public const float actualSpeedStart = 30;
+    public const float actualSpeedMax = 90;
     public const float startTileDelay = 2;
     public const float tileDelayIncrease = 0.01f;
 

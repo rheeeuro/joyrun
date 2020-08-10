@@ -20,9 +20,7 @@ public class GameUI : MonoBehaviour
     public static float timer;
     public float comboTimer;
     public float damageTimer;
-
-    public float currentSpeed;
-
+    
     void Awake()
     {
         instance = this;
@@ -33,7 +31,6 @@ public class GameUI : MonoBehaviour
         isPausing = false;
         comboTimer = 0;
         damageTimer = 0;
-        currentSpeed = 0;
         timer = ConstInfo.gameTime;
     }
 
@@ -59,8 +56,9 @@ public class GameUI : MonoBehaviour
         HandleTImeText();
         HandleComboText();
 
-      
-        speedText.text = currentSpeed.ToString("#0.00") + " km/s";
+
+        float speed = Mathf.Round((((Tile.actualSpeed - ConstInfo.actualSpeedStart) / 4) + 5) * 100) / 100;
+        speedText.text = speed.ToString("#0.00") + " km/s";
 
 
     }

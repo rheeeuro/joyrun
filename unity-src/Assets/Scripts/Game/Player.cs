@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
         if(state == MovingState.kinect)
             animator.runtimeAnimatorController = null;
         else if (state == MovingState.animation)// 플레이어 달리기 애니메이션 
-            HandlePlayerRuntimeAnimatorController(GameUI.instance.currentSpeed);
+            HandlePlayerRuntimeAnimatorController(Tile.actualSpeed);
 
 
         isJumping = GameFloorTile.isJumping;
@@ -139,13 +139,13 @@ public class Player : MonoBehaviour
     // 플레이어 달리기 애니메이션 설정
     void HandlePlayerRuntimeAnimatorController(float speed)
     {
-        if (speed <= 10)
+        if (speed <= 40)
             animator.runtimeAnimatorController = animWalk as RuntimeAnimatorController;
-        else if (speed > 10 && speed <= 15)
+        else if (speed > 40 && speed <= 60)
             animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
         else
             animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
-            
+
     }
 
     // 아바타 위치로 플레이어 위치 고정

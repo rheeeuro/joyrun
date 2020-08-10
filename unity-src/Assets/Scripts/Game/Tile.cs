@@ -286,18 +286,14 @@ public class Tile : MonoBehaviour
     void HandleTileSpeed()
     {
         actualSpeed = (ConstInfo.tileDistance / tileDelay) + extraSpeed;
+
         if (actualSpeed > ConstInfo.actualSpeedMax)
             actualSpeed = ConstInfo.actualSpeedMax;
 
         if (GameManager.instance.GetGameState() != GameState.game)
             actualSpeed = 0;
-
-        GameUI.instance.currentSpeed = ScaleSpeed(actualSpeed);
     }
-
-    float ScaleSpeed(float actualSpeed) {
-        return Mathf.Round((((actualSpeed - ConstInfo.actualSpeedStart) / 10 * 3) + 9) * 100) / 100;
-    }
+   
 
     // 타일 삭제 알고리즘
     void HandleTileDestroy()
