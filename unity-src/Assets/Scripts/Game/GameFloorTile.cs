@@ -29,8 +29,8 @@ public class GameFloorTile : MonoBehaviour
     public static float stepRecordTime;
     public static List<float> steps;
 
-    public static float lastPositionLeftFootY;
-    public static float lastPositionRightFootY;
+    public static Vector3 lastPositionLeftFoot;
+    public static Vector3 lastPositionRightFoot;
 
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
@@ -74,8 +74,8 @@ public class GameFloorTile : MonoBehaviour
         // UI 타이머 배열 초기화
         uiTimer = new float[5] { 0, 0, 0, 0, 0 };
 
-        lastPositionLeftFootY = 10;
-        lastPositionRightFootY = 10;
+        lastPositionLeftFoot = Vector3.zero;
+        lastPositionRightFoot = Vector3.zero;
     }
 
     // 걸음 시간 리스트 초기화 (0)
@@ -243,9 +243,29 @@ public class GameFloorTile : MonoBehaviour
     }
 
     void HandleJump2() {
-        isJumping = lastPositionLeftFootY + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFootY + 0.3f < Avatar.userPositionRightFoot.y;
-        lastPositionLeftFootY = Avatar.userPositionLeftFoot.y;
-        lastPositionRightFootY = Avatar.userPositionRightFoot.y;
+        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
+            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0;
+        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
+        lastPositionRightFoot = Avatar.userPositionRightFoot;
+    }
+
+    void HandleJump3()
+    {
+        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
+            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
+            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < 0.3f;
+        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
+        lastPositionRightFoot = Avatar.userPositionRightFoot;
+    }
+
+    void HandleJump4()
+    {
+        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
+            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
+            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < 5
+            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
+        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
+        lastPositionRightFoot = Avatar.userPositionRightFoot;
     }
 
     // 펀치 조건

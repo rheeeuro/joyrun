@@ -18,6 +18,7 @@ public class GameUI : MonoBehaviour
     // 타이머  변수 선언
     public static float timer;
     public float comboTimer;
+    public float damageTimer;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class GameUI : MonoBehaviour
     {
         isPausing = false;
         comboTimer = 0;
+        damageTimer = 0;
         timer = ConstInfo.gameTime;
     }
 
@@ -36,7 +38,14 @@ public class GameUI : MonoBehaviour
         if (Setting.GetCurrentTimeState() == TimeState.normal)
             HandleTimer();
         if (GameManager.instance.GetGameState() == GameState.game)
-            HandleText();
+            HandleUI();
+    }
+
+
+    void HandleUI()
+    {
+        HandleText();
+        ShowDamage();
     }
 
     // 상태 텍스트 설정 (체력, 타이머, 콤보)
@@ -53,7 +62,7 @@ public class GameUI : MonoBehaviour
         speedText.text = speed.ToString("#0.00") + " km/s";
 
         if (comboTimer > 0)
-            comboTimer -= Time.deltaTime;
+            comboTimer -= Time.fixedDeltaTime;
         else
             comboText.text = "";
     }
@@ -74,7 +83,7 @@ public class GameUI : MonoBehaviour
             Player.instance.maxCombo = newCombo;
 
         comboText.text = newCombo.ToString() + " COMBO";
-        comboTimer = 0.7f;
+        comboTimer = ConstInfo.comboShowTime;
     }
 
     // 랭킹 등록 알고리즘
@@ -97,6 +106,17 @@ public class GameUI : MonoBehaviour
             MyRankUI.instance.myRank.text = "순위권에 들지 못했습니다.";
         else
             MyRankUI.instance.myRank.text = "내 순위 : " + myRank.ToString();
+
+    }
+
+    public void ShowDamage() {
+        if (damageTimer > 0)
+        {
+            GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
+            damageTimer -= Time.fixedDeltaTime;
+        }
+        else
+            GetComponent<Image>().color = new Color(1, 1, 1, 0);
 
     }
 

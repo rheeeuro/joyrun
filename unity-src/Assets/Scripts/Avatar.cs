@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Avatar : MonoBehaviour
 {
-    // 유저 인스턴스, 존재 여부
-    public static Avatar instance;
+    // 유저 존재 여부
     private static bool userValid;
 
     // 유저 위치 변수
@@ -16,7 +15,7 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
-    void Start()
+    static void Start()
     {
         InitialUserPosition();
     }
@@ -34,13 +33,13 @@ public class Avatar : MonoBehaviour
     }
 
     // 유저 벡터 초기화
-    void InitialUserPosition() {
-        userPosition = new Vector3(0, 0, 0);
-        userPositionLeftFoot = new Vector3(0, 0, 0);
-        userPositionRightFoot = new Vector3(0, 0, 0);
-        userPositionLeftHand = new Vector3(0, 0, 0);
-        userPositionRightHand = new Vector3(0, 0, 0);
-        userPositionHead = new Vector3(0, 0, 0);
+    static void InitialUserPosition() {
+        userPosition = Vector3.zero;
+        userPositionLeftFoot = Vector3.zero;
+        userPositionRightFoot = Vector3.zero;
+        userPositionLeftHand = Vector3.zero;
+        userPositionRightHand = Vector3.zero;
+        userPositionHead = Vector3.zero;
     }
 
     // 키넥트 좌표를 게임 상의 좌표로 변환

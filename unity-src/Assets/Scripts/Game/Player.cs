@@ -213,6 +213,7 @@ public class Player : MonoBehaviour
             else if (hp > 100)
                 hp = 100;
         }
+        GameUI.instance.damageTimer = ConstInfo.damageShowTime;
     }
 
     // 점수 계산 알고리즘

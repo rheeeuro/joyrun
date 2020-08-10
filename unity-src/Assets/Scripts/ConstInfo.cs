@@ -20,6 +20,8 @@ public static class ConstInfo
     public const int heartTileComboIncrease = 2;
     public const int heartTileHpIncrease = 2;
     public const int balloonComboIncrease = 10;
+    public const float comboShowTime = 0.7f;
+    public const float damageShowTime = 0.1f;
 
     // 게임 위치 관련 상수
     public const float left = 100;
@@ -46,7 +48,7 @@ public static class ConstInfo
     public const float actualSpeedStart = 30;
     public const float actualSpeedMax = 90;
     public const float startTileDelay = 2;
-    public const float tileDelayIncrease = 0.1f;
+    public const float tileDelayIncrease = 0.01f;
 
     // 이벤트 관련 상수
     public const float obstableAnimStartTime = 20;
