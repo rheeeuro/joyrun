@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         if (GameManager.instance.GetGameState() == GameState.game)
             HandleGame(GameUI.timer);
         else
-            animator.runtimeAnimatorController = animIdle as RuntimeAnimatorController;
+            animator.runtimeAnimatorController = Setting.GetCurrentMovingState() == MovingState.animation ? animIdle as RuntimeAnimatorController : null;         
     }
 
     // 변수 초기화

@@ -29,8 +29,8 @@ public class GameFloorTile : MonoBehaviour
     public static float stepRecordTime;
     public static List<float> steps;
 
-    public static List<float> left;
-    public static List<float> right;
+    public static float lastPositionLeftFootY;
+    public static float lastPositionRightFootY;
 
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
@@ -73,14 +73,15 @@ public class GameFloorTile : MonoBehaviour
 
         // UI 타이머 배열 초기화
         uiTimer = new float[5] { 0, 0, 0, 0, 0 };
+
+        lastPositionLeftFootY = 10;
+        lastPositionRightFootY = 10;
     }
 
     // 걸음 시간 리스트 초기화 (0)
     public static void InitialStepRecords()
     {
         steps = Enumerable.Repeat<float>(0, 5).ToList<float>();
-        left = Enumerable.Repeat<float>(5, 5).ToList<float>();
-        right = Enumerable.Repeat<float>(5, 5).ToList<float>();
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
@@ -100,7 +101,13 @@ public class GameFloorTile : MonoBehaviour
         // 아바타와 바닥 UI 상호작용
         if (GameManager.instance.GetKinectState() && GameManager.instance.GetGameState() == GameState.game)
             HandleFloorTiles();
-        HandleJump();
+
+
+        // 점프 판정
+        // HandleJump();
+        HandleJump2();
+
+
         HandleSteps();
         HandleAvatarPunch();
 
@@ -232,41 +239,13 @@ public class GameFloorTile : MonoBehaviour
     // 점프 조건
     void HandleJump()
     {
-        bool jump = true;
-        for (int i = 0; i < left.Count - 1 ; i++) {
-            if (left[i] >= left[i + 1] || right[i] >= right[i + 1])
-                jump = false;
-        }
-        isJumping = jump;
-
-        left.Add(Avatar.userPositionLeftFoot.y);
-        right.Add(Avatar.userPositionRightFoot.y);
-        left.RemoveAt(0);
-        right.RemoveAt(0);
-        Debug.Log("left: " + left);
-        Debug.Log("right: " + right);
-
-        // isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
-        // CountJumpDelay();
+        isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
     }
 
-    void CountJumpDelay() {
-        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-        if (isJumping == false)
-        {
-            if (Avatar.userPositionLeftFoot.y > 1.6 && Avatar.userPositionRightFoot.y > 1.6)
-            {
-                watch.Start();
-            }
-            else
-                watch.Reset();
-        }
-
-
-        isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
-        watch.Stop();
-        Debug.Log("Jump delay time : " + watch.ElapsedMilliseconds + " ms");
-        watch.Reset();
+    void HandleJump2() {
+        isJumping = lastPositionLeftFootY + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFootY + 0.3f < Avatar.userPositionRightFoot.y;
+        lastPositionLeftFootY = Avatar.userPositionLeftFoot.y;
+        lastPositionRightFootY = Avatar.userPositionRightFoot.y;
     }
 
     // 펀치 조건

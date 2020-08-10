@@ -168,6 +168,7 @@
     <Compile Include="Assets\Scripts\Avatar.cs" />
     <Compile Include="Assets\Scripts\ConstInfo.cs" />
     <Compile Include="Assets\Scripts\Game\GameFloorTile.cs" />
+    <Compile Include="Assets\Scripts\Game\Ground.cs" />
     <Compile Include="Assets\Scripts\Game\Highlight.cs" />
     <Compile Include="Assets\Scripts\Game\Player.cs" />
     <Compile Include="Assets\Scripts\Game\Tile.cs" />
