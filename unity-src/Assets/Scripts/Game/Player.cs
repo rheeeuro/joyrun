@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (GameManager.instance.GetGameState() == GameState.game)
-            HandleGame(GameUI.timer);
+            HandleGame(GameUI.instance.timer);
         else
             animator.runtimeAnimatorController = Setting.GetCurrentMovingState() == MovingState.animation ? animIdle as RuntimeAnimatorController : null;
     }
@@ -213,16 +213,16 @@ public class Player : MonoBehaviour
             else if (hp > 100)
                 hp = 100;
         }
-        GameUI.instance.damageTimer = ConstInfo.damageShowTime;
+        GameUI.instance.damageEffectTimer = ConstInfo.damageShowTime;
     }
 
     // 점수 계산 알고리즘
     void CaculatePoint()
     {
-        point = combo + (int)(60f - GameUI.timer);
+        point = combo + (int)(60f - GameUI.instance.timer);
 
         ResultUI.instance.maxCombo.text = "최대 콤보 횟수 : " + maxCombo.ToString() + " 회";
-        ResultUI.instance.playTime.text = "진행 시간 : " + (60 - GameUI.timer) + " 초";
+        ResultUI.instance.playTime.text = "진행 시간 : " + (60 - GameUI.instance.timer) + " 초";
         ResultUI.instance.point.text = "점수 : " + point;
         MyRankUI.instance.point.text = "점수 : " + point;
     }

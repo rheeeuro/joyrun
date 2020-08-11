@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MyRankUI : MonoBehaviour
 {
+    // 인스턴스 변수 선언
     public static MyRankUI instance;
 
     // 내 등수 표시 관련 변수
@@ -13,10 +14,7 @@ public class MyRankUI : MonoBehaviour
     public Text ranking;
     public Text point;
 
-    void Awake()
-    {
-        instance = this;     
-    }
+    void Awake() { instance = this; }
 
     void Start()
     {
@@ -31,6 +29,8 @@ public class MyRankUI : MonoBehaviour
         transform.gameObject.SetActive(true);
     }
     
+
+
     // 재시작 버튼을 누른 경우
     public void HandleRetry()
     {
@@ -56,8 +56,6 @@ public class MyRankUI : MonoBehaviour
                 "5. " + PlayerPrefs.GetInt("4") + "\n";
         }
     }
-
-
 }
 
 

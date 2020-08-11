@@ -6,15 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class RankingUI : MonoBehaviour
 {
+    // 인스턴스 변수 선언
     public static RankingUI instance;
 
     // 랭킹 텍스트 변수
     public Text ranking;
 
-    void Awake()
-    {
-        instance = this;
-    }
+    void Awake() { instance = this; }
 
     // 시작시 안보이도록 설정
     void Start()
@@ -30,13 +28,14 @@ public class RankingUI : MonoBehaviour
         transform.gameObject.SetActive(true);   
     }
 
+
+
     // 취소 버튼을 누른 경우
     public void HandleCancel()
     {
         transform.gameObject.SetActive(false);
         MenuUI.instance.Show();
     }
-
 
     // 랭킹을 업데이트
     public void UpdateRanking()

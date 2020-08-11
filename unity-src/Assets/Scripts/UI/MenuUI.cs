@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// 메뉴 상태 (선택 하이라이트, 0: 게임시작, 1: 환경설정, 2: 랭킹, 3: 게임종료)
 public enum MenuState
 {
     start,
@@ -13,7 +14,7 @@ public enum MenuState
 
 public class MenuUI : MonoBehaviour
 {
-
+    // 인스턴스 및 현재 선택한 메뉴 항목
     public static MenuUI instance;
     private MenuState currentMenuState;
 
@@ -27,10 +28,7 @@ public class MenuUI : MonoBehaviour
     public GameObject rankingButton;
     public GameObject quitButton;
 
-    void Awake()
-    {
-        instance = this;
-    }
+    void Awake() { instance = this; }    
 
     // 초기에는 게임시작 버튼 하이라이트
     void Start()
@@ -38,16 +36,21 @@ public class MenuUI : MonoBehaviour
         currentMenuState = MenuState.start;
     }
 
+
+
+    // 메뉴 UI 보여주기
+    public void Show()
+    {
+        GameManager.instance.SetGameState(GameState.menu);
+        transform.gameObject.SetActive(true);
+    }
+
+
+
     void Update()
     {
         UnselectButtons();
         HandleMenuState();
-    }
-
-    // 메뉴 UI 보여주기
-    public void Show() {
-        GameManager.instance.SetGameState(GameState.menu);
-        transform.gameObject.SetActive(true);
     }
 
     // 모든 버튼을 선택 해제
@@ -78,7 +81,9 @@ public class MenuUI : MonoBehaviour
         }
     }
 
-    // 위 방향 버튼을 눌렀을 경우
+
+
+    // 위 방향 버튼을 누른 경우
     public void HandleUp() {
         if (currentMenuState == MenuState.start)
             currentMenuState = MenuState.quit;
@@ -86,7 +91,7 @@ public class MenuUI : MonoBehaviour
             currentMenuState--;
     }
 
-    // 아래 방향 버튼을 눌렀을 경우
+    // 아래 방향 버튼을 누른 경우
     public void HandleDown() {
         if (currentMenuState == MenuState.quit)
             currentMenuState = MenuState.start;
@@ -94,7 +99,7 @@ public class MenuUI : MonoBehaviour
             currentMenuState++;
     }
 
-    // 확인 버튼을 눌렀을 경우
+    // 확인 버튼을 누른 경우
     public void HandleConfirm() {
         switch (currentMenuState) {
             case MenuState.start:
@@ -118,20 +123,21 @@ public class MenuUI : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    // 환경설정을 고르고 확인 버튼을 누른 경우
     public void HandleSetting()
     {
         transform.gameObject.SetActive(false);
         SettingUI.instance.Show();
     }
 
-    // 랭킹 상태에서 확인 버튼을 눌렀을 경우
+    // 랭킹을 고르고 확인 버튼을 누른 경우
     public void HandleRanking()
     {
         transform.gameObject.SetActive(false);
         RankingUI.instance.Show();
     }
 
-    // 종료 상태에서 확인 버튼을 눌렀을 경우
+    // 게임 종료를 고르고 확인 버튼을 누른 경우
     public void HandleQuit()
     {
         Application.Quit();

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ResultUI : MonoBehaviour
 {
+    // 인스턴스 변수 선언
     public static ResultUI instance;
 
     // 결과 텍스트 변수
@@ -13,10 +14,7 @@ public class ResultUI : MonoBehaviour
     public Text playTime;
     public Text point;
 
-    void Awake() { 
-        instance = this;
-        
-    }
+    void Awake() { instance = this; }
 
     void Start()
     {
@@ -29,6 +27,8 @@ public class ResultUI : MonoBehaviour
         GameManager.instance.SetGameState(GameState.result);
         transform.gameObject.SetActive(true);
     }
+
+
 
     // 다음페이지 버튼을 누른 경우
     public void HandleNextPage()

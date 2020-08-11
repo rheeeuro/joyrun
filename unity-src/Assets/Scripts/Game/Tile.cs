@@ -241,9 +241,9 @@ public class Tile : MonoBehaviour
 
     // 이벤트 발생 알고리즘 (애니메이션)
     void HandleTileAnimation() {
-        if (GameUI.timer <= ConstInfo.gameTime - ConstInfo.obstableAnimStartTime)
+        if (GameUI.instance.timer <= ConstInfo.gameTime - ConstInfo.obstableAnimStartTime)
             HandleObstacleAnimation();
-        if (GameUI.timer <= ConstInfo.gameTime - ConstInfo.trapAnimStartTime)
+        if (GameUI.instance.timer <= ConstInfo.gameTime - ConstInfo.trapAnimStartTime)
             HandleTrapAnimation();
     }
 
