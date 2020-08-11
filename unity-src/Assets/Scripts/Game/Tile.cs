@@ -270,7 +270,7 @@ public class Tile : MonoBehaviour
             Player.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
-        activatedTiles[index].GetComponent<Animation>()[animationName].speed = ConstInfo.tileAnimationLength / (80 / actualSpeed);
+        activatedTiles[index].GetComponent<Animation>()[animationName].speed = (2 * actualSpeed * ConstInfo.tileAnimationLength) / (ConstInfo.tileStartPositionZ - ConstInfo.playerStartPositionZ - 12);
         activatedTiles[index].GetComponent<Animation>().Play(animationName);
     }
 

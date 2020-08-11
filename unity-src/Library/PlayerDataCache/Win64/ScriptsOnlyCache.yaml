@@ -6,6 +6,7 @@ ScriptsOnlyBuild:
     - GameManager
     - GameUI
     - Ground
+    - Highlight
     - MenuFloorTile
     - MenuUI
     - MyRankUI
@@ -99,6 +100,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 10198}
     - Class: 114
       Script: {instanceID: 10200}
+    - Class: 114
+      Script: {instanceID: 10304}
     - Class: 114
       Script: {instanceID: 10326}
     - Class: 114
@@ -255,7 +258,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11750}
     - Class: 114
-      Script: {instanceID: 27474}
+      Script: {instanceID: 25158}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120

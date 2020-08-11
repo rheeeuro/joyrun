@@ -2638,6 +2638,7 @@ GameObject:
   - component: {fileID: 783829798}
   - component: {fileID: 783829797}
   - component: {fileID: 783829796}
+  - component: {fileID: 783829799}
   m_Layer: 0
   m_Name: centerTile-highlight
   m_TagString: Untagged
@@ -2718,6 +2719,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783829794}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &783829799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783829794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc88af3f089751488efdaf5cf7c29dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primarycolor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &805185110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3585,6 +3599,7 @@ GameObject:
   - component: {fileID: 1164015390}
   - component: {fileID: 1164015389}
   - component: {fileID: 1164015388}
+  - component: {fileID: 1164015391}
   m_Layer: 0
   m_Name: leftTile-highlight
   m_TagString: Untagged
@@ -3665,6 +3680,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164015386}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1164015391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164015386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc88af3f089751488efdaf5cf7c29dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primarycolor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1194199072
 GameObject:
   m_ObjectHideFlags: 0
@@ -4548,6 +4576,7 @@ GameObject:
   - component: {fileID: 1673143663}
   - component: {fileID: 1673143662}
   - component: {fileID: 1673143661}
+  - component: {fileID: 1673143664}
   m_Layer: 0
   m_Name: rightTile-highlight
   m_TagString: Untagged
@@ -4628,6 +4657,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673143659}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1673143664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673143659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc88af3f089751488efdaf5cf7c29dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primarycolor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1685579542
 GameObject:
   m_ObjectHideFlags: 0
@@ -5298,7 +5340,6 @@ MonoBehaviour:
   barHp: {fileID: 322625801}
   comboTimer: 0
   damageTimer: 0
-  currentSpeed: 0
 --- !u!114 &1849435086
 MonoBehaviour:
   m_ObjectHideFlags: 0
