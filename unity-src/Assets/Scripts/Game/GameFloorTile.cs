@@ -89,33 +89,22 @@ public class GameFloorTile : MonoBehaviour
     {
         stepRecordTime += Time.fixedDeltaTime;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         HandleTileActive();
-
-        // 위치 업데이트
         HandleFootPrint();
-
-        // 아바타와 바닥 UI 상호작용
         if (GameManager.instance.GetKinectState() && GameManager.instance.GetGameState() == GameState.game)
-            HandleFloorTiles();
-
-
-        // 점프 판정 (버전 확인)
-        HandleJump5();
-
-
-        HandleSteps();
-        HandleAvatarPunch();
-
+            HandleHighlight();
+        HandleUserAction();
         HandleGameTiles();
         HandleKeyboard();
         // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
         if (GameManager.instance.GetKinectState())
             HandlePause();
     }
+
+
 
     // 바닥 UI 타일 보여주기, 감추기
     void HandleTileActive()
@@ -178,6 +167,8 @@ public class GameFloorTile : MonoBehaviour
         }
     }
 
+
+
     // 발 위치 원 설정
     void HandleFootPrint()
     {
@@ -186,11 +177,18 @@ public class GameFloorTile : MonoBehaviour
     }
 
     // 바닥 스크린들의 밟은 판정   
-    void HandleFloorTiles()
+    void HandleHighlight()
     {
-        HandleFloorTile(Player.highlight, leftFloorTile, ConstInfo.left);
-        HandleFloorTile(Player.highlight, centerFloorTile, ConstInfo.center);
-        HandleFloorTile(Player.highlight, rightFloorTile, ConstInfo.right);
+        HandleHighlightPosition(Player.instance.highlight, leftFloorTile, ConstInfo.left);
+        HandleHighlightPosition(Player.instance.highlight, centerFloorTile, ConstInfo.center);
+        HandleHighlightPosition(Player.instance.highlight, rightFloorTile, ConstInfo.right);
+    }
+
+    // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
+    void HandleHighlightPosition(GameObject highlight, GameObject floorTile, float positionX)
+    {
+        if (Avatar.OnTile(floorTile))
+            highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
     // 발 위치 원 좌표 변경
@@ -209,11 +207,13 @@ public class GameFloorTile : MonoBehaviour
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, ConstInfo.foorPrintScaleY, newRightFootPrintSize);
     }
 
-    // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
-    void HandleFloorTile(GameObject highlight, GameObject floorTile, float positionX)
-    {
-        if (Avatar.OnTile(floorTile))
-            highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
+
+
+    // 점프, 걸음, 펀치 판정
+    void HandleUserAction() {
+        HandleJump(); // 점프 판정 (버전 확인)
+        HandleSteps();
+        HandleAvatarPunch();
     }
 
     // 결음 기록 조건 만족 시 함수 호출
@@ -235,48 +235,16 @@ public class GameFloorTile : MonoBehaviour
         stepRecordTime = 0;
     }
 
-    // 점프 조건
-    void HandleJump()
-    {
-        isJumping = Avatar.userPositionLeftFoot.y > ConstInfo.jumpConditionY && Avatar.userPositionRightFoot.y > ConstInfo.jumpConditionY;
-    }
-
-    void HandleJump2() {
-        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
-            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0;
-        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
-        lastPositionRightFoot = Avatar.userPositionRightFoot;
-    }
-
-    void HandleJump3()
-    {
-        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
+    // 점프 조건 (이전 프레임보다 양 발 모두 jumpHeight 이상 증가 + 발높이 차가 0.3 이하 + 양발의 x변화량이 5 미만)
+    void HandleJump() {
+        isJumping = lastPositionLeftFoot.y + ConstInfo.jumpHeight < Avatar.userPositionLeftFoot.y
+            && lastPositionRightFoot.y + ConstInfo.jumpHeight < Avatar.userPositionRightFoot.y
             && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
-            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < 0.3f;
-        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
-        lastPositionRightFoot = Avatar.userPositionRightFoot;
-    }
-
-    void HandleJump4()
-    {
-        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
-            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
+            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpYLimitBetweenFoots
             && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < 5
             && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
         lastPositionLeftFoot = Avatar.userPositionLeftFoot;
         lastPositionRightFoot = Avatar.userPositionRightFoot;
-    }
-
-    void HandleJump5() {
-        isJumping = lastPositionLeftFoot.y + 0.3f < Avatar.userPositionLeftFoot.y && lastPositionRightFoot.y + 0.3f < Avatar.userPositionRightFoot.y
-            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
-            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < 0.3f
-            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < 5
-            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
-
-        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
-        lastPositionRightFoot = Avatar.userPositionRightFoot;
-
     }
 
     // 펀치 조건
@@ -288,6 +256,8 @@ public class GameFloorTile : MonoBehaviour
         else
             isPunching = false;
     }
+
+
 
     // 게임 바닥타일과 유저의 상호작용
     void HandleGameTiles() {
@@ -317,13 +287,67 @@ public class GameFloorTile : MonoBehaviour
             uiTimer[4] = 0;
     }
 
+
+
+    // 일시정지의 새 게임 버튼을 누른 경우
+    void HandleNewGameTilePause() {
+        uiTimer[0] += Time.deltaTime;
+        if (uiTimer[0] > ConstInfo.buttonPushTime) {
+            uiTimer[0] = 0;
+            GameUI.instance.HandleNewGame();
+        }
+    }
+
+    // 게임결과의 다시하기 버튼을 누른 경우 (내 점수 화면)
+    void HandleNewGameTileResult()
+    {
+        uiTimer[3] += Time.deltaTime;
+        if (uiTimer[3] > ConstInfo.buttonPushTime)
+        {
+            uiTimer[3] = 0;
+            MyRankUI.instance.HandleRetry();
+        }
+    }
+
+    // 일시정지의 메뉴 버튼을 누른 경우
+    void HandleToMenuTilePause() {
+        uiTimer[1] += Time.deltaTime;
+        if (uiTimer[1] > ConstInfo.buttonPushTime) {
+            uiTimer[1] = 0;
+            GameUI.instance.HandleToMenu();
+        }
+    }
+
+    // 게임결과의 메뉴버튼을 누른경우 (내 점수 화면)
+    void HandleToMenuTileResult()
+    {
+        uiTimer[4] += Time.deltaTime;
+        if (uiTimer[4] > ConstInfo.buttonPushTime)
+        {
+            uiTimer[4] = 0;
+            MyRankUI.instance.HandleToMenu();
+        }
+    }
+
+    // 다음 페이지 버튼을 누른 경우 (결과 화면)
+    void HandleNextPageTile() {
+        uiTimer[2] += Time.deltaTime;
+        if (uiTimer[2] > ConstInfo.buttonPushTime)
+        {
+            uiTimer[2] = 0;
+            ResultUI.instance.HandleNextPage();
+        }
+    }
+
+
+
     // 일시정지와 다시시작 조건
     void HandlePause()
     {
 
         if (Avatar.GetUserValid())
         {
-            if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y 
+            if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y
                 && Avatar.userPositionRightHand.y > Avatar.userPositionHead.y)
                 && Avatar.OnCircleTile(centerTile) && GameManager.instance.GetGameState() == GameState.pause)
                 GameUI.instance.Pause();
@@ -336,96 +360,72 @@ public class GameFloorTile : MonoBehaviour
 
     }
 
-    // 새 게임 버튼을 누른 경우
-    void HandleNewGameTilePause() {
-        uiTimer[0] += Time.deltaTime;
-        if (uiTimer[0] > ConstInfo.pushTime) {
-            uiTimer[0] = 0;
-            GameUI.instance.HandleNewGame();
-        }
-    }
 
-    void HandleNewGameTileResult()
-    {
-        uiTimer[3] += Time.deltaTime;
-        if (uiTimer[3] > ConstInfo.pushTime)
-        {
-            uiTimer[3] = 0;
-            MyRankUI.instance.HandleRetry();
-        }
-    }
-
-    // 메뉴로 버튼을 누른 경우
-    void HandleToMenuTilePause() {
-        uiTimer[1] += Time.deltaTime;
-        if (uiTimer[1] > ConstInfo.pushTime) {
-            uiTimer[1] = 0;
-            GameUI.instance.HandleToMenu();
-        }
-    }
-
-    void HandleToMenuTileResult()
-    {
-        uiTimer[4] += Time.deltaTime;
-        if (uiTimer[4] > ConstInfo.pushTime)
-        {
-            uiTimer[4] = 0;
-            MyRankUI.instance.HandleToMenu();
-        }
-    }
-
-    // 다음 페이지 버튼을 누른 경우
-    void HandleNextPageTile() {
-        uiTimer[2] += Time.deltaTime;
-        if (uiTimer[2] > ConstInfo.pushTime)
-        {
-            uiTimer[2] = 0;
-            ResultUI.instance.HandleNextPage();
-        }
-    }
 
     // 키보드 입력
     void HandleKeyboard()
     {
-        if (Input.GetKey(KeyCode.LeftArrow) && GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.game)
+            HandleKeyboardGame();
+        if (GameManager.instance.GetGameState() == GameState.pause)
+            HandleKeyboardPause();
+        if (GameManager.instance.GetGameState() == GameState.result)
+            HandleKeyboardResult();
+        if (GameManager.instance.GetGameState() == GameState.myRank)
+            HandleKeyboardMyRank();
+
+        if (Input.GetKeyDown(KeyCode.Backspace) 
+            && (GameManager.instance.GetGameState() == GameState.pause || GameManager.instance.GetGameState() == GameState.game))
+            GameUI.instance.Pause();
+    }
+
+    // 게임 화면의 키보드 상호작용
+    void HandleKeyboardGame() {
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Player.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         }
-        if (Input.GetKey(KeyCode.DownArrow) && GameManager.instance.GetGameState() == GameState.game)
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            Player.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         }
-        if (Input.GetKey(KeyCode.RightArrow) && GameManager.instance.GetGameState() == GameState.game)
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            Player.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
         }
+
         if (Input.GetKey(KeyCode.LeftAlt))
             isJumping = true;
         if (Input.GetKey(KeyCode.LeftControl))
-            Tile.extraSpeed += 0.1f;
+            Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
         if (Input.GetKey(KeyCode.LeftShift))
             isPunching = true;
+    }
 
-
-        if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.pause || GameManager.instance.GetGameState() == GameState.game))
-            GameUI.instance.Pause();
-
-            if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.pause)
+    // 일시정지 상태의 키보드 상호작용
+    void HandleKeyboardPause() {
+        if (Input.GetKey(KeyCode.Alpha1))
             GameUI.instance.HandleToMenu();
-        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.pause)
+        if (Input.GetKey(KeyCode.Alpha2))
             GameUI.instance.HandleNewGame();
+    }
 
+    // 결과 상태의 키보드 상호작용
+    void HandleKeyboardResult()
+    {
         if (Input.GetKey(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.result)
             ResultUI.instance.HandleNextPage();
+    }
 
+    // 내 점수 상태의 키보드 상호작용
+    void HandleKeyboardMyRank()
+    {
         if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.myRank)
             MyRankUI.instance.HandleToMenu();
         if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.myRank)
             MyRankUI.instance.HandleRetry();
-
-
     }
 }

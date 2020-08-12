@@ -15,11 +15,7 @@ public class MyRankUI : MonoBehaviour
     public Text point;
 
     void Awake() { instance = this; }
-
-    void Start()
-    {
-        transform.gameObject.SetActive(false);
-    }
+    void Start() { transform.gameObject.SetActive(false); }
 
     // 보이도록 설정
     public void Show()
@@ -28,20 +24,16 @@ public class MyRankUI : MonoBehaviour
         UpdateRanking();
         transform.gameObject.SetActive(true);
     }
-    
+
 
 
     // 재시작 버튼을 누른 경우
-    public void HandleRetry()
-    {
-        SceneManager.LoadScene("Game");
-    }
+    public void HandleRetry() { SceneManager.LoadScene("Game"); }
 
     // 메뉴로 버튼을 누른 경우
-    public void HandleToMenu()
-    {
-        SceneManager.LoadScene("Menu");
-    }
+    public void HandleToMenu() { SceneManager.LoadScene("Menu"); }
+
+
 
     // 랭킹을 업데이트
     public void UpdateRanking()

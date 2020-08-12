@@ -8,11 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    // 인스턴스 변수 선언
     public static Player instance;
 
     // 오브젝트 변수 선언
-    public static GameObject player;
-    public static GameObject highlight;
+    public GameObject player;
+    public GameObject highlight;
 
     // 애니매이터 변수 선언
     Animator animator;
@@ -25,11 +26,11 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animJump;
 
     // 점프 관련 번수 선언
-    public static bool isJumping;
-    public static float jumpTimer;
+    public bool isJumping;
+    public float jumpTimer;
 
     //점수 변수 선언
-    public static int point;
+    public int point;
 
     // 콤보, 체력 관련 변수, 상수 선언
     public int maxCombo;
@@ -37,32 +38,24 @@ public class Player : MonoBehaviour
     public int hp;
 
     // 인스턴스 설정
-    private void Awake()
-    {
-        instance = this;
-    }
+    private void Awake() { instance = this; }
 
     void Start()
     {
+        InitialObjects();
         InitialValues();
+        LoadPrefabs();
     }
 
-    void Update()
-    {
-        if (GameManager.instance.GetGameState() == GameState.game)
-            HandleGame(GameUI.instance.timer);
-        else
-            animator.runtimeAnimatorController = Setting.GetCurrentMovingState() == MovingState.animation ? animIdle as RuntimeAnimatorController : null;
+    // 오브젝트 변수 초기화
+    void InitialObjects() {
+        player = gameObject;
+        highlight = GameObject.Find("highlight");
     }
 
     // 변수 초기화
     void InitialValues()
     {
-        // 오브젝트 변수 초기화
-        player = gameObject;
-        highlight = GameObject.Find("highlight");
-        InitializePrefabs();
-
         isJumping = false;
         jumpTimer = 0;
         point = 0;
@@ -71,16 +64,8 @@ public class Player : MonoBehaviour
         hp = ConstInfo.startHp;
     }
 
-    void HandleGame(float timer) {
-        if (timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal)
-            GameEnd();
-        else
-            HandlePlayer();
-    }
-
-
     // 프리팹 불러오기
-    void InitializePrefabs()
+    void LoadPrefabs()
     {
         animator = GetComponent<Animator>();
         player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
@@ -89,22 +74,50 @@ public class Player : MonoBehaviour
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
-
     }
+
+
+
+    void Update()
+    {
+        if (GameManager.instance.GetGameState() == GameState.game)
+            HandleGame(GameUI.instance.timer);
+        else
+            animator.runtimeAnimatorController = Setting.GetCurrentAnimationState() == AnimationState.animation ? animIdle as RuntimeAnimatorController : null;
+    }
+
+    // 시간, 체력에 따른 게임 동작 설정
+    void HandleGame(float timer) {
+        if ((timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal) || hp == 0)
+            GameEnd();
+        else
+            HandlePlayer();
+    }
+
+
 
     // 플레이어 점프, 이동 설정 알고리즘
     void HandlePlayer()
     {
+        HandlePlayerState();
+        HandlePlayerAction();
+    }
+
+    // 플레이어 상태 업데이트 (체력, 위치)
+    void HandlePlayerState() {
         if (Setting.GetCurrentHpState() == HpState.immortal)
             hp = 100;
-
         if (GameManager.instance.GetKinectState())
             HandlePlayerPosition();
+    }
 
+    // 플레이어 동작 업데이트
+    void HandlePlayerAction()
+    {
         if (isJumping)
             HandlePlayerJumping();
         else
-            HandlePlayerMoving(Setting.GetCurrentMovingState());
+            HandlePlayerMoving(Setting.GetCurrentAnimationState());
     }
 
     // 플레이어 점프 애니메이션, 점프 타이머 설정
@@ -113,26 +126,24 @@ public class Player : MonoBehaviour
         animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
         jumpTimer += Time.deltaTime;
         if (jumpTimer >= ConstInfo.jumpTime)
-        {
-            animator.runtimeAnimatorController = null;
             InitialJumpState();
-        }
-
     }
 
-    public static void InitialJumpState() {
+    // 점프 상태 초기화
+    public void InitialJumpState() {
+        if(Setting.GetCurrentAnimationState() == AnimationState.kinect)
+            animator.runtimeAnimatorController = null;
         isJumping = false;
         jumpTimer = 0;
     }
 
-    void HandlePlayerMoving(MovingState state)
+    // 플레이어 동작 상태 설정
+    void HandlePlayerMoving(AnimationState state)
     {
-        if(state == MovingState.kinect)
+        if(state == AnimationState.kinect)
             animator.runtimeAnimatorController = null;
-        else if (state == MovingState.animation)// 플레이어 달리기 애니메이션 
+        else if (state == AnimationState.animation)
             HandlePlayerRuntimeAnimatorController(Tile.actualSpeed);
-
-
         isJumping = GameFloorTile.isJumping;
     }
 
@@ -145,89 +156,67 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = animRun as RuntimeAnimatorController;
         else
             animator.runtimeAnimatorController = animSprint as RuntimeAnimatorController;
-
     }
 
     // 아바타 위치로 플레이어 위치 고정
-    public static void HandlePlayerPosition()
+    public void HandlePlayerPosition()
     {
-        player.transform.position = 
-            new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-
+        player.transform.position = new Vector3(Avatar.userPosition.x * (ConstInfo.tileScaleX / ConstInfo.floorTileScaleX) + ConstInfo.center, 
+            ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
     }
 
+
+
     // 하트에 충돌 시
-    public void MeetHeart()
+    public void HeartCollision()
     {
         combo += ConstInfo.heartTileComboIncrease;
         GameUI.instance.ChangeCombo(combo);
-
-        if (hp < ConstInfo.maxHp)
-        {
-            hp = hp + ConstInfo.heartTileHpIncrease;
-
-            if (hp > ConstInfo.maxHp)
-                hp = ConstInfo.maxHp;
-        }
+        hp = hp + ConstInfo.heartTileHpIncrease > ConstInfo.maxHp ? ConstInfo.maxHp : hp + ConstInfo.heartTileHpIncrease;
     }
 
     // 풍선에 닿을 시
-    public void MeetBalloon()
+    public void BalloonCollision()
     {
         combo += ConstInfo.balloonComboIncrease;
         GameUI.instance.ChangeCombo(combo);
     }
 
     // 장애물에 층돌 시
-    public void MeetObstacle()
+    public void ObstacleCollision()
     {
         Tile.extraSpeed = 0;
         combo = 0;
-        HavaDamaged();
-
+        Damaged();
     }
 
     // 빈 칸을 지날 시
-    public void MeetEmpty()
+    public void EmptyCollision()
     {
         combo += ConstInfo.emptyTileComboIncrease;
         GameUI.instance.ChangeCombo(combo);
     }
 
+
+
     // 데미지 판정 알고리즘
-    public void HavaDamaged()
+    public void Damaged()
     {
+        int hpDecrease = (hp / 2) > 10 ? (hp / 2) : 10;
         if (Setting.GetCurrentHpState() == HpState.normal)
-        {
-            if ((hp / 2) > 10)
-                hp -= (hp / 2);
-            else
-                hp -= 10;
-
-
-            if (hp <= 0)
-            {
-                hp = 0;
-                GameEnd();
-            }
-            else if (hp > 100)
-                hp = 100;
-        }
+            hp = hp - hpDecrease > 0 ? hp - hpDecrease : 0;
         GameUI.instance.damageEffectTimer = ConstInfo.damageShowTime;
     }
 
     // 점수 계산 알고리즘
     void CaculatePoint()
     {
-        point = combo + (int)(60f - GameUI.instance.timer);
-
+        point = combo + (int)(60 - GameUI.instance.timer);
         ResultUI.instance.maxCombo.text = "최대 콤보 횟수 : " + maxCombo.ToString() + " 회";
         ResultUI.instance.playTime.text = "진행 시간 : " + (60 - GameUI.instance.timer) + " 초";
         ResultUI.instance.point.text = "점수 : " + point;
         MyRankUI.instance.point.text = "점수 : " + point;
     }
-
-
 
     // 게임 종료 알고리즘
     public void GameEnd()

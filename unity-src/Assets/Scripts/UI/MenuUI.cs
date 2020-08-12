@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // 메뉴 상태 (선택 하이라이트, 0: 게임시작, 1: 환경설정, 2: 랭킹, 3: 게임종료)
-public enum MenuState
+public enum MenuChoice
 {
     start,
     setting,
@@ -16,7 +16,7 @@ public class MenuUI : MonoBehaviour
 {
     // 인스턴스 및 현재 선택한 메뉴 항목
     public static MenuUI instance;
-    private MenuState currentMenuState;
+    private MenuChoice currentMenuChoice;
 
     // 색상 변수
     private Color selectedColor = Color.yellow;
@@ -28,13 +28,10 @@ public class MenuUI : MonoBehaviour
     public GameObject rankingButton;
     public GameObject quitButton;
 
-    void Awake() { instance = this; }    
+    void Awake() { instance = this; }
 
     // 초기에는 게임시작 버튼 하이라이트
-    void Start()
-    {
-        currentMenuState = MenuState.start;
-    }
+    void Start() { currentMenuChoice = MenuChoice.start; }
 
 
 
@@ -50,7 +47,7 @@ public class MenuUI : MonoBehaviour
     void Update()
     {
         UnselectButtons();
-        HandleMenuState();
+        HandleMenuChoice();
     }
 
     // 모든 버튼을 선택 해제
@@ -63,19 +60,19 @@ public class MenuUI : MonoBehaviour
     }
 
     // 메뉴 상태에 따라 버튼 선택 (색상 변경) 
-    void HandleMenuState() {
-        switch (currentMenuState)
+    void HandleMenuChoice() {
+        switch (currentMenuChoice)
         {
-            case MenuState.start:
+            case MenuChoice.start:
                 startButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
-            case MenuState.setting:
+            case MenuChoice.setting:
                 settingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
-            case MenuState.ranking:
+            case MenuChoice.ranking:
                 rankingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
-            case MenuState.quit:
+            case MenuChoice.quit:
                 quitButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
         }
@@ -85,33 +82,33 @@ public class MenuUI : MonoBehaviour
 
     // 위 방향 버튼을 누른 경우
     public void HandleUp() {
-        if (currentMenuState == MenuState.start)
-            currentMenuState = MenuState.quit;
+        if (currentMenuChoice == MenuChoice.start)
+            currentMenuChoice = MenuChoice.quit;
         else
-            currentMenuState--;
+            currentMenuChoice--;
     }
 
     // 아래 방향 버튼을 누른 경우
     public void HandleDown() {
-        if (currentMenuState == MenuState.quit)
-            currentMenuState = MenuState.start;
+        if (currentMenuChoice == MenuChoice.quit)
+            currentMenuChoice = MenuChoice.start;
         else
-            currentMenuState++;
+            currentMenuChoice++;
     }
 
     // 확인 버튼을 누른 경우
     public void HandleConfirm() {
-        switch (currentMenuState) {
-            case MenuState.start:
+        switch (currentMenuChoice) {
+            case MenuChoice.start:
                 HandleStart();
                 break;
-            case MenuState.setting:
+            case MenuChoice.setting:
                 HandleSetting();
                 break;
-            case MenuState.ranking:
+            case MenuChoice.ranking:
                 HandleRanking();
                 break;
-            case MenuState.quit:
+            case MenuChoice.quit:
                 HandleQuit();
                 break;
         }

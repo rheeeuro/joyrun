@@ -20,27 +20,22 @@ public class Highlight : MonoBehaviour
     void Update()
     {
         rend.material.SetColor("_Color", primarycolor);
-
         switch (gameObject.name)
         {
             case "leftTile-highlight":
-                if (Player.highlight.transform.position.x == ConstInfo.left)
+                if (Player.instance.highlight.transform.position.x == ConstInfo.left)
                     rend.material.SetColor("_Color", Color.yellow);
                 break;
             case "centerTile-highlight":
-                if (Player.highlight.transform.position.x == ConstInfo.center)
+                if (Player.instance.highlight.transform.position.x == ConstInfo.center)
                     rend.material.SetColor("_Color", Color.yellow);
                 break;
             case "rightTile-highlight":
-                if (Player.highlight.transform.position.x == ConstInfo.right)
+                if (Player.instance.highlight.transform.position.x == ConstInfo.right)
                     rend.material.SetColor("_Color", Color.yellow);
                 break;
         }
     }
-        
-
-
-
 }
 
 

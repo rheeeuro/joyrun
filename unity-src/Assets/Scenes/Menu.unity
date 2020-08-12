@@ -5805,6 +5805,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2406ac6fce9fca74f935c67b38185086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  highlight: {fileID: 0}
+  isJumping: 0
+  jumpTimer: 0
+  point: 0
   maxCombo: 0
   combo: 0
   hp: 0

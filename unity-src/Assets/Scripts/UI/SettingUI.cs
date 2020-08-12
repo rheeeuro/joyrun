@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // 환경설정 상태 (선택 하이라이트, 0: 애니메이션, 1: 체력제한, 2: 시간제한)
-public enum SettingState
+public enum SettingChoice
 {
     animation,
     hp,
@@ -15,7 +15,7 @@ public class SettingUI : MonoBehaviour
 {
     // 인스턴스 및 현재 선택된 항목 변수 선언
     public static SettingUI instance;
-    private SettingState currentSettingState;
+    private SettingChoice currentSettingChoice;
 
     // 색상 변수
     private Color selectedColor = Color.yellow;
@@ -31,7 +31,7 @@ public class SettingUI : MonoBehaviour
     
     void Start()
     {
-        currentSettingState = SettingState.animation;
+        currentSettingChoice = SettingChoice.animation;
         transform.gameObject.SetActive(false);
     }
 
@@ -45,7 +45,7 @@ public class SettingUI : MonoBehaviour
     void Update()
     {
         UnselectButtons();
-        HandleSettingState();
+        HandleSettingChoice();
         DisplaySettingText();
     }
 
@@ -59,16 +59,16 @@ public class SettingUI : MonoBehaviour
     }
 
     // 환경설정 상태에 따라 버튼 선택 (색상 변경) 
-    void HandleSettingState() {
-        switch (currentSettingState)
+    void HandleSettingChoice() {
+        switch (currentSettingChoice)
         {
-            case SettingState.animation:
+            case SettingChoice.animation:
                 animationButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
-            case SettingState.hp:
+            case SettingChoice.hp:
                 hpButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
-            case SettingState.time:
+            case SettingChoice.time:
                 timeButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 break;
         }
@@ -78,36 +78,36 @@ public class SettingUI : MonoBehaviour
 
     // 위 버튼을 누른 경우
     public void HandleUp(){
-        if (currentSettingState == SettingState.animation)
-            currentSettingState = SettingState.time;
+        if (currentSettingChoice == SettingChoice.animation)
+            currentSettingChoice = SettingChoice.time;
         else
-            currentSettingState--;
+            currentSettingChoice--;
     }
 
     // 아래 버튼을 누른 경우
     public void HandleDown() {
-        if (currentSettingState == SettingState.time)
-            currentSettingState = SettingState.animation;
+        if (currentSettingChoice == SettingChoice.time)
+            currentSettingChoice = SettingChoice.animation;
         else
-            currentSettingState++;
+            currentSettingChoice++;
     }
 
     // 왼쪽 버튼을 누른 경우 
     public void HandleLeft() {
-        switch (currentSettingState) {
-            case SettingState.animation:
-                if (Setting.GetCurrentMovingState() == MovingState.animation)
-                    Setting.SetCurrentMovingState(MovingState.kinect);
+        switch (currentSettingChoice) {
+            case SettingChoice.animation:
+                if (Setting.GetCurrentAnimationState() == AnimationState.animation)
+                    Setting.SetCurrentAnimationState(AnimationState.kinect);
                 else
-                    Setting.SetCurrentMovingState(Setting.GetCurrentMovingState()+1);
+                    Setting.SetCurrentAnimationState(Setting.GetCurrentAnimationState()+1);
                 break;
-            case SettingState.hp:
+            case SettingChoice.hp:
                 if (Setting.GetCurrentHpState() == HpState.immortal)
                     Setting.SetCurrentHpState(HpState.normal);
                 else
                     Setting.SetCurrentHpState(Setting.GetCurrentHpState() + 1);
                 break;
-            case SettingState.time:
+            case SettingChoice.time:
                 if (Setting.GetCurrentTimeState() == TimeState.infinite)
                     Setting.SetCurrentTimeState(TimeState.normal);
                 else
@@ -119,21 +119,21 @@ public class SettingUI : MonoBehaviour
 
     // 오른쪽 버튼을 누른 경우
     public void HandleRight() {
-        switch (currentSettingState)
+        switch (currentSettingChoice)
         {
-            case SettingState.animation:
-                if (Setting.GetCurrentMovingState() == MovingState.kinect)
-                    Setting.SetCurrentMovingState(MovingState.animation);
+            case SettingChoice.animation:
+                if (Setting.GetCurrentAnimationState() == AnimationState.kinect)
+                    Setting.SetCurrentAnimationState(AnimationState.animation);
                 else
-                    Setting.SetCurrentMovingState(Setting.GetCurrentMovingState() - 1);
+                    Setting.SetCurrentAnimationState(Setting.GetCurrentAnimationState() - 1);
                 break;
-            case SettingState.hp:
+            case SettingChoice.hp:
                 if (Setting.GetCurrentHpState() == HpState.normal)
                     Setting.SetCurrentHpState(HpState.immortal);
                 else
                     Setting.SetCurrentHpState(Setting.GetCurrentHpState() - 1);
                 break;
-            case SettingState.time:
+            case SettingChoice.time:
                 if (Setting.GetCurrentTimeState() == TimeState.normal)
                     Setting.SetCurrentTimeState(TimeState.infinite);
                 else
@@ -149,9 +149,11 @@ public class SettingUI : MonoBehaviour
         MenuUI.instance.Show();
     }
 
+
+
     // 설정된 환경설정 변수를 버튼에 출력
     public void DisplaySettingText() {
-        animationButton.GetComponentInChildren<Text>().text = Setting.GetCurrentMovingState().ToString();
+        animationButton.GetComponentInChildren<Text>().text = Setting.GetCurrentAnimationState().ToString();
         hpButton.GetComponentInChildren<Text>().text = Setting.GetCurrentHpState().ToString();
         timeButton.GetComponentInChildren<Text>().text = Setting.GetCurrentTimeState().ToString();
     }

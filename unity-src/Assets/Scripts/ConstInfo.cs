@@ -6,9 +6,12 @@ public static class ConstInfo
 {
     // < 공통 >
 
+    // 프레임
+    public const int gameFrameRate = 60;
+
     // 바닥 UI 관련 상수
     public const float buttonPushLimitY = 1.5f;
-    public const float pushTime = 0.8f;
+    public const float buttonPushTime = 0.8f;
     public const float floorTileScaleX = 9;
 
     // 바닥 UI 발 위치 원 관련 상수
@@ -16,7 +19,7 @@ public static class ConstInfo
     public const float foorPrintScaleY = 0.005f;
 
     // 초기설정값
-    public const MovingState InitialMovingState = MovingState.animation;
+    public const AnimationState InitialAnimationState = AnimationState.animation;
     public const HpState InitialHpState = HpState.normal;
     public const TimeState InitialTimeState = TimeState.normal;
 
@@ -47,7 +50,9 @@ public static class ConstInfo
 
     // 플레이어 동작 조건 관련 상수
     public const float stepCountY = 2;
-    public const float jumpConditionY = 2;
+    public const float jumpHeight = 0.3f;
+    public const float jumpYLimitBetweenFoots = 0.3f;
+    public const float jumpXChangeLimit = 5;
     public const float punchDistance = 3;
 
     // 타일 위치 관련 상수
@@ -64,6 +69,7 @@ public static class ConstInfo
     public const float actualSpeedMax = 90;
     public const float startTileDelay = 2;
     public const float tileDelayIncrease = 0.01f;
+    public const float extraSpeedIncrease = 0.1f;
 
     // 이벤트 시간 관련 상수
     public const float obstableAnimStartTime = 20;

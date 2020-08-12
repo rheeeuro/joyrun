@@ -15,10 +15,7 @@ public class RankingUI : MonoBehaviour
     void Awake() { instance = this; }
 
     // 시작시 안보이도록 설정
-    void Start()
-    {
-        transform.gameObject.SetActive(false);
-    }
+    void Start() { transform.gameObject.SetActive(false); }
 
     // 보이도록 설정
     public void Show()

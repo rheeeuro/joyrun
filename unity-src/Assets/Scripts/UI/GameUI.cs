@@ -158,20 +158,14 @@ public class GameUI : MonoBehaviour
         else
             GameManager.instance.SetGameState(GameState.pause);
         isPausing = !isPausing;
-        Player.InitialJumpState();
+        Player.instance.InitialJumpState();
     }
 
     // 새 게임 버튼을 누른 경우
-    public void HandleNewGame()
-    {
-        SceneManager.LoadScene("Game");
-    }
+    public void HandleNewGame() { SceneManager.LoadScene("Game"); }
 
     // 메뉴로 버튼을 누른 경우
-    public void HandleToMenu()
-    {
-        SceneManager.LoadScene("Menu");
-    }
+    public void HandleToMenu() { SceneManager.LoadScene("Menu"); }
 
 
 

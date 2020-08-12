@@ -15,11 +15,7 @@ public class ResultUI : MonoBehaviour
     public Text point;
 
     void Awake() { instance = this; }
-
-    void Start()
-    {
-        transform.gameObject.SetActive(false);
-    }
+    void Start() { transform.gameObject.SetActive(false); }
 
     // 보이도록 설정
     public void Show()

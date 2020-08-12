@@ -26,6 +26,7 @@ public class MenuFloorTile : MonoBehaviour
         uiTimer = new float[6] { 0, 0, 0, 0, 0, 0 };
     }
 
+    // 메뉴 바닥 타일 오브젝트 설정
     void InitialObjects() {
         upArrowTile = GameObject.Find("UpArrowTile");
         downArrowTile = GameObject.Find("DownArrowTile");
@@ -39,8 +40,6 @@ public class MenuFloorTile : MonoBehaviour
         rightFootPrint = GameObject.Find("Footprint-right");
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         HandleTileActive();
@@ -77,8 +76,9 @@ public class MenuFloorTile : MonoBehaviour
             confirmTile.SetActive(false);
             cancelTile.SetActive(true);
         }
-
     }
+
+
 
     // 발 위치 원 설정
     void HandleFootPrint()
@@ -103,6 +103,9 @@ public class MenuFloorTile : MonoBehaviour
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, ConstInfo.foorPrintScaleY, newRightFootPrintSize);
     }
 
+
+    
+    // 메뉴 바닥타일과 유저 간의 상호작용
     void HandleMenuTiles() {
         if (Avatar.OneFootOnCircleTile(upArrowTile) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
             HandleUpArrowTile();
@@ -137,62 +140,71 @@ public class MenuFloorTile : MonoBehaviour
 
 
 
+    // 위 방향을 누른 경우
     void HandleUpArrowTile() {
         uiTimer[0] += Time.deltaTime;
-        if (uiTimer[0] > ConstInfo.pushTime)
+        if (uiTimer[0] > ConstInfo.buttonPushTime)
         {
             HandleUpArrow();
             uiTimer[0] = 0;
         }
     }
 
+    // 아래 방향을 누른 경우
     void HandleDownArrowTile() {
         uiTimer[1] += Time.deltaTime;
-        if (uiTimer[1] > ConstInfo.pushTime)
+        if (uiTimer[1] > ConstInfo.buttonPushTime)
         {
             HandleDownArrow();
             uiTimer[1] = 0;
         }
     }
 
+    // 왼쪽 방향을 누른 경우
     void HandleLeftArrowTile()
     {
         uiTimer[2] += Time.deltaTime;
-        if (uiTimer[2] > ConstInfo.pushTime)
+        if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
             SettingUI.instance.HandleLeft();
             uiTimer[2] = 0;
         }
     }
 
+    // 오른쪽 방향을 누른 경우
     void HandleRightArrowTile()
     {
         uiTimer[3] += Time.deltaTime;
-        if (uiTimer[3] > ConstInfo.pushTime)
+        if (uiTimer[3] > ConstInfo.buttonPushTime)
         {
             SettingUI.instance.HandleRight();
             uiTimer[3] = 0;
         }
     }
 
+    // 확인을 누른 경우
     void HandleConfirmTile() {
         uiTimer[4] += Time.deltaTime;
-        if (uiTimer[4] > ConstInfo.pushTime)
+        if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
             MenuUI.instance.HandleConfirm();
             uiTimer[4] = 0;
         }
     }
 
+    // 취소를 누른 경우
     void HandleCancelTile() {
         uiTimer[5] += Time.deltaTime;
-        if (uiTimer[5] > ConstInfo.pushTime)
+        if (uiTimer[5] > ConstInfo.buttonPushTime)
         {
             HandleCancel();
             uiTimer[5] = 0;
         }
     }
 
+
+
+    // 게임 상태에 따른 위 방향키 동작구분
     void HandleUpArrow() {
         if (GameManager.instance.GetGameState() == GameState.menu)
             MenuUI.instance.HandleUp();
@@ -200,7 +212,7 @@ public class MenuFloorTile : MonoBehaviour
             SettingUI.instance.HandleUp();
     }
 
-
+    // 게임 상태에 따른 아래 방향키 동작구분
     void HandleDownArrow()
     {
         if (GameManager.instance.GetGameState() == GameState.menu)
@@ -209,6 +221,7 @@ public class MenuFloorTile : MonoBehaviour
             SettingUI.instance.HandleDown();
     }
 
+    // 게임 상태에 따른 취소 동작구분
     void HandleCancel() {
         if (GameManager.instance.GetGameState() == GameState.ranking)
             RankingUI.instance.HandleCancel();
@@ -217,6 +230,8 @@ public class MenuFloorTile : MonoBehaviour
     }
 
 
+
+    // 키보드 조작
     void HandleKeyBoard() {
         if (Input.GetKeyDown(KeyCode.UpArrow) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
             HandleUpArrow();
@@ -230,8 +245,5 @@ public class MenuFloorTile : MonoBehaviour
             MenuUI.instance.HandleConfirm();
         if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.ranking || GameManager.instance.GetGameState() == GameState.setting))
             HandleCancel();
-
     }
-
-
 }

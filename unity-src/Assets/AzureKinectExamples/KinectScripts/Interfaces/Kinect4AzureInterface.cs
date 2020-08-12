@@ -16,7 +16,7 @@ namespace com.rfilkov.kinect
         public enum ColorCameraMode : int { _1280_x_720_30Fps = 1, _1920_x_1080_30Fps = 2, _2560_x_1440_30Fps = 3, _2048_x_1536_30Fps = 4, _3840_x_2160_30Fps = 5, _4096_x_3072_15Fps = 6 }
 
         [Tooltip("Depth camera mode.")]
-        public DepthCameraMode depthCameraMode = DepthCameraMode._640_x_576_30Fps_3_86mNfov;
+        public DepthCameraMode depthCameraMode = DepthCameraMode._512_x_512_30Fps_2_88mWfov;
         public enum DepthCameraMode : int { _320_x_288_30Fps_5_46mNfov = 1, _640_x_576_30Fps_3_86mNfov = 2, _512_x_512_30Fps_2_88mWfov = 3, _1024x1024_15Fps_2_21mWfov = 4, PassiveIR_30Fps = 5 }
 
         [Tooltip("Camera frames per second.")]

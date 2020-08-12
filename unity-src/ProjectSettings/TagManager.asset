@@ -8,6 +8,7 @@ TagManager:
   - heart-tile
   - obstacle-tile
   - trap-tile
+  - empty-tile-pass
   layers:
   - Default
   - TransparentFX

@@ -33,11 +33,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DisplaySetting();
+        HandleFrameRate();
         kinectState = false;
         Time.timeScale = 1;
+
     }
 
-
+    // 프레임 설정
+    public void HandleFrameRate() {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = ConstInfo.gameFrameRate;
+    }
 
     // 화면 설정 (디스플레이가 하나일 경우 전면 UI만 출력, 두개 이상일 경우 바닥 UI 출력)
     public void DisplaySetting()
