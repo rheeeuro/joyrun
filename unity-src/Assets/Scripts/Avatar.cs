@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Avatar : MonoBehaviour
 {
     // 키넥트 카메라 상의 유저 존재 여부
@@ -15,27 +16,7 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
-    public static int changeCount;
-    public static float frameTimer;
-
-    static void Start()
-    {
-        InitialUserPosition();
-    }
-
-    private void FixedUpdate()
-    {
-        DisplayFrameRate();
-    }
-
-    static void DisplayFrameRate() {
-        frameTimer += Time.fixedDeltaTime;
-        if (frameTimer >= 1) {
-            Debug.Log(changeCount);
-            changeCount = 0;
-            frameTimer = 0;
-        }
-    }
+    static void Start() { InitialUserPosition(); }
 
     // 유저 벡터 초기화 (0, 0, 0)
     static void InitialUserPosition() {
@@ -46,6 +27,7 @@ public class Avatar : MonoBehaviour
         userPositionRightHand = Vector3.zero;
         userPositionHead = Vector3.zero;
     }
+
 
 
     // 키넥트 좌표를 게임 상의 좌표로 변환 (좌우: -1.35 ~ 1.35 => -13.5 ~ 13.5 / 앞뒤: 2.2 ~ 0.7 => -1.5 ~ 1.5)

@@ -8,6 +8,7 @@ public static class ConstInfo
 
     // 프레임
     public const int gameFrameRate = 60;
+    public const bool InitialDisplayFrame = false;
 
     // 바닥 UI 관련 상수
     public const float buttonPushLimitY = 1.5f;

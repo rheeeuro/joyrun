@@ -20,6 +20,7 @@ public static class Setting
     private static AnimationState currentAnimationState = ConstInfo.InitialAnimationState;
     private static HpState currentHpState = ConstInfo.InitialHpState;
     private static TimeState currentTimeState = ConstInfo.InitialTimeState;
+    private static bool displayFrame = ConstInfo.InitialDisplayFrame;
 
 
     // 설정값 Getters & Setters
@@ -31,6 +32,9 @@ public static class Setting
 
     public static TimeState GetCurrentTimeState() { return currentTimeState; }
     public static void SetCurrentTimeState(TimeState newTimeState) { currentTimeState = newTimeState; }
+
+    public static bool GetDisplayFrame() { return displayFrame; }
+    public static void SetDisplayFrame(bool newDisplayFrame) { displayFrame = newDisplayFrame; }
 
 
 }
