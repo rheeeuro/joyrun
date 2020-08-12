@@ -818,6 +818,9 @@ namespace com.rfilkov.components
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
 
+            if (trans != Avatar.userPosition)
+                Avatar.changeCount++;
+
             // 아바타와 상호작용
             Avatar.userPosition = Avatar.HandleKinectPosition(trans);
             Avatar.userPositionLeftFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft));

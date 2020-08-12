@@ -15,10 +15,26 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
+    public static int changeCount;
+    public static float frameTimer;
 
     static void Start()
     {
         InitialUserPosition();
+    }
+
+    private void FixedUpdate()
+    {
+        DisplayFrameRate();
+    }
+
+    static void DisplayFrameRate() {
+        frameTimer += Time.fixedDeltaTime;
+        if (frameTimer >= 1) {
+            Debug.Log(changeCount);
+            changeCount = 0;
+            frameTimer = 0;
+        }
     }
 
     // 유저 벡터 초기화 (0, 0, 0)

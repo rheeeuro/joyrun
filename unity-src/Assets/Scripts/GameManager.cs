@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
         HandleFrameRate();
         kinectState = false;
         Time.timeScale = 1;
-
     }
 
     // 프레임 설정
