@@ -201,7 +201,7 @@ public class GameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleHighlightPosition(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (Avatar.OnTile(floorTile))
+        if (Avatar.IsInside(floorTile, Avatar.userPosition))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
