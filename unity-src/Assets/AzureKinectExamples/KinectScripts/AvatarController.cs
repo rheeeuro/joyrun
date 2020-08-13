@@ -817,8 +817,9 @@ namespace com.rfilkov.components
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
-
+            // 프레임 계산
             if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition)
+                FrameUI.instance.changeCount++;
                 
 
             // 아바타와 상호작용

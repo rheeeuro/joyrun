@@ -33,6 +33,11 @@ public class GameFloorTile : MonoBehaviour
     public static Vector3 lastPositionRightFoot;
     public static Vector3 lastPositionHead;
 
+    public static List<Vector3> lastPositionLeftFootList;
+    public static List<Vector3> lastPositionRightFootList;
+    public static List<Vector3> lastPositionHeadList;
+
+
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
 
@@ -78,6 +83,10 @@ public class GameFloorTile : MonoBehaviour
         lastPositionLeftFoot = Vector3.zero;
         lastPositionRightFoot = Vector3.zero;
         lastPositionHead= Vector3.zero;
+
+        lastPositionLeftFootList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
+        lastPositionRightFootList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
+        lastPositionHeadList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
     }
 
     // 걸음 시간 리스트 초기화 (0)
@@ -244,10 +253,33 @@ public class GameFloorTile : MonoBehaviour
             && lastPositionHead.y + ConstInfo.jumpHeight < Avatar.userPositionHead.y
             && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
             && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpYLimitBetweenFoots
-            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < 5
-            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < 5;
+            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < ConstInfo.jumpXChangeLimit
+            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < ConstInfo.jumpXChangeLimit;
         lastPositionLeftFoot = Avatar.userPositionLeftFoot;
         lastPositionRightFoot = Avatar.userPositionRightFoot;
+    }
+
+    void HandleJump2() {
+        if (lastPositionHeadList[lastPositionHeadList.Count - 1] != Avatar.userPositionHead)
+        {
+            lastPositionLeftFootList.Add(Avatar.userPositionLeftFoot);
+            lastPositionLeftFootList.RemoveAt(0);
+
+            lastPositionRightFootList.Add(Avatar.userPositionRightFoot);
+            lastPositionRightFootList.RemoveAt(0);
+
+            lastPositionHeadList.Add(Avatar.userPositionHead);
+            lastPositionHeadList.RemoveAt(0);
+        }
+
+        isJumping = ((lastPositionLeftFootList[0].y < lastPositionLeftFootList[1].y && lastPositionLeftFootList[1].y < lastPositionLeftFootList[2].y)
+            && (lastPositionRightFootList[0].y < lastPositionRightFootList[1].y && lastPositionRightFootList[1].y < lastPositionRightFootList[2].y)
+            && (lastPositionHeadList[0].y < lastPositionHeadList[1].y && lastPositionHeadList[1].y < lastPositionHeadList[2].y)
+            && (Mathf.Abs(lastPositionLeftFootList[0].x - lastPositionLeftFootList[2].x) < ConstInfo.jumpXChangeLimit)
+            && (Mathf.Abs(lastPositionRightFootList[0].x - lastPositionRightFootList[2].x) < ConstInfo.jumpXChangeLimit)
+            && (Mathf.Abs(lastPositionLeftFootList[0].y - lastPositionRightFootList[0].y) < ConstInfo.jumpYLimitBetweenFoots)
+            && (Mathf.Abs(lastPositionLeftFootList[1].y - lastPositionRightFootList[1].y) < ConstInfo.jumpYLimitBetweenFoots)
+            && (Mathf.Abs(lastPositionLeftFootList[2].y - lastPositionRightFootList[2].y) < ConstInfo.jumpYLimitBetweenFoots));
     }
 
     // 펀치 조건
