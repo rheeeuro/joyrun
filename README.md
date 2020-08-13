@@ -6,6 +6,7 @@
 2. 개발 PC에 [GitForWindows](https://gitforwindows.org/) 설치하기
 3. SSH 환경 설정하기
 ```sh
+mkdir ~/.ssh
 # bash ~/.ssh 디렉토리 아래 id_rsa, id_rsa.pub 파일 복사
 curl http://192.168.0.102/download/master@joyfun.kr-github_id_rsa -o ~/.ssh/id_rsa
 curl http://192.168.0.102/download/master@joyfun.kr-github_id_rsa.pub -o ~/.ssh/id_rsa.pub
