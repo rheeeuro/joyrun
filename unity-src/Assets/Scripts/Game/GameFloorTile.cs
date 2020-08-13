@@ -28,6 +28,7 @@ public class GameFloorTile : MonoBehaviour
     public static bool isPunching;
     public static bool stepSide;
     public static float stepRecordTime;
+    public static float decreaseSpeedTimer;
     public static List<float> steps;
 
     public static Vector3 lastPositionLeftFoot;
@@ -76,6 +77,7 @@ public class GameFloorTile : MonoBehaviour
 
         // 걸음 관련 변수 초기화
         stepRecordTime = 0;
+        decreaseSpeedTimer = 0;
         InitialStepRecords();
 
         // UI 타이머 배열 초기화
@@ -102,20 +104,21 @@ public class GameFloorTile : MonoBehaviour
     private void FixedUpdate()
     {
         stepRecordTime += Time.fixedDeltaTime;
+        decreaseSpeedTimer += Time.fixedDeltaTime;
     }
     
     void Update()
     {
         HandleTileActive();
-        HandleFootPrint();
-        if (GameManager.instance.GetKinectState() && GameManager.instance.GetGameState() == GameState.game)
-            HandleHighlight();
-        HandleUserAction();
-        HandleGameTiles();
-        HandleKeyboard();
-        // 일시정지 설정 (키넥트가 있는 경우만 실행할 것)
-        if (GameManager.instance.GetKinectState())
+        if (GameManager.instance.GetKinectState()) {
+            HandleFootPrint();
+            if (GameManager.instance.GetGameState() == GameState.game)
+                HandleHighlight();
+            HandleUserAction();
+            HandleGameTiles();
             HandlePause();
+        }
+        HandleKeyboard();          
     }
 
 
@@ -238,6 +241,13 @@ public class GameFloorTile : MonoBehaviour
     // 결음 기록 조건 만족 시 함수 호출
     void HandleSteps()
     {
+        if (decreaseSpeedTimer >= 1) {
+            decreaseSpeedTimer = 0;
+            steps.RemoveAt(0);
+            steps.Add(0);
+            Tile.extraSpeed = steps.Average();
+        }
+            
         if (((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepCountY && Avatar.userPositionRightFoot.y < ConstInfo.stepCountY)
             || (stepSide == false && Avatar.userPositionLeftFoot.y < ConstInfo.stepCountY && Avatar.userPositionRightFoot.y > ConstInfo.stepCountY))
             && GameManager.instance.GetKinectState())
@@ -252,6 +262,7 @@ public class GameFloorTile : MonoBehaviour
         steps.Add(10 / stepRecordTime);
         Tile.extraSpeed = steps.Average();
         stepRecordTime = 0;
+        decreaseSpeedTimer = 0;
     }
 
     // 점프 조건 (이전 프레임보다 양 발 모두 jumpHeight 이상 증가 + 발높이 차가 0.3 이하 + 양발의 x변화량이 5 미만)
@@ -442,6 +453,8 @@ public class GameFloorTile : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftAlt))
             isJumping = true;
+        else
+            isJumping = false;
         if (Input.GetKey(KeyCode.LeftControl))
             Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
         if (Input.GetKey(KeyCode.LeftShift))

@@ -45,8 +45,10 @@ public class MenuFloorTile : MonoBehaviour
     void Update()
     {
         HandleTileActive();
-        HandleFootPrint();
-        HandleMenuTiles();
+        if (GameManager.instance.GetKinectState()) {
+            HandleFootPrint();
+            HandleMenuTiles();
+        }
         HandleKeyBoard();
     }
 
