@@ -21,6 +21,7 @@ public class GameFloorTile : MonoBehaviour
     // 발위치 원 변수
     public GameObject leftFootPrint;
     public GameObject rightFootPrint;
+    public float footPrintLerpT;
 
     // 유저 상태 변수
     public static bool isJumping;
@@ -79,6 +80,8 @@ public class GameFloorTile : MonoBehaviour
 
         // UI 타이머 배열 초기화
         uiTimer = new float[5] { 0, 0, 0, 0, 0 };
+
+        footPrintLerpT = 0;
 
         lastPositionLeftFoot = Vector3.zero;
         lastPositionRightFoot = Vector3.zero;
@@ -205,8 +208,13 @@ public class GameFloorTile : MonoBehaviour
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition()
     {
-        leftFootPrint.transform.position = new Vector3(Avatar.userPositionLeftFoot.x, 0, Avatar.userPositionLeftFoot.z);
-        rightFootPrint.transform.position = new Vector3(Avatar.userPositionRightFoot.x, 0, Avatar.userPositionRightFoot.z);
+        leftFootPrint.transform.position = 
+            Vector3.Lerp(leftFootPrint.transform.position, new Vector3(Avatar.userPositionLeftFoot.x, 0, Avatar.userPositionLeftFoot.z), footPrintLerpT);
+        rightFootPrint.transform.position = 
+            Vector3.Lerp(rightFootPrint.transform.position, new Vector3(Avatar.userPositionRightFoot.x, 0, Avatar.userPositionRightFoot.z), footPrintLerpT);
+        footPrintLerpT += ConstInfo.footPrintSpeed * Time.deltaTime;
+        if (footPrintLerpT > 1.0f)
+            footPrintLerpT = 0.0f;
     }
 
     // 발 위치 원 크기 변경
@@ -214,8 +222,8 @@ public class GameFloorTile : MonoBehaviour
     {
         float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionLeftFoot.y);
         float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionRightFoot.y);
-        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, ConstInfo.foorPrintScaleY, newLeftFootPrintSize);
-        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, ConstInfo.foorPrintScaleY, newRightFootPrintSize);
+        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, ConstInfo.footPrintScaleY, newLeftFootPrintSize);
+        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, ConstInfo.footPrintScaleY, newRightFootPrintSize);
     }
 
 

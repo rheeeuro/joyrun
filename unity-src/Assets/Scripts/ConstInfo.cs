@@ -17,7 +17,8 @@ public static class ConstInfo
 
     // 바닥 UI 발 위치 원 관련 상수
     public const float footPrintStartSize = 0.7f;
-    public const float foorPrintScaleY = 0.005f;
+    public const float footPrintScaleY = 0.005f;
+    public const float footPrintSpeed = 0.5f;
 
     // 초기설정값
     public const AnimationState InitialAnimationState = AnimationState.animation;
