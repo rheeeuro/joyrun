@@ -56,7 +56,7 @@ public class GameFloorTile : MonoBehaviour
         leftFloorTile = GameObject.Find("FloorTile-left");
         centerFloorTile = GameObject.Find("FloorTile-center");
         rightFloorTile = GameObject.Find("FloorTile-right");
-        centerTile = GameObject.Find("CenterTile");
+        centerTile = GameObject.Find("CenterFloorTile");
         newGameTilePause = GameObject.Find("NewGameTilePause");
         newGameTileResult = GameObject.Find("NewGameTileResult");
         toMenuTilePause = GameObject.Find("ToMenuTilePause");
@@ -241,7 +241,7 @@ public class GameFloorTile : MonoBehaviour
     // 결음 기록 조건 만족 시 함수 호출
     void HandleSteps()
     {
-        if (decreaseSpeedTimer >= 1) {
+        if (decreaseSpeedTimer >= 2 && !Player.instance.isJumping) {
             decreaseSpeedTimer = 0;
             steps.RemoveAt(0);
             steps.Add(0);
@@ -267,18 +267,6 @@ public class GameFloorTile : MonoBehaviour
 
     // 점프 조건 (이전 프레임보다 양 발 모두 jumpHeight 이상 증가 + 발높이 차가 0.3 이하 + 양발의 x변화량이 5 미만)
     void HandleJump() {
-        isJumping = lastPositionLeftFoot.y + ConstInfo.jumpHeight < Avatar.userPositionLeftFoot.y
-            && lastPositionRightFoot.y + ConstInfo.jumpHeight < Avatar.userPositionRightFoot.y
-            && lastPositionHead.y + ConstInfo.jumpHeight < Avatar.userPositionHead.y
-            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
-            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpYLimitBetweenFoots
-            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < ConstInfo.jumpXChangeLimit
-            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < ConstInfo.jumpXChangeLimit;
-        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
-        lastPositionRightFoot = Avatar.userPositionRightFoot;
-    }
-
-    void HandleJump2() {
         if (lastPositionHeadList[lastPositionHeadList.Count - 1] != Avatar.userPositionHead)
         {
             lastPositionLeftFootList.Add(Avatar.userPositionLeftFoot);
@@ -453,8 +441,9 @@ public class GameFloorTile : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftAlt))
             isJumping = true;
-        else
+        else if (!GameManager.instance.GetKinectState())
             isJumping = false;
+
         if (Input.GetKey(KeyCode.LeftControl))
             Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
         if (Input.GetKey(KeyCode.LeftShift))

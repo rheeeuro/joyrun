@@ -12,6 +12,10 @@ public class Tile : MonoBehaviour
     public GameObject trapTile;
     public GameObject balloonTile;
 
+    public GameObject leftTile;
+    public GameObject centerTile;
+    public GameObject rightTile;
+
     // 리스트 변수 선언
     public static List<GameObject> randomTiles;
     public static List<GameObject> badTiles;
@@ -83,7 +87,11 @@ public class Tile : MonoBehaviour
         CheckCollision();
     }
 
-
+    void MeshTest()
+    {
+        float offset = Time.time;
+        centerTile.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+    }
 
     // 타일 설정 (생성, 속도, 이동, 삭제)
     void HandleTiles()
