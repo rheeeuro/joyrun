@@ -40,8 +40,8 @@ public class Avatar : MonoBehaviour
     public static float HandleFootprintSize(float footPositionY) {
         if (footPositionY < 1.5)
             return ConstInfo.footPrintStartSize;
-        else if (footPositionY >= 1.5 && footPositionY < 2.5)
-            return (2.5f - footPositionY) * ConstInfo.footPrintStartSize;
+        else if (footPositionY >= 1.5 && footPositionY < 4)
+            return (4 - footPositionY) / 2.5f * ConstInfo.footPrintStartSize;
         else
             return 0;
     }

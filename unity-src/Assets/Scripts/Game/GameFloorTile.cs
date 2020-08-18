@@ -110,17 +110,20 @@ public class GameFloorTile : MonoBehaviour
     void Update()
     {
         HandleTileActive();
-        if (GameManager.instance.GetKinectState()) {
-            HandleFootPrint();
-            if (GameManager.instance.GetGameState() == GameState.game)
-                HandleHighlight();
-            HandleUserAction();
-            HandleGameTiles();
-            HandlePause();
-        }
-        HandleKeyboard();          
+        HandleKeyboard();
+        if (GameManager.instance.GetKinectState())
+            HandleKinect();
     }
 
+    void HandleKinect() {
+        HandleFootPrint();
+        HandleUserAction();
+        HandleGameTiles();
+        HandlePause();
+        if (GameManager.instance.GetGameState() == GameState.game)
+            HandleHighlight();
+
+    }
 
 
     // 바닥 UI 타일 보여주기, 감추기
@@ -248,9 +251,8 @@ public class GameFloorTile : MonoBehaviour
             Tile.extraSpeed = steps.Average();
         }
             
-        if (((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepCountY && Avatar.userPositionRightFoot.y < ConstInfo.stepCountY)
-            || (stepSide == false && Avatar.userPositionLeftFoot.y < ConstInfo.stepCountY && Avatar.userPositionRightFoot.y > ConstInfo.stepCountY))
-            && GameManager.instance.GetKinectState())
+        if ((stepSide == true && Avatar.userPositionLeftFoot.y  + ConstInfo.stepHeight < Avatar.userPositionRightFoot.y)
+            || (stepSide == false && Avatar.userPositionRightFoot.y + ConstInfo.stepHeight < Avatar.userPositionLeftFoot.y))
             HandleStep();
     }
 
