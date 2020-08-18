@@ -33,10 +33,10 @@ public class Avatar : MonoBehaviour
 
 
 
-    // 키넥트 좌표를 게임 상의 좌표로 변환 (좌우: -1.35 ~ 1.35 => -13.5 ~ 13.5 / 앞뒤: 2.2 ~ 0.7 => -1.5 ~ 1.5)
+    // 키넥트 좌표를 게임 상의 좌표로 변환 (좌우: -1.35 ~ 1.35 => -960 ~ 960 / 앞뒤: 2.2 ~ 0.7 => -540 ~ 540)
     public static Vector3 HandleKinectPosition(Vector3 kinectPosition)
     {
-        return new Vector3(kinectPosition.x * 720, kinectPosition.y * 720, (kinectPosition.z - 1.45f) * -720);
+        return new Vector3(kinectPosition.x * 711, kinectPosition.y * 720, (kinectPosition.z - 1.45f) * -720);
     }
 
     // 발의 y 좌표에 따른 발 위치 원 크기 설정 (scale: 0 ~ 0.7 -> ConstInfo.footPrintStartSize 에 따라 변경 가능)
