@@ -251,8 +251,8 @@ public class GameFloorTile : MonoBehaviour
             Tile.extraSpeed = steps.Average();
         }
             
-        if ((stepSide == true && Avatar.userPositionLeftFoot.y  + ConstInfo.stepHeight < Avatar.userPositionRightFoot.y)
-            || (stepSide == false && Avatar.userPositionRightFoot.y + ConstInfo.stepHeight < Avatar.userPositionLeftFoot.y))
+        if ((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepHeight  && Avatar.userPositionRightFoot.y < ConstInfo.stepHeight)
+            || (stepSide == false && Avatar.userPositionRightFoot.y > ConstInfo.stepHeight && Avatar.userPositionLeftFoot.y < ConstInfo.stepHeight))
             HandleStep();
     }
 
@@ -281,8 +281,8 @@ public class GameFloorTile : MonoBehaviour
             lastPositionHeadList.RemoveAt(0);
         }
 
-        isJumping = ((lastPositionLeftFootList[0].y < lastPositionLeftFootList[1].y && lastPositionLeftFootList[1].y < lastPositionLeftFootList[2].y)
-            && (lastPositionRightFootList[0].y < lastPositionRightFootList[1].y && lastPositionRightFootList[1].y < lastPositionRightFootList[2].y)
+        isJumping = ((lastPositionLeftFootList[0].y + ConstInfo.jumpHeight < lastPositionLeftFootList[1].y && lastPositionLeftFootList[1].y + ConstInfo.jumpHeight < lastPositionLeftFootList[2].y)
+            && (lastPositionRightFootList[0].y + ConstInfo.jumpHeight < lastPositionRightFootList[1].y && lastPositionRightFootList[1].y + ConstInfo.jumpHeight < lastPositionRightFootList[2].y)
             && (lastPositionHeadList[0].y < lastPositionHeadList[1].y && lastPositionHeadList[1].y < lastPositionHeadList[2].y)
             && (Mathf.Abs(lastPositionLeftFootList[0].x - lastPositionLeftFootList[2].x) < ConstInfo.jumpXChangeLimit)
             && (Mathf.Abs(lastPositionRightFootList[0].x - lastPositionRightFootList[2].x) < ConstInfo.jumpXChangeLimit)

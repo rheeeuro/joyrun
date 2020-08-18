@@ -78,9 +78,12 @@ public class Avatar : MonoBehaviour
 
     // 벡터3가 오브젝트가 원 타일 안에 있으면 true 반환 (벡터 좌표와 원 중심과의 거리가 원의 반지름보다 작으면 true)
     public static bool IsInsideCircle(GameObject tile, Vector3 obj) {
+        /**
         return (((obj.x - tile.transform.position.x) * (obj.x - tile.transform.position.x))
             + ((obj.z - tile.transform.position.z) * (obj.z - tile.transform.position.z)))
         <= (tile.transform.localScale.x/2 * tile.transform.localScale.x/2);
+        **/
+        return Vector3.Distance(tile.transform.position, obj) <= tile.transform.localScale.x / 2;
     }
 
     // 벡터3가 오브젝트가 타일 안에 있으면 true 반환 (벡터 좌표가 직사각형 안에 있는 경우 true)
