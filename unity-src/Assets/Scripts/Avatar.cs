@@ -16,6 +16,8 @@ public class Avatar : MonoBehaviour
     public static Vector3 userPositionRightHand;
     public static Vector3 userPositionHead;
 
+    public static float DistanceBetweenHandAndElbow;
+
     static void Start() { InitialUserPosition(); }
 
     // 유저 벡터 초기화 (0, 0, 0)
@@ -26,6 +28,7 @@ public class Avatar : MonoBehaviour
         userPositionLeftHand = Vector3.zero;
         userPositionRightHand = Vector3.zero;
         userPositionHead = Vector3.zero;
+        DistanceBetweenHandAndElbow = 0;
     }
 
 

@@ -820,15 +820,25 @@ namespace com.rfilkov.components
             // 프레임 계산
             if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition)
                 FrameUI.instance.changeCount++;
-                
+
 
             // 아바타와 상호작용
+               
+
             Avatar.userPosition = Avatar.HandleKinectPosition(trans);
             Avatar.userPositionLeftFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft));
             Avatar.userPositionRightFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootRight));
             Avatar.userPositionLeftHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandLeft));
             Avatar.userPositionRightHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandRight));
             Avatar.userPositionHead = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.Head));
+
+            if (Avatar.DistanceBetweenHandAndElbow == 0)
+            {
+                Vector3 leftElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowLeft));
+                Vector3 rightElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowRight));
+                Avatar.DistanceBetweenHandAndElbow =
+                    Vector3.Distance(Avatar.userPositionLeftHand, leftElbow) + Vector3.Distance(Avatar.userPositionRightHand, rightElbow) / 2;
+            }
 
             if (flipLeftRight)
                 trans.x = -trans.x;

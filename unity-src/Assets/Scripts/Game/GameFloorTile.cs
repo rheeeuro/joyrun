@@ -294,8 +294,8 @@ public class GameFloorTile : MonoBehaviour
     // 펀치 조건
     void HandleAvatarPunch()
     {
-        if ((Avatar.userPositionLeftHand.z > Avatar.userPositionHead.z + ConstInfo.punchDistance)
-            || (Avatar.userPositionRightHand.z > Avatar.userPositionHead.z + ConstInfo.punchDistance))
+        if ((Avatar.userPositionLeftHand.z > Avatar.userPositionHead.z + Avatar.DistanceBetweenHandAndElbow)
+            || (Avatar.userPositionRightHand.z > Avatar.userPositionHead.z + Avatar.DistanceBetweenHandAndElbow))
             isPunching = true;
         else
             isPunching = false;
