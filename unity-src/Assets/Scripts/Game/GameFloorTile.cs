@@ -35,11 +35,6 @@ public class GameFloorTile : MonoBehaviour
     public static Vector3 lastPositionRightFoot;
     public static Vector3 lastPositionHead;
 
-    public static List<Vector3> lastPositionLeftFootList;
-    public static List<Vector3> lastPositionRightFootList;
-    public static List<Vector3> lastPositionHeadList;
-
-
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
 
@@ -87,11 +82,7 @@ public class GameFloorTile : MonoBehaviour
 
         lastPositionLeftFoot = Vector3.zero;
         lastPositionRightFoot = Vector3.zero;
-        lastPositionHead= Vector3.zero;
-
-        lastPositionLeftFootList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
-        lastPositionRightFootList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
-        lastPositionHeadList = Enumerable.Repeat<Vector3>(Vector3.zero, 3).ToList<Vector3>();
+        lastPositionHead = Vector3.zero;
     }
 
     // 걸음 시간 리스트 초기화 (0)
@@ -246,49 +237,39 @@ public class GameFloorTile : MonoBehaviour
     {
         if (decreaseSpeedTimer >= 2 && !Player.instance.isJumping) {
             decreaseSpeedTimer = 0;
-            steps.RemoveAt(0);
             steps.Add(0);
-            Tile.extraSpeed = steps.Average();
+            steps.RemoveAt(0);
         }
             
-        if ((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepHeight  && Avatar.userPositionRightFoot.y < ConstInfo.stepHeight)
+        if (((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepHeight  && Avatar.userPositionRightFoot.y < ConstInfo.stepHeight)
             || (stepSide == false && Avatar.userPositionRightFoot.y > ConstInfo.stepHeight && Avatar.userPositionLeftFoot.y < ConstInfo.stepHeight))
+            && stepRecordTime != 0)
             HandleStep();
+
+        Tile.extraSpeed = steps.Average();
     }
 
     // 걸음시간 기록 및 초기화, 결음 방향 변경
     void HandleStep()
     {
         stepSide = !stepSide;
-        steps.RemoveAt(0);
         steps.Add(10 / stepRecordTime);
-        Tile.extraSpeed = steps.Average();
+        steps.RemoveAt(0);
         stepRecordTime = 0;
         decreaseSpeedTimer = 0;
     }
 
     // 점프 조건 (이전 프레임보다 양 발 모두 jumpHeight 이상 증가 + 발높이 차가 0.3 이하 + 양발의 x변화량이 5 미만)
     void HandleJump() {
-        if (lastPositionHeadList[lastPositionHeadList.Count - 1] != Avatar.userPositionHead)
-        {
-            lastPositionLeftFootList.Add(Avatar.userPositionLeftFoot);
-            lastPositionLeftFootList.RemoveAt(0);
-
-            lastPositionRightFootList.Add(Avatar.userPositionRightFoot);
-            lastPositionRightFootList.RemoveAt(0);
-
-            lastPositionHeadList.Add(Avatar.userPositionHead);
-            lastPositionHeadList.RemoveAt(0);
-        }
-
-        isJumping = ((lastPositionLeftFootList[0].y + ConstInfo.jumpHeight < lastPositionLeftFootList[1].y && lastPositionLeftFootList[1].y + ConstInfo.jumpHeight < lastPositionLeftFootList[2].y)
-            && (lastPositionRightFootList[0].y + ConstInfo.jumpHeight < lastPositionRightFootList[1].y && lastPositionRightFootList[1].y + ConstInfo.jumpHeight < lastPositionRightFootList[2].y)
-            && (lastPositionHeadList[0].y < lastPositionHeadList[1].y && lastPositionHeadList[1].y < lastPositionHeadList[2].y)
-            && (Mathf.Abs(lastPositionLeftFootList[0].x - lastPositionLeftFootList[2].x) < ConstInfo.jumpXChangeLimit)
-            && (Mathf.Abs(lastPositionRightFootList[0].x - lastPositionRightFootList[2].x) < ConstInfo.jumpXChangeLimit)
-            && (Mathf.Abs(lastPositionLeftFootList[0].y - lastPositionRightFootList[0].y) < ConstInfo.jumpYLimitBetweenFoots)
-            && (Mathf.Abs(lastPositionLeftFootList[1].y - lastPositionRightFootList[1].y) < ConstInfo.jumpYLimitBetweenFoots)
-            && (Mathf.Abs(lastPositionLeftFootList[2].y - lastPositionRightFootList[2].y) < ConstInfo.jumpYLimitBetweenFoots));
+        isJumping = lastPositionLeftFoot.y + ConstInfo.jumpHeight < Avatar.userPositionLeftFoot.y
+            && lastPositionRightFoot.y + ConstInfo.jumpHeight < Avatar.userPositionRightFoot.y
+            && lastPositionHead.y + ConstInfo.jumpHeight < Avatar.userPositionHead.y
+            && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
+            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpYLimitBetweenFoots
+            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < ConstInfo.jumpXChangeLimit
+            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < ConstInfo.jumpXChangeLimit;
+        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
+        lastPositionRightFoot = Avatar.userPositionRightFoot;
     }
 
     // 펀치 조건
