@@ -36,7 +36,7 @@ public class Avatar : MonoBehaviour
     // 키넥트 좌표를 게임 상의 좌표로 변환 (좌우: -1.35 ~ 1.35 => -13.5 ~ 13.5 / 앞뒤: 2.2 ~ 0.7 => -1.5 ~ 1.5)
     public static Vector3 HandleKinectPosition(Vector3 kinectPosition)
     {
-        return new Vector3(kinectPosition.x * 10, kinectPosition.y * 10, (kinectPosition.z - 1.45f) * -10);
+        return new Vector3(kinectPosition.x * 720, kinectPosition.y * 720, (kinectPosition.z - 1.45f) * -720);
     }
 
     // 발의 y 좌표에 따른 발 위치 원 크기 설정 (scale: 0 ~ 0.7 -> ConstInfo.footPrintStartSize 에 따라 변경 가능)
@@ -91,13 +91,12 @@ public class Avatar : MonoBehaviour
 
     // 벡터3가 오브젝트가 타일 안에 있으면 true 반환 (벡터 좌표가 직사각형 안에 있는 경우 true)
     public static bool IsInside (GameObject tile, Vector3 obj) {
-        bool horizontal = (obj.x > tile.transform.position.x - (tile.transform.localScale.x / 2))
-            && (obj.x < tile.transform.position.x + (tile.transform.localScale.x / 2));
-        bool vertical = (obj.z > tile.transform.position.z - (tile.transform.localScale.z / 2))
-            && (obj.z < tile.transform.position.z + (tile.transform.localScale.z / 2));
+        bool horizontal = (obj.x > tile.transform.localPosition.x - (ConstInfo.floorTileScaleX / 6))
+            && (obj.x < tile.transform.localPosition.x + (ConstInfo.floorTileScaleX / 6));
+        bool vertical = (obj.z > tile.transform.localPosition.y - (ConstInfo.floorTileScaleY / 2))
+            && (obj.z < tile.transform.localPosition.y + (ConstInfo.floorTileScaleX / 2));
         return horizontal && vertical;
     }
-
 
 
     // 유저 존재 여부 Getter & Setter

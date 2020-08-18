@@ -94,10 +94,10 @@ public class MenuFloorTile : MonoBehaviour
     // 발 위치 원 좌표 변경
     void HandleFootPrintPosition()
     {
-        leftFootPrint.transform.position =
-            Vector3.Lerp(leftFootPrint.transform.position, new Vector3(Avatar.userPositionLeftFoot.x, 0, Avatar.userPositionLeftFoot.z), footPrintLerpT);
-        rightFootPrint.transform.position =
-            Vector3.Lerp(rightFootPrint.transform.position, new Vector3(Avatar.userPositionRightFoot.x, 0, Avatar.userPositionRightFoot.z), footPrintLerpT);
+        leftFootPrint.transform.localPosition =
+            Vector3.Lerp(leftFootPrint.transform.localPosition, new Vector3(Avatar.userPositionLeftFoot.x, Avatar.userPositionLeftFoot.z, 0), footPrintLerpT);
+        rightFootPrint.transform.localPosition =
+            Vector3.Lerp(rightFootPrint.transform.localPosition, new Vector3(Avatar.userPositionRightFoot.x, Avatar.userPositionRightFoot.z, 0), footPrintLerpT);
         footPrintLerpT += ConstInfo.footPrintSpeed * Time.deltaTime;
         if (footPrintLerpT > 1.0f)
             footPrintLerpT = 0.0f;

@@ -11,12 +11,13 @@ public static class ConstInfo
     public const bool InitialDisplayFrame = false;
 
     // 바닥 UI 관련 상수
-    public const float buttonPushLimitY = 1.5f;
+    public const float buttonPushLimitY = 110f;
     public const float buttonPushTime = 0.8f;
-    public const float floorTileScaleX = 9;
+    public const float floorTileScaleX = 1920;
+    public const float floorTileScaleY = 1080;
 
     // 바닥 UI 발 위치 원 관련 상수
-    public const float footPrintStartSize = 0.7f;
+    public const float footPrintStartSize = 1;
     public const float footPrintScaleY = 0.005f;
     public const float footPrintSpeed = 0.5f;
 
@@ -51,11 +52,11 @@ public static class ConstInfo
     public const float playerStartPositionZ = -40;
 
     // 플레이어 동작 조건 관련 상수
-    public const float stepHeight = 0.2f;
-    public const float jumpHeight = 0.1f;
-    public const float jumpYLimitBetweenFoots = 0.3f;
-    public const float jumpXChangeLimit = 5;
-    public const float punchDistance = 3;
+    public const float stepHeight = 144;
+    public const float jumpHeight = 14.4f;
+    public const float jumpYLimitBetweenFoots = 21.6f;
+    public const float jumpXChangeLimit = 360;
+    public const float punchDistance = 216;
 
     // 타일 위치 관련 상수
     public const float tileStartPositionY = 1;
