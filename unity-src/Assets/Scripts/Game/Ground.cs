@@ -1,43 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Principal;
 using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    GameObject ground1;
-    GameObject ground2;
-    float speed;
-    bool side;
+    GameObject leftTile;
+    GameObject centerTile;
+    GameObject rightTile;
+    GameObject ground;
+
+    float offset;
 
     void Start() {
-        ground1 = GameObject.Find("ground 1");
-        ground2 = GameObject.Find("ground 2");
-        speed = 0;
-        side = true;
+        ground = GameObject.Find("ground");
+
+        leftTile = GameObject.Find("leftTile");
+        centerTile = GameObject.Find("centerTile");
+        rightTile = GameObject.Find("rightTile");
+        offset = 0;
     }
 
     void Update()
     {
-        speed = Tile.actualSpeed;
-        HandleGround(ground1);
-        HandleGround(ground2);
-        FixPosition();
+        HandleMeshs();
     }
 
-    void HandleGround(GameObject obj) {
-        obj.transform.Translate(Vector3.back * speed * Time.deltaTime);
-        if (obj.transform.position.z < -3000)
-        {
-            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z + 6000);
-            side = !side;
-        }
+    void HandleMeshs() {
+        HandleMesh(ground);
     }
 
-    void FixPosition() {
-        if (side)
-            ground2.transform.position = new Vector3(ground2.transform.position.x, ground2.transform.position.y, ground1.transform.position.z - 3000);
-        else
-            ground2.transform.position = new Vector3(ground2.transform.position.x, ground2.transform.position.y, ground1.transform.position.z + 3000);
+
+    void HandleMesh(GameObject obj)
+    {
+        offset -= (Tile.actualSpeed / 9f) * Time.deltaTime;
+        if (offset < 0)
+            offset += 1;
+
+        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
     }
 }

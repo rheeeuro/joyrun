@@ -87,12 +87,6 @@ public class Tile : MonoBehaviour
         CheckCollision();
     }
 
-    void MeshTest()
-    {
-        float offset = Time.time;
-        centerTile.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
-    }
-
     // 타일 설정 (생성, 속도, 이동, 삭제)
     void HandleTiles()
     {
