@@ -111,8 +111,8 @@ public class MenuFloorTile : MonoBehaviour
     {
         float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionLeftFoot.y);
         float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionRightFoot.y);
-        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, ConstInfo.footPrintScaleY, newLeftFootPrintSize);
-        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, ConstInfo.footPrintScaleY, newRightFootPrintSize);
+        leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, newLeftFootPrintSize, newLeftFootPrintSize);
+        rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, newRightFootPrintSize, newRightFootPrintSize);
     }
 
 
@@ -129,12 +129,12 @@ public class MenuFloorTile : MonoBehaviour
         else
             uiTimer[1] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftFootPrint))
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftArrowTile))
             HandleLeftArrowTile();
         else
             uiTimer[2] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightFootPrint))
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightArrowTile))
             HandleRightArrowTile();
         else
             uiTimer[3] = 0;
