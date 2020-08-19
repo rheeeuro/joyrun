@@ -46,7 +46,7 @@ public class MenuFloorTile : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(upArrowTile.transform.localPosition);
+        Debug.Log(upArrowTile.GetComponent<RectTransform>().localPosition);
         HandleTileActive();
         if (GameManager.instance.GetKinectState()) {
             HandleFootPrint();
