@@ -198,7 +198,7 @@ public class GameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleHighlightPosition(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (Avatar.VectorInside(Avatar.userPosition, floorTile))
+        if (Avatar.IsInside(floorTile, Avatar.userPosition))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
@@ -286,27 +286,27 @@ public class GameFloorTile : MonoBehaviour
 
     // 게임 바닥타일과 유저의 상호작용
     void HandleGameTiles() {
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTilePause))
+        if (Avatar.OneFootOnCircleTile(newGameTilePause) && GameManager.instance.GetGameState() == GameState.pause)
             HandleNewGameTilePause();
         else
             uiTimer[0] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTilePause))
+        if (Avatar.OneFootOnCircleTile(toMenuTilePause) && GameManager.instance.GetGameState() == GameState.pause)
             HandleToMenuTilePause();
         else
             uiTimer[1] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, nextPageTile))
+        if (Avatar.OneFootOnCircleTile(nextPageTile)&& GameManager.instance.GetGameState() == GameState.result)
             HandleNextPageTile();
         else
             uiTimer[2] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTileResult))
+        if (Avatar.OneFootOnCircleTile(newGameTileResult) && GameManager.instance.GetGameState() == GameState.myRank)
             HandleNewGameTileResult();
         else
             uiTimer[3] = 0;
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTileResult))
+        if (Avatar.OneFootOnCircleTile(toMenuTileResult) && GameManager.instance.GetGameState() == GameState.myRank)
             HandleToMenuTileResult();
         else
             uiTimer[4] = 0;
@@ -374,7 +374,7 @@ public class GameFloorTile : MonoBehaviour
         {
             if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y
                 && Avatar.userPositionRightHand.y > Avatar.userPositionHead.y)
-                && Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile) && GameManager.instance.GetGameState() == GameState.pause)
+                && Avatar.OnCircleTile(centerTile) && GameManager.instance.GetGameState() == GameState.pause)
                 GameUI.instance.Pause();
         }
         else

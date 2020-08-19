@@ -8,16 +8,16 @@ public static class ConstInfo
 
     // 프레임
     public const int gameFrameRate = 60;
-    public const bool InitialDisplayInspect = false;
+    public const bool InitialDisplayFrame = false;
 
     // 바닥 UI 관련 상수
-    public const float buttonPushFootPrintScaleX = 0.7f;
+    public const float buttonPushLimitY = 110f;
     public const float buttonPushTime = 0.8f;
     public const float floorTileScaleX = 1920;
     public const float floorTileScaleY = 1080;
 
     // 바닥 UI 발 위치 원 관련 상수
-    public const float footPrintStartScale = 1;
+    public const float footPrintStartSize = 1;
     public const float footPrintScaleY = 0.005f;
     public const float footPrintSpeed = 0.5f;
 

@@ -78,7 +78,7 @@ namespace com.rfilkov.kinect
 
                     GameObject tile = GameObject.Find("CenterTile");
 
-                    if ((Avatar.VectorInside(leftFoot, tile) && Avatar.VectorInside(rightFoot, tile))
+                    if ((Avatar.IsInsideCircle(tile, leftFoot) && Avatar.IsInsideCircle(tile, rightFoot))
                         && (leftHand.y > head.y && rightHand.y > head.y)) {
                         ulong tmpUserId = aUserIndexIds[i];
                         aUserIndexIds[i] = aUserIndexIds[0];
