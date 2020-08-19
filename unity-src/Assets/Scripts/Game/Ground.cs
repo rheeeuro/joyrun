@@ -6,21 +6,32 @@ public class Ground : MonoBehaviour
 {
     GameObject track;
     GameObject ground;
+    GameObject sideTrack1;
+    GameObject sideTrack2;
 
     float groundOffset;
     float trackOffset;
+    float speed;
 
     void Start() {
         ground = GameObject.Find("ground");
-
         track = GameObject.Find("track");
+        sideTrack1 = GameObject.Find("trackSide1");
+        sideTrack2 = GameObject.Find("trackSide2");
         groundOffset = 0;
         trackOffset = 0;
+        speed = 0;
     }
 
     void Update()
     {
+        speed = Tile.actualSpeed;
         HandleMeshs();
+        /**
+        HandleSideTrack(sideTrack1);
+        HandleSideTrack(sideTrack2);
+        FixPosition();
+        **/
     }
 
     void HandleMeshs() {
@@ -46,4 +57,14 @@ public class Ground : MonoBehaviour
 
         obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(trackOffset, 0));
     }
+    /**
+    void HandleSideTrack() {
+        obj.transform.Translate(Vector3.back * speed * Time.deltaTime);
+        if (obj.transform.position.z < -3000)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z + 6000);
+            side = !side;
+        }
+    }
+    **/
 }
