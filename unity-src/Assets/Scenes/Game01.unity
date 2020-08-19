@@ -13999,9 +13999,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffb5d79523530247bca19d346f11092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeCount: 0
+  frameChangeCount: 0
   frameTimer: 0
   frameText: {fileID: 1483718948}
+  kinectText: {fileID: 0}
 --- !u!114 &390468647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66980,6 +66981,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329775358098047394, guid: 1d69823335696504bb932a4c8ed874e1,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 14.69484
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329775358098047394, guid: 1d69823335696504bb932a4c8ed874e1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 14.69484
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d69823335696504bb932a4c8ed874e1, type: 3}

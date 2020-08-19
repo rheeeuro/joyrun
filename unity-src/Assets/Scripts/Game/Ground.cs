@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    GameObject leftTile;
-    GameObject centerTile;
-    GameObject rightTile;
+    GameObject track;
     GameObject ground;
 
-    float offset;
+    float groundOffset;
+    float trackOffset;
 
     void Start() {
         ground = GameObject.Find("ground");
 
-        leftTile = GameObject.Find("leftTile");
-        centerTile = GameObject.Find("centerTile");
-        rightTile = GameObject.Find("rightTile");
-        offset = 0;
+        track = GameObject.Find("track");
+        groundOffset = 0;
+        trackOffset = 0;
     }
 
     void Update()
@@ -27,15 +25,25 @@ public class Ground : MonoBehaviour
 
     void HandleMeshs() {
         HandleMesh(ground);
+        HandleTrackMesh(track);
     }
 
 
     void HandleMesh(GameObject obj)
     {
-        offset -= (Tile.actualSpeed / 9f) * Time.deltaTime;
-        if (offset < 0)
-            offset += 1;
+        groundOffset -= (Tile.actualSpeed / (obj.GetComponent<Collider>().bounds.size.z / 50)) * Time.deltaTime;
+        if (groundOffset < 0)
+            groundOffset += 1;
 
-        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
+        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, groundOffset));
+    }
+
+    void HandleTrackMesh(GameObject obj)
+    {
+        trackOffset -= (Tile.actualSpeed / obj.GetComponent<Collider>().bounds.size.z) * Time.deltaTime;
+        if (trackOffset < 0)
+            trackOffset += 1;
+
+        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(trackOffset, 0));
     }
 }
