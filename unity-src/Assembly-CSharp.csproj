@@ -167,9 +167,10 @@
      <Compile Include="Assets\Scripts\Game\Tile.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Menu\MenuFloorTile.cs" />
+     <Compile Include="Assets\Scripts\Menu\MenuPlayer.cs" />
      <Compile Include="Assets\Scripts\Menu\Setting.cs" />
-     <Compile Include="Assets\Scripts\UI\FrameUI.cs" />
      <Compile Include="Assets\Scripts\UI\GameUI.cs" />
+     <Compile Include="Assets\Scripts\UI\InspectUI.cs" />
      <Compile Include="Assets\Scripts\UI\MenuUI.cs" />
      <Compile Include="Assets\Scripts\UI\MyRankUI.cs" />
      <Compile Include="Assets\Scripts\UI\RankingUI.cs" />

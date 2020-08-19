@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MenuFloorTile : MonoBehaviour
 {
+
     // 바닥 UI 타일
     GameObject upArrowTile;
     GameObject downArrowTile;
@@ -53,7 +54,8 @@ public class MenuFloorTile : MonoBehaviour
     }
 
     // 바닥 UI 타일 보여주기, 감추기
-    void HandleTileActive() {
+    void HandleTileActive()
+    {
         if (GameManager.instance.GetGameState() == GameState.menu)
         {
             upArrowTile.SetActive(true);
@@ -63,7 +65,8 @@ public class MenuFloorTile : MonoBehaviour
             confirmTile.SetActive(true);
             cancelTile.SetActive(false);
         }
-        else if (GameManager.instance.GetGameState() == GameState.ranking) {
+        else if (GameManager.instance.GetGameState() == GameState.ranking)
+        {
             upArrowTile.SetActive(false);
             downArrowTile.SetActive(false);
             leftArrowTile.SetActive(false);
@@ -81,8 +84,6 @@ public class MenuFloorTile : MonoBehaviour
             cancelTile.SetActive(true);
         }
     }
-
-
 
     // 발 위치 원 설정
     void HandleFootPrint()
@@ -116,32 +117,31 @@ public class MenuFloorTile : MonoBehaviour
     
     // 메뉴 바닥타일과 유저 간의 상호작용
     void HandleMenuTiles() {
-        if (Avatar.OneFootOnCircleTile(upArrowTile) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, upArrowTile))
             HandleUpArrowTile();
         else
             uiTimer[0] = 0;
 
-        if (Avatar.OneFootOnCircleTile(downArrowTile) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, downArrowTile))
             HandleDownArrowTile();
         else
             uiTimer[1] = 0;
 
-        if (Avatar.OneFootOnCircleTile(leftArrowTile) && GameManager.instance.GetGameState() == GameState.setting)
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftFootPrint))
             HandleLeftArrowTile();
         else
             uiTimer[2] = 0;
 
-        if (Avatar.OneFootOnCircleTile(rightArrowTile) && GameManager.instance.GetGameState() == GameState.setting)
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightFootPrint))
             HandleRightArrowTile();
         else
             uiTimer[3] = 0;
 
-        if (Avatar.OneFootOnCircleTile(confirmTile) && GameManager.instance.GetGameState() == GameState.menu)
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, confirmTile))
             HandleConfirmTile();
         else
             uiTimer[4] = 0;
-
-        if (Avatar.OneFootOnCircleTile(cancelTile) && (GameManager.instance.GetGameState() == GameState.ranking || GameManager.instance.GetGameState() == GameState.setting))
+        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, cancelTile))
             HandleCancelTile();
         else
             uiTimer[5] = 0;
