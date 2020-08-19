@@ -65,6 +65,7 @@ public class Tile : MonoBehaviour
     {
         heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
         obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
+
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
         emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;

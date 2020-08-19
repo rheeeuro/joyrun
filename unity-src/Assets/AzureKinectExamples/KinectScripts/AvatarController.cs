@@ -819,7 +819,7 @@ namespace com.rfilkov.components
 
             // 프레임 계산
             if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition)
-                FrameUI.instance.changeCount++;
+                InspectUI.instance.frameChangeCount++;
 
 
             // 아바타와 상호작용
