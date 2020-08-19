@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 
@@ -39,63 +40,40 @@ public class Avatar : MonoBehaviour
         return new Vector3(kinectPosition.x * 711, kinectPosition.y * 720, (kinectPosition.z - 1.45f) * -720);
     }
 
-    // 발의 y 좌표에 따른 발 위치 원 크기 설정 (scale: 0 ~ 0.7 -> ConstInfo.footPrintStartSize 에 따라 변경 가능)
+    // 발의 y 좌표에 따른 발 위치 원 크기 설정 (scale: 0 ~ 1 -> ConstInfo.footPrintStartSize 에 따라 변경 가능)
     public static float HandleFootprintSize(float footPositionY) {
-        if (footPositionY < 1.5)
-            return ConstInfo.footPrintStartSize;
-        else if (footPositionY >= 1.5 && footPositionY < 4)
-            return (4 - footPositionY) / 2.5f * ConstInfo.footPrintStartSize;
+        if (footPositionY < 110)
+            return ConstInfo.footPrintStartScale;
+        else if (footPositionY >= 110 && footPositionY < 300)
+            return (300 - footPositionY) / 190 * ConstInfo.footPrintStartScale;
         else
             return 0;
     }
 
-
-
-    // 한 발이 타일 위에 있는지 판별
-    public static bool OneFootOnTile(GameObject tile)
+    // 오브젝트1이 오브젝트2에 완전히 포함되는지 확진
+    public static bool RectOverlaps(GameObject obj1, GameObject obj2)
     {
-        return IsInside(tile, userPositionLeftFoot) || IsInside(tile, userPositionRightFoot);
+        RectTransform rectTrans1 = obj1.GetComponent<RectTransform>();
+        RectTransform rectTrans2 = obj2.GetComponent<RectTransform>();
+        Rect rect1 = new Rect(rectTrans1.localPosition.x, rectTrans1.localPosition.y, rectTrans1.rect.width, rectTrans1.rect.height);
+        Rect rect2 = new Rect(rectTrans2.localPosition.x, rectTrans2.localPosition.y, rectTrans2.rect.width, rectTrans2.rect.height);
+        return rect1.Overlaps(rect2) && (obj1.activeSelf && obj2.activeSelf);
     }
 
-    // 오브젝트가 타일 위에 있는지 판별
-    public static bool OnTile(GameObject tile) {
-        return IsInside(tile, userPositionLeftFoot) && IsInside(tile, userPositionRightFoot);
+    public static bool OneFootOverlaps(GameObject leftFoot, GameObject rightFoot, GameObject tile) {
+        return (RectOverlaps(leftFoot, tile) && leftFoot.transform.localScale.x > ConstInfo.buttonPushFootPrintScaleX) 
+            || (RectOverlaps(rightFoot, tile) && rightFoot.transform.localScale.x > ConstInfo.buttonPushFootPrintScaleX);
     }
 
-
-
-    // 두 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
-    public static bool OnCircleTile (GameObject tile)
+    public static bool TwoFootOverlaps(GameObject leftFoot, GameObject rightFoot, GameObject tile)
     {
-        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < ConstInfo.buttonPushLimitY) 
-            && (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < ConstInfo.buttonPushLimitY);
+        return (RectOverlaps(leftFoot, tile) && leftFoot.transform.localScale.x > ConstInfo.buttonPushFootPrintScaleX) 
+            && (RectOverlaps(rightFoot, tile) && rightFoot.transform.localScale.x > ConstInfo.buttonPushFootPrintScaleX);
     }
 
-    // 한 발이 원 타일 안에 있는지 확인 (+ y좌표 확인)
-    public static bool OneFootOnCircleTile(GameObject tile) {
-        return (IsInsideCircle(tile, userPositionLeftFoot) && userPositionLeftFoot.y < ConstInfo.buttonPushLimitY)
-            || (IsInsideCircle(tile, userPositionRightFoot) && userPositionRightFoot.y < ConstInfo.buttonPushLimitY);
-    }
-
-
-
-    // 벡터3가 오브젝트가 원 타일 안에 있으면 true 반환 (벡터 좌표와 원 중심과의 거리가 원의 반지름보다 작으면 true)
-    public static bool IsInsideCircle(GameObject tile, Vector3 obj) {
-        /**
-        return (((obj.x - tile.transform.position.x) * (obj.x - tile.transform.position.x))
-            + ((obj.z - tile.transform.position.z) * (obj.z - tile.transform.position.z)))
-        <= (tile.transform.localScale.x/2 * tile.transform.localScale.x/2);
-        **/
-        return Vector3.Distance(tile.transform.position, obj) <= tile.transform.localScale.x / 2;
-    }
-
-    // 벡터3가 오브젝트가 타일 안에 있으면 true 반환 (벡터 좌표가 직사각형 안에 있는 경우 true)
-    public static bool IsInside (GameObject tile, Vector3 obj) {
-        bool horizontal = (obj.x > tile.transform.localPosition.x - (ConstInfo.floorTileScaleX / 6))
-            && (obj.x < tile.transform.localPosition.x + (ConstInfo.floorTileScaleX / 6));
-        bool vertical = (obj.z > tile.transform.localPosition.y - (ConstInfo.floorTileScaleY / 2))
-            && (obj.z < tile.transform.localPosition.y + (ConstInfo.floorTileScaleX / 2));
-        return horizontal && vertical;
+    public static bool VectorInside(Vector3 Vec, GameObject obj) {
+        RectTransform rectTrans = obj.GetComponent<RectTransform>();
+        return (Vec.x > rectTrans.rect.xMin && Vec.x < rectTrans.rect.xMax) && (Vec.z > rectTrans.rect.yMin && Vec.z < rectTrans.rect.yMax);
     }
 
 
