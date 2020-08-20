@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 // 메뉴 상태 (선택 하이라이트, 0: 게임시작, 1: 환경설정, 2: 랭킹, 3: 게임종료)
@@ -14,13 +15,19 @@ public enum MenuChoice
 
 public class MenuUI : MonoBehaviour
 {
+    //색상 스프라이트
+    public Sprite selected;
+    public Sprite Unselected;
+
     // 인스턴스 및 현재 선택한 메뉴 항목
     public static MenuUI instance;
     private MenuChoice currentMenuChoice;
 
+    /*
     // 색상 변수
     private Color selectedColor = Color.yellow;
     private Color unselectedColor = Color.white;
+    **/
 
     // 메뉴 버튼 변수
     public GameObject startButton;
@@ -53,27 +60,37 @@ public class MenuUI : MonoBehaviour
     // 모든 버튼을 선택 해제
     void UnselectButtons()
     {
+        /*
         startButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
         settingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
         rankingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
         quitButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
+        **/
+        startButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
+        settingButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
+        rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
+        quitButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
+
     }
 
     // 메뉴 상태에 따라 버튼 선택 (색상 변경) 
-    void HandleMenuChoice() {
+    void HandleMenuChoice()
+    {
         switch (currentMenuChoice)
         {
             case MenuChoice.start:
-                startButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                //startButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                startButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
             case MenuChoice.setting:
-                settingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                //settingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                settingButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
             case MenuChoice.ranking:
-                rankingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
             case MenuChoice.quit:
-                quitButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
+                quitButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
         }
     }
@@ -81,7 +98,8 @@ public class MenuUI : MonoBehaviour
 
 
     // 위 방향 버튼을 누른 경우
-    public void HandleUp() {
+    public void HandleUp()
+    {
         if (currentMenuChoice == MenuChoice.start)
             currentMenuChoice = MenuChoice.quit;
         else
@@ -89,7 +107,8 @@ public class MenuUI : MonoBehaviour
     }
 
     // 아래 방향 버튼을 누른 경우
-    public void HandleDown() {
+    public void HandleDown()
+    {
         if (currentMenuChoice == MenuChoice.quit)
             currentMenuChoice = MenuChoice.start;
         else
@@ -97,8 +116,10 @@ public class MenuUI : MonoBehaviour
     }
 
     // 확인 버튼을 누른 경우
-    public void HandleConfirm() {
-        switch (currentMenuChoice) {
+    public void HandleConfirm()
+    {
+        switch (currentMenuChoice)
+        {
             case MenuChoice.start:
                 HandleStart();
                 break;
