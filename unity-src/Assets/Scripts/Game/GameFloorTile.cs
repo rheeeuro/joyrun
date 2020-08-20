@@ -113,7 +113,7 @@ public class GameFloorTile : MonoBehaviour
     }
     void HandleFloorText(){
         if (GameUI.instance.timerText && timerBox.activeSelf)
-            timerText.text = timerText.text.ToString();
+            timerText.text = GameUI.instance.timerText.text.ToString();
     }
 
     void HandleKinect() {
