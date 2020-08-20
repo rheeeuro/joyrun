@@ -73,7 +73,8 @@ public class Avatar : MonoBehaviour
 
     public static bool VectorInside(Vector3 Vec, GameObject obj) {
         RectTransform rectTrans = obj.GetComponent<RectTransform>();
-        return (Vec.x > rectTrans.rect.xMin && Vec.x < rectTrans.rect.xMax) && (Vec.z > rectTrans.rect.yMin && Vec.z < rectTrans.rect.yMax);
+        return (Vec.x > rectTrans.localPosition.x + rectTrans.rect.xMin && Vec.x < rectTrans.localPosition.x + rectTrans.rect.xMax) 
+            && (Vec.z > rectTrans.localPosition.y + rectTrans.rect.yMin && Vec.z < rectTrans.localPosition.y + rectTrans.rect.yMax);
     }
 
 

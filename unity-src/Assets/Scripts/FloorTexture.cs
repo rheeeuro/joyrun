@@ -31,27 +31,27 @@ public class FloorTexture : MonoBehaviour
 
     void Start()
     {
-        PositionButton = Resources.Load("UIre/Floor/PositionButton.png") as Texture2D;
-        PositionButtonBlue = Resources.Load("UIre/Floor/PositionButtonBlue.png") as Texture2D;
-        PositionDisabled = Resources.Load("UIre/Floor/PositionDisabled.png") as Texture2D;
-        BackButton = Resources.Load("UIre/Floor/BackButton.png") as Texture2D;
-        BackButtonPress = Resources.Load("UIre/Floor/BackButtonPress.png") as Texture2D;
-        DownArrowButton = Resources.Load("UIre/Floor/DownArrowButton.png") as Texture2D;
-        DownArrowButtonPress = Resources.Load("UIre/Floor/DownArrowButtonPress.png") as Texture2D;
-        HomeButton = Resources.Load("UIre/Floor/HomeButton.png") as Texture2D;
-        HomeButtonPress = Resources.Load("UIre/Floor/HomeButtonPress.png") as Texture2D;
-        LeftArrowButton = Resources.Load("UIre/Floor/LeftArrowButton.png") as Texture2D;
-        LeftArrowButtonPress = Resources.Load("UIre/Floor/LeftArrowButtonPress.png") as Texture2D;
-        LeftButton = Resources.Load("UIre/Floor/LeftButton.png") as Texture2D;
-        LeftButtonPress = Resources.Load("UIre/Floor/LeftButtonPress.png") as Texture2D;
-        RightArrowButton = Resources.Load("UIre/Floor/RightArrowButton.png") as Texture2D;
-        RightArrowButtonPress = Resources.Load("UIre/Floor/RightArrowButtonPress.png") as Texture2D;
-        RightButton = Resources.Load("UIre/Floor/RightButton.png") as Texture2D;
-        RightButtonPress = Resources.Load("UIre/Floor/RightButtonPress.png") as Texture2D;
-        UpArrowButton = Resources.Load("UIre/Floor/UpArrowButton.png") as Texture2D;
+        PositionButton = Resources.Load("UIre/Floor/PositionButton") as Texture2D;
+        PositionButtonBlue = Resources.Load("UIre/Floor/PositionButtonBlue") as Texture2D;
+        PositionDisabled = Resources.Load("UIre/Floor/PositionDisabled") as Texture2D;
+        BackButton = Resources.Load("UIre/Floor/BackButton") as Texture2D;
+        BackButtonPress = Resources.Load("UIre/Floor/BackButtonPress") as Texture2D;
+        DownArrowButton = Resources.Load("UIre/Floor/DownArrowButton") as Texture2D;
+        DownArrowButtonPress = Resources.Load("UIre/Floor/DownArrowButtonPress") as Texture2D;
+        HomeButton = Resources.Load("UIre/Floor/HomeButton") as Texture2D;
+        HomeButtonPress = Resources.Load("UIre/Floor/HomeButtonPress") as Texture2D;
+        LeftArrowButton = Resources.Load("UIre/Floor/LeftArrowButton") as Texture2D;
+        LeftArrowButtonPress = Resources.Load("UIre/Floor/LeftArrowButtonPress") as Texture2D;
+        LeftButton = Resources.Load("UIre/Floor/LeftButton") as Texture2D;
+        LeftButtonPress = Resources.Load("UIre/Floor/LeftButtonPress") as Texture2D;
+        RightArrowButton = Resources.Load("UIre/Floor/RightArrowButton") as Texture2D;
+        RightArrowButtonPress = Resources.Load("UIre/Floor/RightArrowButtonPress") as Texture2D;
+        RightButton = Resources.Load("UIre/Floor/RightButton") as Texture2D;
+        RightButtonPress = Resources.Load("UIre/Floor/RightButtonPress") as Texture2D;
+        UpArrowButton = Resources.Load("UIre/Floor/UpArrowButton") as Texture2D;
         UpArrowButtonPress = Resources.Load("UIre/Floor/UpArrowButtonPress") as Texture2D;
-        RemeasurementButton = Resources.Load("UIre/Floor/Re-measurementButton.png") as Texture2D;
-        RemeasurementButtonPress = Resources.Load("UIre/Floor/Re-measurementButtonPress.png") as Texture2D;
+        RemeasurementButton = Resources.Load("UIre/Floor/Re-measurementButton") as Texture2D;
+        RemeasurementButtonPress = Resources.Load("UIre/Floor/Re-measurementButtonPress") as Texture2D;
     }
 
 
