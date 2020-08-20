@@ -283,7 +283,7 @@ public class Tile : MonoBehaviour
     {
         for (int i = 0; i < activatedTiles.Count; i++)
         {
-            if (activatedTiles[i].transform.position.z < ConstInfo.destroyLine)
+            if (activatedTiles[i].transform.position.z < ConstInfo.tileDestroyPositionZ)
             {
                 activatedTiles[i].SetActive(false);
                 Destroy(activatedTiles[i]);
@@ -326,9 +326,9 @@ public class Tile : MonoBehaviour
     // 하트 충돌 판정 알고리즘
     void CheckCollisionHeart(GameObject obj)
     {
-        for (int i = 0; i < ConstInfo.collisionPosition.Length; i++)
+        for (int i = 0; i < ConstInfo.collisionPositionZ.Length; i++)
         {
-            if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[i]) < ConstInfo.collisionGap
+            if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[i]) < ConstInfo.collisionGap
                 && GetChildTransform(obj, i * 2).localScale.x != 0
                 && obj.transform.position.x == Player.instance.highlight.transform.position.x
                 && !Player.instance.isJumping)
@@ -343,7 +343,7 @@ public class Tile : MonoBehaviour
     // 장애물 충돌 판정 알고리즘
     void CheckCollisionObstacle(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
             && obj.transform.position.x == Player.instance.highlight.transform.position.x
             )
@@ -370,7 +370,7 @@ public class Tile : MonoBehaviour
     // 풍선 충돌 판정 알고리즘
     void CheckCollisionBalloon(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
         && GetChildTransform(obj, 0).localScale.x != 0
         && obj.transform.position.x == Player.instance.highlight.transform.position.x
         && GameFloorTile.isPunching)
@@ -384,7 +384,7 @@ public class Tile : MonoBehaviour
     // 빈칸 충돌 판정 알고리즘
     void CheckCollisionEmpty(GameObject obj)
     {
-        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPosition[0]) < ConstInfo.collisionGap
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
             && obj.transform.position.x == Player.instance.highlight.transform.position.x)
         {

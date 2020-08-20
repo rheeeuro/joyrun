@@ -11,15 +11,14 @@ public static class ConstInfo
     public const bool InitialDisplayInspect = false;
 
     // 바닥 UI 관련 상수
-    public const float buttonPushFootPrintScaleX = 0.7f;
+    public const float floorUICanvasWidth = 1920;
+    public const float floorUICanvasHeight = 1080;
     public const float buttonPushTime = 0.8f;
-    public const float floorTileScaleX = 1920;
-    public const float floorTileScaleY = 1080;
 
     // 바닥 UI 발 위치 원 관련 상수
     public const float footPrintStartScale = 1;
-    public const float footPrintScaleY = 0.005f;
     public const float footPrintSpeed = 0.5f;
+    public const float buttonPushFootPrintScaleX = 0.7f;
 
     // 초기설정값
     public const AnimationState InitialAnimationState = AnimationState.animation;
@@ -60,11 +59,11 @@ public static class ConstInfo
 
     // 타일 위치 관련 상수
     public const float tileStartPositionY = 1;
-    public const float tileStartPositionZ = 80;
-    public const float tileScaleX = 14;
-    public const float destroyLine = -65;
+    public const float tileStartPositionZ = 200;
+    public const float tileDestroyPositionZ = -65;
+    public const float trackWidth = 42;
     public const float tileDistance = 60;
-    public static float[] collisionPosition = { -30, -36, -42, -48 };
+    public static float[] collisionPositionZ = { -30, -36, -42, -48 };
     public const float collisionGap = 5;
 
     // 속도 관련 상수

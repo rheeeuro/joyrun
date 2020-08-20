@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuFloorTile : MonoBehaviour
 {
 
     // 바닥 UI 타일
+    GameObject centerTile;
     GameObject upArrowTile;
     GameObject downArrowTile;
     GameObject leftArrowTile;
@@ -31,6 +33,8 @@ public class MenuFloorTile : MonoBehaviour
 
     // 메뉴 바닥 타일 오브젝트 설정
     void InitialObjects() {
+        centerTile = GameObject.Find("CenterTile");
+
         upArrowTile = GameObject.Find("UpArrowTile");
         downArrowTile = GameObject.Find("DownArrowTile");
         leftArrowTile = GameObject.Find("LeftArrowTile");
@@ -117,40 +121,68 @@ public class MenuFloorTile : MonoBehaviour
     
     // 메뉴 바닥타일과 유저 간의 상호작용
     void HandleMenuTiles() {
+        HandleCenterTile();
+
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, upArrowTile))
             HandleUpArrowTile();
         else
+        {
+            FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButton);
             uiTimer[0] = 0;
+        }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, downArrowTile))
             HandleDownArrowTile();
         else
+        {
+            FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButton);
             uiTimer[1] = 0;
-
+        }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftArrowTile))
             HandleLeftArrowTile();
         else
+        {
+            FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButton);
             uiTimer[2] = 0;
-
+        }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightArrowTile))
             HandleRightArrowTile();
         else
+        {
+            FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButton);
             uiTimer[3] = 0;
-
+        }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, confirmTile))
             HandleConfirmTile();
         else
+        {
+            FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButton);
             uiTimer[4] = 0;
+        }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, cancelTile))
             HandleCancelTile();
         else
+        {
+            FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButton);
             uiTimer[5] = 0;
+        }
+    }
+
+    void HandleCenterTile() {
+        if (Avatar.GetUserValid())
+            if (Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile))
+                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
+            else
+                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
+        else
+            FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionDisabled);
     }
 
 
 
     // 위 방향을 누른 경우
     void HandleUpArrowTile() {
+        FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButtonPress);
         uiTimer[0] += Time.deltaTime;
         if (uiTimer[0] > ConstInfo.buttonPushTime)
         {
@@ -161,6 +193,7 @@ public class MenuFloorTile : MonoBehaviour
 
     // 아래 방향을 누른 경우
     void HandleDownArrowTile() {
+        FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButtonPress);
         uiTimer[1] += Time.deltaTime;
         if (uiTimer[1] > ConstInfo.buttonPushTime)
         {
@@ -172,6 +205,7 @@ public class MenuFloorTile : MonoBehaviour
     // 왼쪽 방향을 누른 경우
     void HandleLeftArrowTile()
     {
+        FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButtonPress);
         uiTimer[2] += Time.deltaTime;
         if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
@@ -183,6 +217,7 @@ public class MenuFloorTile : MonoBehaviour
     // 오른쪽 방향을 누른 경우
     void HandleRightArrowTile()
     {
+        FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButtonPress);
         uiTimer[3] += Time.deltaTime;
         if (uiTimer[3] > ConstInfo.buttonPushTime)
         {
@@ -193,6 +228,7 @@ public class MenuFloorTile : MonoBehaviour
 
     // 확인을 누른 경우
     void HandleConfirmTile() {
+        FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButtonPress);
         uiTimer[4] += Time.deltaTime;
         if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
@@ -203,6 +239,7 @@ public class MenuFloorTile : MonoBehaviour
 
     // 취소를 누른 경우
     void HandleCancelTile() {
+        FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButtonPress);
         uiTimer[5] += Time.deltaTime;
         if (uiTimer[5] > ConstInfo.buttonPushTime)
         {

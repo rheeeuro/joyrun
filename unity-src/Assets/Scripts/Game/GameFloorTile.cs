@@ -286,36 +286,65 @@ public class GameFloorTile : MonoBehaviour
 
     // 게임 바닥타일과 유저의 상호작용
     void HandleGameTiles() {
+        HandleCenterTile();
+
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTilePause))
             HandleNewGameTilePause();
         else
+        {
+            FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButton);
             uiTimer[0] = 0;
+        }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTilePause))
             HandleToMenuTilePause();
         else
+        {
+            FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButton);
             uiTimer[1] = 0;
+        }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, nextPageTile))
             HandleNextPageTile();
         else
+        {
+            FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButton);
             uiTimer[2] = 0;
+        }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTileResult))
             HandleNewGameTileResult();
         else
+        {
+            FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButton);
             uiTimer[3] = 0;
+        }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTileResult))
             HandleToMenuTileResult();
         else
+        {
+            FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButton);
             uiTimer[4] = 0;
+        }
+    }
+
+    void HandleCenterTile()
+    {
+        if (Avatar.GetUserValid())
+            if (Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile))
+                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
+            else
+                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
+        else
+            FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionDisabled);
     }
 
 
 
     // 일시정지의 새 게임 버튼을 누른 경우
     void HandleNewGameTilePause() {
+        FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButtonPress);
         uiTimer[0] += Time.deltaTime;
         if (uiTimer[0] > ConstInfo.buttonPushTime) {
             uiTimer[0] = 0;
@@ -326,6 +355,7 @@ public class GameFloorTile : MonoBehaviour
     // 게임결과의 다시하기 버튼을 누른 경우 (내 점수 화면)
     void HandleNewGameTileResult()
     {
+        FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButtonPress);
         uiTimer[3] += Time.deltaTime;
         if (uiTimer[3] > ConstInfo.buttonPushTime)
         {
@@ -336,6 +366,7 @@ public class GameFloorTile : MonoBehaviour
 
     // 일시정지의 메뉴 버튼을 누른 경우
     void HandleToMenuTilePause() {
+        FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButtonPress);
         uiTimer[1] += Time.deltaTime;
         if (uiTimer[1] > ConstInfo.buttonPushTime) {
             uiTimer[1] = 0;
@@ -346,6 +377,7 @@ public class GameFloorTile : MonoBehaviour
     // 게임결과의 메뉴버튼을 누른경우 (내 점수 화면)
     void HandleToMenuTileResult()
     {
+        FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButtonPress);
         uiTimer[4] += Time.deltaTime;
         if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
@@ -356,6 +388,7 @@ public class GameFloorTile : MonoBehaviour
 
     // 다음 페이지 버튼을 누른 경우 (결과 화면)
     void HandleNextPageTile() {
+        FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButtonPress);
         uiTimer[2] += Time.deltaTime;
         if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
