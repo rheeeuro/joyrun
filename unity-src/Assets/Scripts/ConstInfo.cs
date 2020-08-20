@@ -48,7 +48,7 @@ public static class ConstInfo
     public const float left = 100;
     public const float center = 114;
     public const float right = 128;
-    public const float playerStartPositionY = 1.55f;
+    public const float playerStartPositionY = 1.6f;
     public const float playerStartPositionZ = -40;
 
     // 플레이어 동작 조건 관련 상수
@@ -82,4 +82,6 @@ public static class ConstInfo
     // 게임 시간 관련 상수
     public const float gameTime = 60;
     public const float jumpTime = 0.6f;
+
+    public const float bgroundSizeZ = 335.1012f;
 }

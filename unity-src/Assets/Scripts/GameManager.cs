@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     // 화면 설정 (디스플레이가 하나일 경우 전면 UI만 출력, 두개 이상일 경우 바닥 UI 출력)
     public void DisplaySetting()
     {
+        Screen.SetResolution(1920, 1080, true);
         if (Display.displays.Length > 1)
             Display.displays[1].Activate();
         if (Display.displays.Length > 2)

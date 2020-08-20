@@ -1,70 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    GameObject track;
-    GameObject ground;
-    GameObject sideTrack1;
-    GameObject sideTrack2;
-
-    float groundOffset;
-    float trackOffset;
+    public static List<GameObject> bgrounds;
+    public GameObject bground;
     float speed;
+    int last;
 
     void Start() {
-        ground = GameObject.Find("ground");
-        track = GameObject.Find("track");
-        sideTrack1 = GameObject.Find("trackSide1");
-        sideTrack2 = GameObject.Find("trackSide2");
-        groundOffset = 0;
-        trackOffset = 0;
-        speed = 0;
+        bgrounds = new List<GameObject>();
+        bground = Resources.Load("Prefabs/Bground") as GameObject;
+        GameObject.Find("Bground").SetActive(false);
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, 0),
+            Player.instance.player.transform.rotation) as GameObject);
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.bgroundSizeZ),
+            Player.instance.player.transform.rotation) as GameObject);
     }
 
     void Update()
     {
-        speed = Tile.actualSpeed;
-        HandleMeshs();
-        /**
-        HandleSideTrack(sideTrack1);
-        HandleSideTrack(sideTrack2);
-        FixPosition();
-        **/
+        if (IsTimeToCreateBground())
+            CreateBground();
+        HandleBgroundMove();
+        HandleBgoundDestroy();
     }
 
-    void HandleMeshs() {
-        HandleMesh(ground);
-        HandleTrackMesh(track);
-    }
-
-
-    void HandleMesh(GameObject obj)
+    bool IsTimeToCreateBground()
     {
-        groundOffset -= (Tile.actualSpeed / (obj.GetComponent<Collider>().bounds.size.z / 50)) * Time.deltaTime;
-        if (groundOffset < 0)
-            groundOffset += 1;
-
-        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, groundOffset));
+        return bgrounds[bgrounds.Count - 1].transform.position.z <= 0;
     }
 
-    void HandleTrackMesh(GameObject obj)
+    void CreateBground()
     {
-        trackOffset -= (Tile.actualSpeed / obj.GetComponent<Collider>().bounds.size.z) * Time.deltaTime;
-        if (trackOffset < 0)
-            trackOffset += 1;
-
-        obj.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(trackOffset, 0));
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, bgrounds[bgrounds.Count - 1].transform.position.z + ConstInfo.bgroundSizeZ),
+            Player.instance.player.transform.rotation) as GameObject);
     }
-    /**
-    void HandleSideTrack() {
-        obj.transform.Translate(Vector3.back * speed * Time.deltaTime);
-        if (obj.transform.position.z < -3000)
+
+    void HandleBgroundMove()
+    {
+        for (int i = 0; i < bgrounds.Count; i++)
+            bgrounds[i].transform.Translate(Vector3.back * Tile.actualSpeed * Time.deltaTime);
+    }
+
+    void HandleBgoundDestroy()
+    {
+        for (int i = 0; i < bgrounds.Count; i++)
         {
-            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z + 6000);
-            side = !side;
+            if (bgrounds[i].transform.position.z < -ConstInfo.bgroundSizeZ)
+            {
+                bgrounds[i].SetActive(false);
+                Destroy(bgrounds[i]);
+                bgrounds.RemoveAt(i);
+            }
         }
     }
-    **/
 }
