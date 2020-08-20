@@ -51,7 +51,7 @@ public class GameFloorTile : MonoBehaviour
         leftFloorTile = GameObject.Find("FloorTile-left");
         centerFloorTile = GameObject.Find("FloorTile-center");
         rightFloorTile = GameObject.Find("FloorTile-right");
-        centerTile = GameObject.Find("CenterFloorTile");
+        centerTile = GameObject.Find("CenterTile");
         newGameTilePause = GameObject.Find("NewGameTilePause");
         newGameTileResult = GameObject.Find("NewGameTileResult");
         toMenuTilePause = GameObject.Find("ToMenuTilePause");

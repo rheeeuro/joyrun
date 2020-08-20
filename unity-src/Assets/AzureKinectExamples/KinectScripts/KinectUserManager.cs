@@ -80,12 +80,10 @@ namespace com.rfilkov.kinect
                     Vector3 head = userId != 0 ? kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head) : Vector3.zero;
 
 
-                    GameObject LFFootObj = GameObject.Find("Footprint-left");
-                    GameObject RFFootObj = GameObject.Find("Footprint-right");
                     GameObject tile = GameObject.Find("CenterTile");
 
                     //if ((Avatar.IsInsideCircle(tile, leftFoot) && Avatar.IsInsideCircle(tile, rightFoot))
-                    if(Avatar.TwoFootOverlaps(LFFootObj, RFFootObj, tile) && (leftHand.y > head.y && rightHand.y > head.y)) {
+                    if(tile && Avatar.VectorInside(leftFoot, tile) && Avatar.VectorInside(rightFoot, tile) && (leftHand.y > head.y && rightHand.y > head.y)) {
                         ulong tmpUserId = aUserIndexIds[i];
                         aUserIndexIds[i] = aUserIndexIds[0];
                         aUserIndexIds[0] = tmpUserId;
