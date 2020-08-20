@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameFloorTile : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class GameFloorTile : MonoBehaviour
 
     // 버튼 타이머 변수 - 0: newgame pause, 1: to menu pause, 2: next page, 3: new game result, 4: to menu result
     public float[] uiTimer;
+    public Text timerText;
+    public GameObject timerBox;
 
     void Start()
     {
@@ -60,6 +63,8 @@ public class GameFloorTile : MonoBehaviour
 
         leftFootPrint = GameObject.Find("Footprint-left");
         rightFootPrint = GameObject.Find("Footprint-right");
+
+        timerBox = GameObject.Find("TimerBox");
     }
 
     // 변수 초기화
@@ -100,10 +105,15 @@ public class GameFloorTile : MonoBehaviour
     
     void Update()
     {
+        HandleFloorText();
         HandleTileActive();
         HandleKeyboard();
         if (GameManager.instance.GetKinectState())
             HandleKinect();
+    }
+    void HandleFloorText(){
+        if (GameUI.instance.timerText && timerBox.activeSelf)
+            timerText.text = timerText.text.ToString();
     }
 
     void HandleKinect() {
@@ -133,6 +143,8 @@ public class GameFloorTile : MonoBehaviour
             nextPageTile.SetActive(false);
             newGameTileResult.SetActive(false);
             toMenuTileResult.SetActive(false);
+
+            timerBox.SetActive(true);
         }
         else if (GameManager.instance.GetGameState() == GameState.pause)
         {
@@ -147,6 +159,8 @@ public class GameFloorTile : MonoBehaviour
             nextPageTile.SetActive(false);
             newGameTileResult.SetActive(false);
             toMenuTileResult.SetActive(false);
+
+            timerBox.SetActive(true);
         }
         else if (GameManager.instance.GetGameState() == GameState.result)
         {
@@ -161,6 +175,8 @@ public class GameFloorTile : MonoBehaviour
             nextPageTile.SetActive(true);
             newGameTileResult.SetActive(false);
             toMenuTileResult.SetActive(false);
+
+            timerBox.SetActive(false);
         }
         else if (GameManager.instance.GetGameState() == GameState.myRank)
         {
@@ -175,6 +191,8 @@ public class GameFloorTile : MonoBehaviour
             nextPageTile.SetActive(false);
             newGameTileResult.SetActive(true);
             toMenuTileResult.SetActive(true);
+
+            timerBox.SetActive(false);
         }
     }
 
