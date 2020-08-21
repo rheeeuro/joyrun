@@ -15,15 +15,22 @@ public class InspectUI : MonoBehaviour
         
     void Start()
     {
-        frameChangeCount = 0;
-        frameTimer = 0;
+        InitialFrameCount();
+        InitialText();
     }
 
     private void FixedUpdate()
     {
+        HandleDisplay();
+        if (Setting.GetDisplayInspect())
+            HandleInspectDisplay();
+        else
+            InitialText();
+    }
+
+    void HandleInspectDisplay() {
         DisplayFrameRate();
         DisplayKinectState();
-        HandleDisplay();
     }
 
     void DisplayFrameRate()
@@ -31,29 +38,34 @@ public class InspectUI : MonoBehaviour
         frameTimer += Time.fixedDeltaTime;
         if (frameTimer >= 1)
         {
-            if(Setting.GetDisplayInspect())
-                frameText.text = frameChangeCount.ToString() + " fps";
-            else
-                frameText.text = "";
-            frameChangeCount = 0;
-            frameTimer = 0;
+            frameText.text = frameChangeCount.ToString() + " fps";
+            InitialFrameCount();
         }
     }
 
-    void DisplayKinectState() {
-        if (Setting.GetDisplayInspect())
-            if (GameManager.instance.GetKinectState())
-                kinectText.text = "Kinect found.";                
-            else
-                kinectText.text = "Kinect not found.";
+    void DisplayKinectState()
+    {
+        if (GameManager.instance.GetKinectState())
+            kinectText.text = "Kinect found.";
         else
-            kinectText.text = "";
-
-
+            kinectText.text = "Kinect not found.";
     }
 
     void HandleDisplay() {
         if (Input.GetKeyDown(KeyCode.F1))
+        {
             Setting.SetDisplayInspect(!Setting.GetDisplayInspect());
+            InitialFrameCount();
+        }     
+    }
+
+    void InitialFrameCount() {
+        frameChangeCount = 0;
+        frameTimer = 0;
+    }
+
+    void InitialText() {
+        frameText.text = "";
+        kinectText.text = "";
     }
 }

@@ -212,10 +212,10 @@ public class Player : MonoBehaviour
     void CaculatePoint()
     {
         point = combo + (int)(60 - GameUI.instance.timer);
-        ResultUI.instance.maxCombo.text = "최대 콤보 횟수 : " + maxCombo.ToString() + " 회";
-        ResultUI.instance.playTime.text = "진행 시간 : " + (60 - GameUI.instance.timer) + " 초";
-        ResultUI.instance.point.text = "점수 : " + point;
-        MyRankUI.instance.point.text = "점수 : " + point;
+        ResultUI.instance.maxCombo.text = maxCombo.ToString() + " 회";
+        ResultUI.instance.playTime.text =(Mathf.Round((60 - GameUI.instance.timer) * 100) / 100) + " 초";
+        ResultUI.instance.point.text = point.ToString();
+        MyRankUI.instance.point.text = point.ToString();
     }
 
     // 게임 종료 알고리즘

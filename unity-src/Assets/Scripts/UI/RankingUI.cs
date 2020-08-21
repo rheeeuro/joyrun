@@ -37,11 +37,9 @@ public class RankingUI : MonoBehaviour
     // 랭킹을 업데이트
     public void UpdateRanking()
     {
-        ranking.text = "Ranking\n\n";
+        ranking.text = "";
         for (int i = 0; i < 5; i++)
-        {
-            ranking.text += (i + 1) + "＿＿＿＿＿＿＿＿ " + PlayerPrefs.GetInt(i.ToString()) + "\n";
-        }
+            ranking.text += (i + 1) + ".                                " + PlayerPrefs.GetInt(i.ToString("##0")) + "\n\n";
     }
 
 
