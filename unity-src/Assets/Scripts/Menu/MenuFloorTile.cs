@@ -129,6 +129,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButton);
             uiTimer[0] = 0;
+            FloorTexture.ProgressDelayTexture(upArrowTile, 0);
         }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, downArrowTile))
@@ -137,6 +138,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButton);
             uiTimer[1] = 0;
+            FloorTexture.ProgressDelayTexture(downArrowTile, 0);
         }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftArrowTile))
             HandleLeftArrowTile();
@@ -144,6 +146,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButton);
             uiTimer[2] = 0;
+            FloorTexture.ProgressDelayTexture(leftArrowTile, 0);
         }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightArrowTile))
             HandleRightArrowTile();
@@ -151,6 +154,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButton);
             uiTimer[3] = 0;
+            FloorTexture.ProgressDelayTexture(rightArrowTile, 0);
         }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, confirmTile))
             HandleConfirmTile();
@@ -158,6 +162,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButton);
             uiTimer[4] = 0;
+            FloorTexture.ProgressDelayTexture(confirmTile, 0);
         }
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, cancelTile))
             HandleCancelTile();
@@ -165,6 +170,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButton);
             uiTimer[5] = 0;
+            FloorTexture.ProgressDelayTexture(cancelTile, 0);
         }
     }
 
@@ -184,10 +190,12 @@ public class MenuFloorTile : MonoBehaviour
     void HandleUpArrowTile() {
         FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButtonPress);
         uiTimer[0] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(upArrowTile, uiTimer[0] / ConstInfo.buttonPushTime);
         if (uiTimer[0] > ConstInfo.buttonPushTime)
         {
             HandleUpArrow();
             uiTimer[0] = 0;
+            FloorTexture.ProgressDelayTexture(upArrowTile, 0);
         }
     }
 
@@ -195,10 +203,12 @@ public class MenuFloorTile : MonoBehaviour
     void HandleDownArrowTile() {
         FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButtonPress);
         uiTimer[1] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(downArrowTile, uiTimer[1] / ConstInfo.buttonPushTime);
         if (uiTimer[1] > ConstInfo.buttonPushTime)
         {
             HandleDownArrow();
             uiTimer[1] = 0;
+            FloorTexture.ProgressDelayTexture(downArrowTile, 0);
         }
     }
 
@@ -207,10 +217,12 @@ public class MenuFloorTile : MonoBehaviour
     {
         FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButtonPress);
         uiTimer[2] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(leftArrowTile, uiTimer[2] / ConstInfo.buttonPushTime);
         if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
             SettingUI.instance.HandleLeft();
             uiTimer[2] = 0;
+            FloorTexture.ProgressDelayTexture(leftArrowTile, 0);
         }
     }
 
@@ -219,10 +231,12 @@ public class MenuFloorTile : MonoBehaviour
     {
         FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButtonPress);
         uiTimer[3] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(rightArrowTile, uiTimer[3] / ConstInfo.buttonPushTime);
         if (uiTimer[3] > ConstInfo.buttonPushTime)
         {
             SettingUI.instance.HandleRight();
             uiTimer[3] = 0;
+            FloorTexture.ProgressDelayTexture(rightArrowTile, 0);
         }
     }
 
@@ -230,10 +244,12 @@ public class MenuFloorTile : MonoBehaviour
     void HandleConfirmTile() {
         FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButtonPress);
         uiTimer[4] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(confirmTile, uiTimer[4] / ConstInfo.buttonPushTime);
         if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
             MenuUI.instance.HandleConfirm();
             uiTimer[4] = 0;
+            FloorTexture.ProgressDelayTexture(confirmTile, 0);
         }
     }
 
@@ -241,10 +257,12 @@ public class MenuFloorTile : MonoBehaviour
     void HandleCancelTile() {
         FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButtonPress);
         uiTimer[5] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(cancelTile, uiTimer[5] / ConstInfo.buttonPushTime);
         if (uiTimer[5] > ConstInfo.buttonPushTime)
         {
             HandleCancel();
             uiTimer[5] = 0;
+            FloorTexture.ProgressDelayTexture(cancelTile, 0);
         }
     }
 

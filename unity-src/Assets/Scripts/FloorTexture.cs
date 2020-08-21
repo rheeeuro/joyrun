@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.UI;
@@ -69,5 +70,9 @@ public class FloorTexture : MonoBehaviour
     public static void setFloorTileTexture(GameObject obj, Texture newTexture)
     {
         obj.GetComponent<RawImage>().texture = newTexture;
+    }
+
+    public static void ProgressDelayTexture(GameObject obj, float ratio) {
+        obj.transform.GetChild(1).GetComponent<Image>().fillAmount = 1 - ratio;
     }
 }
