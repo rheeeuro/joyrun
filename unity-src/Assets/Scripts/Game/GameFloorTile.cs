@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Security.Cryptography;
 
 public class GameFloorTile : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class GameFloorTile : MonoBehaviour
     public float[] uiTimer;
     public Text timerText;
     public GameObject timerBox;
+
+    public UIBarScript barHp;
+    public GameObject barHpBox;
 
     void Start()
     {
@@ -105,15 +109,18 @@ public class GameFloorTile : MonoBehaviour
     
     void Update()
     {
-        HandleFloorText();
+        if(GameManager.instance.GetGameState() == GameState.game)
+            HandleFloorUI();
         HandleTileActive();
         HandleKeyboard();
         if (GameManager.instance.GetKinectState())
             HandleKinect();
     }
-    void HandleFloorText(){
+    void HandleFloorUI(){
         if (GameUI.instance.timerText && timerBox.activeSelf)
             timerText.text = GameUI.instance.timerText.text.ToString();
+        if (GameUI.instance.barHp && barHpBox.activeSelf)
+            barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
     }
 
     void HandleKinect() {

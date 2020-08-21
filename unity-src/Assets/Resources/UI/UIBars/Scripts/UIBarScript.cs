@@ -36,8 +36,8 @@ public class UIBarScript : MonoBehaviour {
 	public float Speed = 10f;
     static float t = 0.0f;
 
-    //Text bools
-    public bool DisplayPercentTxt;
+	//Text bools
+	public bool DisplayPercentTxt;
 	public bool DisplayRatioTxt;
 
 	[HideInInspector]//this hides the StartUpdate variable
