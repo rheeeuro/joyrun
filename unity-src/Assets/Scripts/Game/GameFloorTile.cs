@@ -215,9 +215,31 @@ public class GameFloorTile : MonoBehaviour
     // 바닥 스크린들의 밟은 판정   
     void HandleHighlight()
     {
+        UnselectFloorTile();
         HandleHighlightPosition(Player.instance.highlight, leftFloorTile, ConstInfo.left);
         HandleHighlightPosition(Player.instance.highlight, centerFloorTile, ConstInfo.center);
         HandleHighlightPosition(Player.instance.highlight, rightFloorTile, ConstInfo.right);
+        SelectFloorTile();
+    }
+
+    void UnselectFloorTile() {
+        FloorTexture.setFloorTileTexture(leftFloorTile, FloorTexture.FloorTileUnSelected);
+        FloorTexture.setFloorTileTexture(centerFloorTile, FloorTexture.FloorTileUnSelected);
+        FloorTexture.setFloorTileTexture(rightFloorTile, FloorTexture.FloorTileUnSelected);
+    }
+
+    void SelectFloorTile() {
+        switch (Player.instance.highlight.transform.position.x) {
+            case ConstInfo.left:
+                FloorTexture.setFloorTileTexture(leftFloorTile, FloorTexture.FloorTileSelected);
+                break;
+            case ConstInfo.center:
+                FloorTexture.setFloorTileTexture(centerFloorTile, FloorTexture.FloorTileSelected);
+                break;
+            case ConstInfo.right:
+                FloorTexture.setFloorTileTexture(rightFloorTile, FloorTexture.FloorTileSelected);
+                break;
+        }
     }
 
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경

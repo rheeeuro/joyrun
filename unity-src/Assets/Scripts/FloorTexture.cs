@@ -27,6 +27,10 @@ public class FloorTexture : MonoBehaviour
     public static Texture2D UpArrowButtonPress;
     public static Texture2D RemeasurementButton;
     public static Texture2D RemeasurementButtonPress;
+    
+    public static Texture2D FloorTileSelected;
+    public static Texture2D FloorTileUnSelected;
+
 
 
     void Start()
@@ -52,11 +56,18 @@ public class FloorTexture : MonoBehaviour
         UpArrowButtonPress = Resources.Load("UIre/Floor/UpArrowButtonPress") as Texture2D;
         RemeasurementButton = Resources.Load("UIre/Floor/Re-measurementButton") as Texture2D;
         RemeasurementButtonPress = Resources.Load("UIre/Floor/Re-measurementButtonPress") as Texture2D;
+        FloorTileSelected = Resources.Load("Image/FloorTileSelected") as Texture2D;
+        FloorTileUnSelected = Resources.Load("Image/FloorTileUnSelected") as Texture2D;
     }
 
 
     public static void setButtonTexture(GameObject obj, Texture newTexture)
     {
         obj.transform.GetChild(0).GetComponent<RawImage>().texture = newTexture;
+    }
+
+    public static void setFloorTileTexture(GameObject obj, Texture newTexture)
+    {
+        obj.GetComponent<RawImage>().texture = newTexture;
     }
 }
