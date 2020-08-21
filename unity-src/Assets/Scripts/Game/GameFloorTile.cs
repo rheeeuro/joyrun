@@ -113,9 +113,16 @@ public class GameFloorTile : MonoBehaviour
             HandleFloorUI();
         HandleTileActive();
         HandleKeyboard();
+        HandleFloorTileHighlight();
         if (GameManager.instance.GetKinectState())
             HandleKinect();
     }
+
+    void HandleFloorTileHighlight() {
+        UnselectFloorTile();
+        SelectFloorTile();
+    }
+
     void HandleFloorUI(){
         if (GameUI.instance.timerText && timerBox.activeSelf)
             timerText.text = GameUI.instance.timerText.text.ToString();
@@ -130,7 +137,6 @@ public class GameFloorTile : MonoBehaviour
         HandlePause();
         if (GameManager.instance.GetGameState() == GameState.game)
             HandleHighlight();
-
     }
 
 
@@ -214,12 +220,10 @@ public class GameFloorTile : MonoBehaviour
 
     // 바닥 스크린들의 밟은 판정   
     void HandleHighlight()
-    {
-        UnselectFloorTile();
+    {        
         HandleHighlightPosition(Player.instance.highlight, leftFloorTile, ConstInfo.left);
         HandleHighlightPosition(Player.instance.highlight, centerFloorTile, ConstInfo.center);
         HandleHighlightPosition(Player.instance.highlight, rightFloorTile, ConstInfo.right);
-        SelectFloorTile();
     }
 
     void UnselectFloorTile() {
