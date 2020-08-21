@@ -39,7 +39,7 @@ public class RankingUI : MonoBehaviour
     {
         ranking.text = "";
         for (int i = 0; i < 5; i++)
-            ranking.text += (i + 1) + ".                                " + PlayerPrefs.GetInt(i.ToString("##0")) + "\n\n";
+            ranking.text += (i + 1) + ".                          " + PlayerPrefs.GetInt(i.ToString("####0")) + "\n\n";
     }
 
 

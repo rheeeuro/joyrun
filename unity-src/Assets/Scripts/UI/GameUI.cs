@@ -15,12 +15,15 @@ public class GameUI : MonoBehaviour
     public Text timerText;
     public Text speedText;
     public Text countDownTimer;
+    public Text timeIncreaseText;
     public UIBarScript barHp;
 
     // 타이머  변수 선언
     public float timer;
     public float comboDisplayTimer;
     public float damageEffectTimer;
+
+    public int balloonCount;
 
     void Awake() { instance = this; }
 
@@ -34,6 +37,7 @@ public class GameUI : MonoBehaviour
     void InitialGameTimer() {
         comboDisplayTimer = 0;
         damageEffectTimer = 0;
+        balloonCount = 0;
         timer = ConstInfo.gameTime;
     }
 
@@ -80,6 +84,7 @@ public class GameUI : MonoBehaviour
         HandleTimeText();
         HandleComboText();
         HandleSpeedText();
+        HandleTimeIncrease();
     }
 
 
@@ -146,6 +151,20 @@ public class GameUI : MonoBehaviour
             Player.instance.maxCombo = newCombo;
         comboText.text = newCombo.ToString() + " COMBO";
         comboDisplayTimer = ConstInfo.comboDisplayTime;
+    }
+
+    public void ShowTimeIncrease() {
+        timeIncreaseText.color = new Color(1, 1, 1, 1);
+    }
+
+    public void HandleTimeIncrease() {
+        if (timeIncreaseText.color.a > 0.3)
+            timeIncreaseText.color = new Color(1, 1, 1, timeIncreaseText.color.a - ConstInfo.timeIncreaseTextAlphaDecrease);
+        else
+            timeIncreaseText.color = new Color(1, 1, 1, 0);
+            
+        timeIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, timeIncreaseText.color.a / 2);
+        timerText.color = new Color(1 - (timeIncreaseText.color.a), 1, 1 - (timeIncreaseText.color.a));
     }
 
 

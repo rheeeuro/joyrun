@@ -68,7 +68,6 @@ public class GameFloorTile : MonoBehaviour
         leftFootPrint = GameObject.Find("Footprint-left");
         rightFootPrint = GameObject.Find("Footprint-right");
 
-        timerBox = GameObject.Find("TimerBox");
     }
 
     // 변수 초기화
@@ -158,6 +157,7 @@ public class GameFloorTile : MonoBehaviour
             toMenuTileResult.SetActive(false);
 
             timerBox.SetActive(true);
+            barHpBox.SetActive(true);
         }
         else if (GameManager.instance.GetGameState() == GameState.pause)
         {
@@ -174,6 +174,7 @@ public class GameFloorTile : MonoBehaviour
             toMenuTileResult.SetActive(false);
 
             timerBox.SetActive(true);
+            barHpBox.SetActive(true);
         }
         else if (GameManager.instance.GetGameState() == GameState.result)
         {
@@ -190,6 +191,7 @@ public class GameFloorTile : MonoBehaviour
             toMenuTileResult.SetActive(false);
 
             timerBox.SetActive(false);
+            barHpBox.SetActive(false);
         }
         else if (GameManager.instance.GetGameState() == GameState.myRank)
         {
@@ -206,6 +208,7 @@ public class GameFloorTile : MonoBehaviour
             toMenuTileResult.SetActive(true);
 
             timerBox.SetActive(false);
+            barHpBox.SetActive(false);
         }
     }
 
@@ -437,7 +440,7 @@ public class GameFloorTile : MonoBehaviour
         if (uiTimer[1] > ConstInfo.buttonPushTime) {
             uiTimer[1] = 0;
             GameUI.instance.HandleToMenu();
-            
+            FloorTexture.ProgressDelayTexture(toMenuTilePause, 0);
         }
     }
 
@@ -447,7 +450,7 @@ public class GameFloorTile : MonoBehaviour
         FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButtonPress);
         uiTimer[4] += Time.deltaTime;
         FloorTexture.MoveAllChildTexture(toMenuTileResult, true);
-        FloorTexture.ProgressDelayTexture(toMenuTileResult, uiTimer[1] / ConstInfo.buttonPushTime);
+        FloorTexture.ProgressDelayTexture(toMenuTileResult, uiTimer[4] / ConstInfo.buttonPushTime);
         if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
             uiTimer[4] = 0;
@@ -462,7 +465,7 @@ public class GameFloorTile : MonoBehaviour
         FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButtonPress);
         uiTimer[2] += Time.deltaTime;
         FloorTexture.MoveAllChildTexture(nextPageTile, true);
-        FloorTexture.ProgressDelayTexture(nextPageTile, uiTimer[1] / ConstInfo.buttonPushTime);
+        FloorTexture.ProgressDelayTexture(nextPageTile, uiTimer[2] / ConstInfo.buttonPushTime);
         if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
             uiTimer[2] = 0;
@@ -537,8 +540,7 @@ public class GameFloorTile : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
             Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
-        if (Input.GetKey(KeyCode.LeftShift))
-            isPunching = true;
+        isPunching = Input.GetKey(KeyCode.LeftShift);
     }
 
     // 일시정지 상태의 키보드 상호작용

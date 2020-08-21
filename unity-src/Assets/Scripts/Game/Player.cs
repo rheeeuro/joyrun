@@ -179,6 +179,9 @@ public class Player : MonoBehaviour
     public void BalloonCollision()
     {
         combo += ConstInfo.balloonComboIncrease;
+        GameUI.instance.balloonCount++;
+        GameUI.instance.timer = GameUI.instance.timer + ConstInfo.balloonTimeIncrease > 60 ? 60 : GameUI.instance.timer + ConstInfo.balloonTimeIncrease;
+        GameUI.instance.ShowTimeIncrease();
         GameUI.instance.ChangeCombo(combo);
     }
 
@@ -211,9 +214,12 @@ public class Player : MonoBehaviour
     // 점수 계산 알고리즘
     void CaculatePoint()
     {
-        point = combo + (int)(60 - GameUI.instance.timer);
+        if(Setting.GetCurrentTimeState() == TimeState.normal)
+            point = combo + (int)(60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount));
         ResultUI.instance.maxCombo.text = maxCombo.ToString() + " 회";
-        ResultUI.instance.playTime.text =(Mathf.Round((60 - GameUI.instance.timer) * 100) / 100) + " 초";
+        ResultUI.instance.playTime.text =(Mathf.Round((60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount)) * 100) / 100) + " 초";
+        if (Setting.GetCurrentTimeState() == TimeState.infinite)
+            ResultUI.instance.playTime.text = "무제한";
         ResultUI.instance.point.text = point.ToString();
         MyRankUI.instance.point.text = point.ToString();
     }

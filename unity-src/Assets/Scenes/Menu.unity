@@ -7658,19 +7658,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1.                                 999
+  m_Text: '1.                          99999
 
 
-    2.                                 999
+    2.                          99999
 
 
-    3.                                 999
+    3.                          99999
 
 
-    4.                                 999
+    4.                          99999
 
 
-    5.                                 999'
+    5.                          99999'
 --- !u!222 &1833481556
 CanvasRenderer:
   m_ObjectHideFlags: 0
