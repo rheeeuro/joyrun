@@ -15,19 +15,15 @@ public enum MenuChoice
 
 public class MenuUI : MonoBehaviour
 {
-    //색상 스프라이트
-    public Sprite selected;
-    public Sprite Unselected;
+
 
     // 인스턴스 및 현재 선택한 메뉴 항목
     public static MenuUI instance;
     private MenuChoice currentMenuChoice;
 
-    /*
-    // 색상 변수
-    private Color selectedColor = Color.yellow;
-    private Color unselectedColor = Color.white;
-    **/
+    //색상 스프라이트
+    public Sprite selected;
+    public Sprite unSelected;
 
     // 메뉴 버튼 변수
     public GameObject startButton;
@@ -60,16 +56,10 @@ public class MenuUI : MonoBehaviour
     // 모든 버튼을 선택 해제
     void UnselectButtons()
     {
-        /*
-        startButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        settingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        rankingButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        quitButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        **/
-        startButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
-        settingButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
-        rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
-        quitButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
+        startButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
+        settingButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
+        rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
+        quitButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
 
     }
 
@@ -79,11 +69,9 @@ public class MenuUI : MonoBehaviour
         switch (currentMenuChoice)
         {
             case MenuChoice.start:
-                //startButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 startButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
             case MenuChoice.setting:
-                //settingButton.GetComponent<UnityEngine.UI.Image>().color = selectedColor;
                 settingButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
                 break;
             case MenuChoice.ranking:

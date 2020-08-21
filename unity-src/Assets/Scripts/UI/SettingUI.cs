@@ -34,12 +34,6 @@ public class SettingUI : MonoBehaviour
     public Sprite arrowRUnselected;
     **/
 
-    /*
-    // 색상 변수
-    private Color selectedColor = Color.yellow;
-    private Color unselectedColor = Color.white;
-    **/
-
     // 메뉴 버튼 변수
     public GameObject animationButton;
     public GameObject hpButton;
@@ -80,11 +74,6 @@ public class SettingUI : MonoBehaviour
     // 모든 버튼을 선택 해제
     void UnselectButtons()
     {
-        /*
-        animationButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        hpButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        timeButton.GetComponent<UnityEngine.UI.Image>().color = unselectedColor;
-        **/
         animationButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
         hpButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
         timeButton.GetComponent<UnityEngine.UI.Image>().sprite = Unselected;
