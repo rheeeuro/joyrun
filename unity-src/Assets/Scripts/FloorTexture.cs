@@ -75,4 +75,23 @@ public class FloorTexture : MonoBehaviour
     public static void ProgressDelayTexture(GameObject obj, float ratio) {
         obj.transform.GetChild(1).GetComponent<Image>().fillAmount = 1 - ratio;
     }
+
+    public static void MoveAllChildTexture(GameObject obj, bool move) {
+        if (move)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                obj.transform.GetChild(i).transform.localPosition =
+                    new Vector3(obj.transform.GetChild(i).transform.localPosition.x, -10);
+            }
+        }
+        else 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                obj.transform.GetChild(i).transform.localPosition =
+                    new Vector3(obj.transform.GetChild(i).transform.localPosition.x, 0);
+            }
+        }
+    }
 }

@@ -52,7 +52,7 @@ public static class ConstInfo
 
     // 플레이어 동작 조건 관련 상수
     public const float stepHeight = 144;
-    public const float jumpHeight = 18;
+    public const float jumpHeight = 25;
     public const float jumpYLimitBetweenFoots = 21.6f;
     public const float jumpXChangeLimit = 360;
     public const float punchDistance = 216;

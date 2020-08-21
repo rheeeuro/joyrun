@@ -345,6 +345,7 @@ public class GameFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButton);
             uiTimer[0] = 0;
+            FloorTexture.ProgressDelayTexture(newGameTilePause, 0);
         }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTilePause))
@@ -353,6 +354,7 @@ public class GameFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButton);
             uiTimer[1] = 0;
+            FloorTexture.ProgressDelayTexture(toMenuTilePause, 0);
         }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, nextPageTile))
@@ -361,6 +363,8 @@ public class GameFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButton);
             uiTimer[2] = 0;
+            FloorTexture.ProgressDelayTexture(nextPageTile, 0);
+            FloorTexture.MoveAllChildTexture(nextPageTile, false);
         }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTileResult))
@@ -369,6 +373,8 @@ public class GameFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButton);
             uiTimer[3] = 0;
+            FloorTexture.ProgressDelayTexture(newGameTileResult, 0);
+            FloorTexture.MoveAllChildTexture(newGameTileResult, false);
         }
 
         if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTileResult))
@@ -377,6 +383,8 @@ public class GameFloorTile : MonoBehaviour
         {
             FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButton);
             uiTimer[4] = 0;
+            FloorTexture.ProgressDelayTexture(toMenuTileResult, 0);
+            FloorTexture.MoveAllChildTexture(toMenuTileResult, false);
         }
     }
 
@@ -397,9 +405,11 @@ public class GameFloorTile : MonoBehaviour
     void HandleNewGameTilePause() {
         FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButtonPress);
         uiTimer[0] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(newGameTilePause, uiTimer[0] / ConstInfo.buttonPushTime);
         if (uiTimer[0] > ConstInfo.buttonPushTime) {
             uiTimer[0] = 0;
             GameUI.instance.HandleNewGame();
+            FloorTexture.ProgressDelayTexture(newGameTilePause, 0);
         }
     }
 
@@ -408,10 +418,14 @@ public class GameFloorTile : MonoBehaviour
     {
         FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButtonPress);
         uiTimer[3] += Time.deltaTime;
+        FloorTexture.MoveAllChildTexture(newGameTileResult, true);
+        FloorTexture.ProgressDelayTexture(newGameTileResult, uiTimer[3] / ConstInfo.buttonPushTime);
         if (uiTimer[3] > ConstInfo.buttonPushTime)
         {
             uiTimer[3] = 0;
             MyRankUI.instance.HandleRetry();
+            FloorTexture.ProgressDelayTexture(newGameTileResult, 0);
+            FloorTexture.MoveAllChildTexture(newGameTileResult, false);
         }
     }
 
@@ -419,9 +433,11 @@ public class GameFloorTile : MonoBehaviour
     void HandleToMenuTilePause() {
         FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButtonPress);
         uiTimer[1] += Time.deltaTime;
+        FloorTexture.ProgressDelayTexture(toMenuTilePause, uiTimer[1] / ConstInfo.buttonPushTime);
         if (uiTimer[1] > ConstInfo.buttonPushTime) {
             uiTimer[1] = 0;
             GameUI.instance.HandleToMenu();
+            
         }
     }
 
@@ -430,10 +446,14 @@ public class GameFloorTile : MonoBehaviour
     {
         FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButtonPress);
         uiTimer[4] += Time.deltaTime;
+        FloorTexture.MoveAllChildTexture(toMenuTileResult, true);
+        FloorTexture.ProgressDelayTexture(toMenuTileResult, uiTimer[1] / ConstInfo.buttonPushTime);
         if (uiTimer[4] > ConstInfo.buttonPushTime)
         {
             uiTimer[4] = 0;
             MyRankUI.instance.HandleToMenu();
+            FloorTexture.ProgressDelayTexture(toMenuTileResult, 0);
+            FloorTexture.MoveAllChildTexture(toMenuTileResult, false);
         }
     }
 
@@ -441,10 +461,14 @@ public class GameFloorTile : MonoBehaviour
     void HandleNextPageTile() {
         FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButtonPress);
         uiTimer[2] += Time.deltaTime;
+        FloorTexture.MoveAllChildTexture(nextPageTile, true);
+        FloorTexture.ProgressDelayTexture(nextPageTile, uiTimer[1] / ConstInfo.buttonPushTime);
         if (uiTimer[2] > ConstInfo.buttonPushTime)
         {
             uiTimer[2] = 0;
             ResultUI.instance.HandleNextPage();
+            FloorTexture.ProgressDelayTexture(nextPageTile, 0);
+            FloorTexture.MoveAllChildTexture(nextPageTile, false);
         }
     }
 
