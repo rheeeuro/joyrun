@@ -170,7 +170,7 @@ public class MenuFloorTile : MonoBehaviour
 
     void HandleCenterTile() {
         if (Avatar.GetUserValid())
-            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerTile) && Avatar.VectorInside(Avatar.userPositionRightFoot, centerTile)
+            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerTile) && Avatar.VectorInside(Avatar.userPositionRightFoot, centerTile))
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
             else
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);

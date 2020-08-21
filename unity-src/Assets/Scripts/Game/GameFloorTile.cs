@@ -383,7 +383,7 @@ public class GameFloorTile : MonoBehaviour
     void HandleCenterTile()
     {
         if (Avatar.GetUserValid())
-            if (Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile))
+            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerTile) && Avatar.VectorInside(Avatar.userPositionRightFoot, centerTile))
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
             else
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
