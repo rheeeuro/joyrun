@@ -22,7 +22,8 @@ public class RankingUI : MonoBehaviour
     {
         GameManager.instance.SetGameState(GameState.ranking);
         UpdateRanking();
-        transform.gameObject.SetActive(true);   
+        transform.gameObject.SetActive(true);
+        GetComponent<Animation>().Play("ShowGuide");
     }
 
 

@@ -115,6 +115,11 @@ public class GameFloorTile : MonoBehaviour
         HandleFloorTileHighlight();
         if (GameManager.instance.GetKinectState())
             HandleKinect();
+        else
+        {
+            leftFootPrint.transform.localScale = Vector3.zero;
+            rightFootPrint.transform.localScale = Vector3.zero;
+        }
     }
 
     void HandleFloorTileHighlight() {

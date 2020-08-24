@@ -31,10 +31,12 @@ public class GameUI : MonoBehaviour
     {
         isPausing = false;
         InitialGameTimer();
+        Show();
     }
 
     // 게임 타이머 초기화
-    void InitialGameTimer() {
+    void InitialGameTimer() 
+    {
         comboDisplayTimer = 0;
         damageEffectTimer = 0;
         balloonCount = 0;
@@ -191,8 +193,8 @@ public class GameUI : MonoBehaviour
     // 게임이 종료된 경우
     public void HandleGameEnd()
     {
-        transform.gameObject.SetActive(false);
         ResultUI.instance.Show();
+        transform.gameObject.SetActive(false);
     }
 
     // 랭킹 등록 알고리즘

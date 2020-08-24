@@ -23,6 +23,7 @@ public class MyRankUI : MonoBehaviour
         GameManager.instance.SetGameState(GameState.myRank);
         UpdateRanking();
         transform.gameObject.SetActive(true);
+        GetComponent<Animation>().Play("ShowGuide");
     }
 
 

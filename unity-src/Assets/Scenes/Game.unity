@@ -1384,9 +1384,9 @@ GameObject:
   - component: {fileID: 260062134}
   - component: {fileID: 260062133}
   - component: {fileID: 260062132}
-  - component: {fileID: 260062131}
   - component: {fileID: 260062137}
   - component: {fileID: 260062138}
+  - component: {fileID: 260062131}
   m_Layer: 5
   m_Name: FloorUICanvas
   m_TagString: Untagged
@@ -1403,25 +1403,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 260062130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.121568635, g: 0.65882355, b: 0.854902, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 2800000, guid: 74245a79a02a7fd4da233ad539e0f095, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &260062132
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2454,6 +2451,7 @@ GameObject:
   - component: {fileID: 458171589}
   - component: {fileID: 458171592}
   - component: {fileID: 458171590}
+  - component: {fileID: 458171591}
   m_Layer: 5
   m_Name: MyRankUI
   m_TagString: Untagged
@@ -2500,6 +2498,22 @@ MonoBehaviour:
   myRank: {fileID: 376000344}
   ranking: {fileID: 1461476406}
   point: {fileID: 613496835}
+--- !u!111 &458171591
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458171588}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c78083e77284fd041a7010c753d659b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!222 &458171592
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3050,7 +3064,6 @@ GameObject:
   - component: {fileID: 585532534}
   - component: {fileID: 585532533}
   - component: {fileID: 585532532}
-  - component: {fileID: 585532531}
   m_Layer: 5
   m_Name: ScreenUICanvas
   m_TagString: Untagged
@@ -3058,18 +3071,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &585532531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585532530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a115c21106b2ac44ca445b7992b29704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &585532532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8107,7 +8108,6 @@ GameObject:
   - component: {fileID: 1799101088}
   - component: {fileID: 1799101087}
   - component: {fileID: 1799101086}
-  - component: {fileID: 1799101085}
   m_Layer: 5
   m_Name: GameCanvas
   m_TagString: Untagged
@@ -8115,18 +8115,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1799101085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799101084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a115c21106b2ac44ca445b7992b29704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1799101086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9398,6 +9386,7 @@ GameObject:
   - component: {fileID: 2068576040}
   - component: {fileID: 2068576043}
   - component: {fileID: 2068576041}
+  - component: {fileID: 2068576042}
   m_Layer: 5
   m_Name: ResultUI
   m_TagString: Untagged
@@ -9444,6 +9433,22 @@ MonoBehaviour:
   maxCombo: {fileID: 765677452}
   playTime: {fileID: 1529282712}
   point: {fileID: 720906832}
+--- !u!111 &2068576042
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068576039}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c78083e77284fd041a7010c753d659b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!222 &2068576043
 CanvasRenderer:
   m_ObjectHideFlags: 0

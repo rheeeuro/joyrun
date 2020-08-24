@@ -61,6 +61,7 @@ public class SettingUI : MonoBehaviour
     {
         GameManager.instance.SetGameState(GameState.setting);
         transform.gameObject.SetActive(true);
+        GetComponent<Animation>().Play("ShowGuide");
     }
 
     void Update()
