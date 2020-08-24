@@ -71,7 +71,7 @@ namespace com.rfilkov.kinect
         [Tooltip("Whether to display only the users within the allowed distances, or all users.")]
         public bool showAllowedUsersOnly = false;
 
-        public enum UserDetectionOrder : int { Appearance = 0, Distance = 1, LeftToRight = 2 }
+        public enum UserDetectionOrder : int { Appearance = 0, Distance = 1, LeftToRight = 2, Custom = 3 }
         [Tooltip("How to assign users to player indices - by order of appearance, distance or left-to-right.")]
         public UserDetectionOrder userDetectionOrder = UserDetectionOrder.Appearance;
 
@@ -168,7 +168,7 @@ namespace com.rfilkov.kinect
         protected KinectInterop.BodyData[] alTrackedBodies = new KinectInterop.BodyData[0];  // new List<KinectInterop.BodyData>();
 
         protected int btSensorIndex = -1;
-        protected int selectedBodyIndex = 255;
+        protected int selectedBodyIndex = 0;
         protected bool bLimitedUsers = false;
 
         protected BoneOrientationConstraints boneConstraints = null;
@@ -1185,7 +1185,7 @@ namespace com.rfilkov.kinect
         }
 
         /// <summary>
-        /// Sets the body index, if a single body must be displayed on the user map, or -1 if all bodies must be displayed.
+        /// Sets the body index, if a single body Fmust be displayed on the user map, or -1 if all bodies must be displayed.
         /// </summary>
         /// <returns><c>true</c>, if the change was successful, <c>false</c> otherwise.</returns>
         /// <param name="iBodyIndex">The single body index, or -1 if all bodies must be displayed.</param>
@@ -2841,7 +2841,7 @@ namespace com.rfilkov.kinect
                 if (sensorInterfaces.Count > 0)
                 {
                     kinectInitialized = true;
-
+                   
                     if(sensorInterfaces.Count > 1)
                     {
                         // create body merger for multiple sensors
@@ -2997,6 +2997,7 @@ namespace com.rfilkov.kinect
 
         void Update()
         {
+            GameManager.instance.SetKinectState(sensorDatas.Count > 0);
             if (!kinectInitialized)
                 return;
 
@@ -3277,6 +3278,7 @@ namespace com.rfilkov.kinect
 
             List<ulong> lostUsers = new List<ulong>();
             lostUsers.AddRange(userManager.alUserIds);
+
 
             bLimitedUsers = showAllowedUsersOnly && 
                 (maxTrackedUsers > 0 || minUserDistance >= 0.01f || maxUserDistance >= 0.01f || maxLeftRightDistance >= 0.01f);

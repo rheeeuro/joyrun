@@ -1,46 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Highlight : MonoBehaviour
 {
-    public Color primarycolor;
+    public Color highlightColor;
+    public Color transparent;
     Renderer rend;
 
     // 초기 색상 저장
     void Start()
     {
         rend = GetComponent<Renderer>();
-        primarycolor = rend.material.color;
+        highlightColor = new Color(1, 0.7f, 0);
+        transparent = Color.white;
+        highlightColor.a = 0.5f;
+        transparent.a = 0;
         if (gameObject.name == "centerTile-highlight")
-            rend.material.SetColor("_Color", Color.yellow);
+            rend.material.color = highlightColor;
+        else
+            rend.material.color = transparent;
     }
 
     // 하이라이트 타일 색상 업데이트
     void Update()
     {
-        rend.material.SetColor("_Color", primarycolor);
-
+        rend.material.color = transparent;
         switch (gameObject.name)
         {
             case "leftTile-highlight":
-                if (Player.highlight.transform.position.x == Tile.left)
-                    rend.material.SetColor("_Color", Color.yellow);
+                if (Player.instance.highlight.transform.position.x == ConstInfo.left)
+                    rend.material.color = highlightColor;
                 break;
             case "centerTile-highlight":
-                if (Player.highlight.transform.position.x == Tile.center)
-                    rend.material.SetColor("_Color", Color.yellow);
+                if (Player.instance.highlight.transform.position.x == ConstInfo.center)
+                    rend.material.color = highlightColor;
                 break;
             case "rightTile-highlight":
-                if (Player.highlight.transform.position.x == Tile.right)
-                    rend.material.SetColor("_Color", Color.yellow);
+                if (Player.instance.highlight.transform.position.x == ConstInfo.right)
+                    rend.material.color = highlightColor;
                 break;
         }
     }
-        
-
-
-
 }
 
 
