@@ -15,9 +15,9 @@ public class Ground : MonoBehaviour
         bground = Resources.Load("Prefabs/Bground2") as GameObject;
         GameObject.Find("Bground").SetActive(false);
         bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, 0),
-            Player.instance.player.transform.rotation) as GameObject);
+            transform.rotation) as GameObject);
         bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.bgroundSizeZ),
-            Player.instance.player.transform.rotation) as GameObject);
+            transform.rotation) as GameObject);
     }
 
     void Update()

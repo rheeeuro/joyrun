@@ -16,6 +16,7 @@ public class GameUI : MonoBehaviour
     public Text speedText;
     public Text countDownTimer;
     public Text timeIncreaseText;
+    public Text HpIncreaseText;
     public UIBarScript barHp;
 
     // 타이머  변수 선언
@@ -87,6 +88,7 @@ public class GameUI : MonoBehaviour
         HandleComboText();
         HandleSpeedText();
         HandleTimeIncrease();
+        HandleHpIncrease();
     }
 
 
@@ -157,16 +159,30 @@ public class GameUI : MonoBehaviour
 
     public void ShowTimeIncrease() {
         timeIncreaseText.color = new Color(1, 1, 1, 1);
+    } 
+    
+    public void ShowHpIncrease() {
+        HpIncreaseText.color = new Color(1, 1, 1, 1);
     }
+
+
 
     public void HandleTimeIncrease() {
         if (timeIncreaseText.color.a > 0.3)
             timeIncreaseText.color = new Color(1, 1, 1, timeIncreaseText.color.a - ConstInfo.timeIncreaseTextAlphaDecrease);
         else
             timeIncreaseText.color = new Color(1, 1, 1, 0);
-            
         timeIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, timeIncreaseText.color.a / 2);
         timerText.color = new Color(1 - (timeIncreaseText.color.a), 1, 1 - (timeIncreaseText.color.a));
+    }
+
+    public void HandleHpIncrease()
+    {
+        if (HpIncreaseText.color.a > 0.3)
+            HpIncreaseText.color = new Color(1, 1, 1, HpIncreaseText.color.a - ConstInfo.timeIncreaseTextAlphaDecrease);
+        else
+            HpIncreaseText.color = new Color(1, 1, 1, 0);
+        HpIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, HpIncreaseText.color.a / 2);
     }
 
 

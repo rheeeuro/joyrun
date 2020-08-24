@@ -34,6 +34,8 @@ public class Tile : MonoBehaviour
     // 생성된 타일의 줄 수 변수
     public int createTileCount;
 
+    public int heartBonusCount;
+
     void Start()
     {
         InitialLists();
@@ -58,6 +60,7 @@ public class Tile : MonoBehaviour
         createTileCount = 0;
         extraSpeed = 0;
         heartDirection = 0;
+        heartBonusCount = 0;
     }
 
     // Prefab 불러오기
@@ -335,10 +338,24 @@ public class Tile : MonoBehaviour
             {
                 GetChildTransform(obj, i * 2).localScale = Vector3.zero;
                 GetChildTransform(obj, i * 2 + 1).localScale = Vector3.zero;
-                Player.instance.HeartCollision();
+                heartBonusCount++;
+                Player.instance.HeartCollision(i);
             }
         }
+
+        if (Mathf.Abs(obj.transform.position.z - ConstInfo.CheckHeartBonusPositionZ) < ConstInfo.collisionGap
+            && GetChildTransform(obj, 9).localScale.x != 0)
+            HandleHeartBonus(obj);
     }
+
+    void HandleHeartBonus(GameObject obj) {
+        if (heartBonusCount == 4)
+            Player.instance.point += 15;
+        else
+            Player.instance.point += 3 * heartBonusCount;
+        GetChildTransform(obj, 9).localScale = Vector3.zero;
+    }
+
 
     // 장애물 충돌 판정 알고리즘
     void CheckCollisionObstacle(GameObject obj)

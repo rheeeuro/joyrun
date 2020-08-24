@@ -35,9 +35,9 @@ public static class ConstInfo
 
     // 장애물 상호작용 관련 상수
     public const int emptyTileComboIncrease = 1;
-    public const int heartTileComboIncrease = 2;
+    public const int heartTileComboIncrease = 1;
     public const int heartTileHpIncrease = 2;
-    public const int balloonComboIncrease = 10;
+    public const int balloonComboIncrease = 1;
     public const int balloonTimeIncrease = 3;
 
 
@@ -67,6 +67,7 @@ public static class ConstInfo
     public const float trackWidth = 42;
     public const float tileDistance = 60;
     public static float[] collisionPositionZ = { -30, -36, -42, -48 };
+    public static float CheckHeartBonusPositionZ = -60;
     public const float collisionGap = 5;
 
     // 속도 관련 상수

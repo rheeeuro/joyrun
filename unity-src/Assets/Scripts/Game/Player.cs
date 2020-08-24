@@ -168,9 +168,11 @@ public class Player : MonoBehaviour
 
 
     // 하트에 충돌 시
-    public void HeartCollision()
+    public void HeartCollision(int i)
     {
-        combo += ConstInfo.heartTileComboIncrease;
+        if (i == 0)
+            combo += ConstInfo.heartTileComboIncrease;
+        GameUI.instance.ShowHpIncrease();
         GameUI.instance.ChangeCombo(combo);
         hp = hp + ConstInfo.heartTileHpIncrease > ConstInfo.maxHp ? ConstInfo.maxHp : hp + ConstInfo.heartTileHpIncrease;
     }
@@ -189,6 +191,8 @@ public class Player : MonoBehaviour
     public void ObstacleCollision()
     {
         Tile.extraSpeed = 0;
+        int comboWeight = (combo - 1) / 10;
+        point += (int) (combo * ((comboWeight / 10f) + 1));
         combo = 0;
         Damaged();
     }
@@ -214,8 +218,6 @@ public class Player : MonoBehaviour
     // 점수 계산 알고리즘
     void CaculatePoint()
     {
-        if(Setting.GetCurrentTimeState() == TimeState.normal)
-            point = combo + (int)(60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount));
         ResultUI.instance.maxCombo.text = maxCombo.ToString() + " 회";
         ResultUI.instance.playTime.text =(Mathf.Round((60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount)) * 100) / 100) + " 초";
         if (Setting.GetCurrentTimeState() == TimeState.infinite)
