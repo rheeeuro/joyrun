@@ -36,6 +36,9 @@ public class Tile : MonoBehaviour
 
     public int heartBonusCount;
 
+    RuntimeAnimatorController trapEvent;
+    RuntimeAnimatorController huddleEvent;
+
     void Start()
     {
         InitialLists();
@@ -73,6 +76,9 @@ public class Tile : MonoBehaviour
         emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
         balloonTile = Resources.Load("Prefabs/balloon-tile") as GameObject;
+
+        trapEvent = Resources.Load("Prefabs/AnimationControllers/TrapEvent") as RuntimeAnimatorController;
+        huddleEvent = Resources.Load("Prefabs/AnimationControllers/HuddleEvent") as RuntimeAnimatorController;
     }
 
     // List 설정 (random: 장애물, 빈, 함정 / bad: 장애물, 함정)
@@ -228,10 +234,10 @@ public class Tile : MonoBehaviour
         if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile") 
             && ((IsPassDirection(lastLeftTile) && lastRightTile.tag == "empty-tile") || (IsPassDirection(lastRightTile) && lastLeftTile.tag == "empty-tile"))) 
         {
-            if (IsPassDirection(lastLeftTile))
-                HandleAnimation(lastRightTile, obstacleTile, activatedTiles.Count - 1, "obstacle-anim-right");
-            else
-                HandleAnimation(lastLeftTile, obstacleTile, activatedTiles.Count - 3, "obstacle-anim-left");
+           if (IsPassDirection(lastLeftTile))
+                HandleAnimation(lastRightTile, obstacleTile, activatedTiles.Count - 1, huddleEvent);
+           else
+                HandleAnimation(lastLeftTile, obstacleTile, activatedTiles.Count - 3, huddleEvent);
         }
     }
 
@@ -248,18 +254,17 @@ public class Tile : MonoBehaviour
     {
         for (int i = activatedTiles.Count - 3; i < activatedTiles.Count; i++)
             if (activatedTiles[i].tag == "empty-tile" && !IsPassDirection(activatedTiles[i]))
-                HandleAnimation(activatedTiles[i], trapTile, i, "trap-anim");
+                HandleAnimation(activatedTiles[i], trapTile, i, trapEvent);
     }
 
     // 애니메이션 재생 타일로 변경
-    void HandleAnimation(GameObject oldTile, GameObject newTile, int index, string animationName)
+    void HandleAnimation(GameObject oldTile, GameObject newTile, int index, RuntimeAnimatorController runtimeAnimatorController)
     {
         activatedTiles[index] = Instantiate(newTile, new Vector3(oldTile.transform.position.x, ConstInfo.tileStartPositionY, oldTile.transform.position.z), 
             Player.instance.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
-        activatedTiles[index].GetComponent<Animation>()[animationName].speed = (2 * actualSpeed * ConstInfo.tileAnimationLength) / (ConstInfo.tileStartPositionZ - ConstInfo.playerStartPositionZ - 12);
-        activatedTiles[index].GetComponent<Animation>().Play(animationName);
+        activatedTiles[index].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController = runtimeAnimatorController;
     }
 
 
@@ -344,7 +349,7 @@ public class Tile : MonoBehaviour
         }
 
         if (Mathf.Abs(obj.transform.position.z - ConstInfo.CheckHeartBonusPositionZ) < ConstInfo.collisionGap
-            && GetChildTransform(obj, 9).localScale.x != 0)
+            && GetChildTransform(obj, 8).localScale.x != 0)
             HandleHeartBonus(obj);
     }
 
@@ -353,7 +358,7 @@ public class Tile : MonoBehaviour
             Player.instance.point += 15;
         else
             Player.instance.point += 3 * heartBonusCount;
-        GetChildTransform(obj, 9).localScale = Vector3.zero;
+        GetChildTransform(obj, 8).localScale = Vector3.zero;
     }
 
 
