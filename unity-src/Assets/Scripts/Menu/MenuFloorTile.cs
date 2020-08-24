@@ -55,6 +55,11 @@ public class MenuFloorTile : MonoBehaviour
             HandleFootPrint();
             HandleMenuTiles();
         }
+        else
+        {
+            leftFootPrint.transform.localScale = Vector3.zero;
+            rightFootPrint.transform.localScale = Vector3.zero;
+        }
         HandleKeyBoard();
     }
 

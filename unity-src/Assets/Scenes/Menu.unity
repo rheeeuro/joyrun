@@ -4999,6 +4999,7 @@ GameObject:
   - component: {fileID: 1257150522}
   - component: {fileID: 1257150521}
   - component: {fileID: 1257150523}
+  - component: {fileID: 1257150524}
   m_Layer: 5
   m_Name: RankingUI
   m_TagString: Untagged
@@ -5077,6 +5078,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ranking: {fileID: 1833481555}
+--- !u!111 &1257150524
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257150519}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c78083e77284fd041a7010c753d659b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1339264994
 GameObject:
   m_ObjectHideFlags: 0
@@ -5233,6 +5250,7 @@ GameObject:
   - component: {fileID: 1369388159}
   - component: {fileID: 1369388158}
   - component: {fileID: 1369388157}
+  - component: {fileID: 1369388160}
   m_Layer: 5
   m_Name: MenuUI
   m_TagString: Untagged
@@ -5319,6 +5337,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369388155}
   m_CullTransparentMesh: 0
+--- !u!111 &1369388160
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369388155}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c78083e77284fd041a7010c753d659b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1369500363
 GameObject:
   m_ObjectHideFlags: 0
@@ -5652,6 +5686,7 @@ GameObject:
   - component: {fileID: 1439027359}
   - component: {fileID: 1439027358}
   - component: {fileID: 1439027357}
+  - component: {fileID: 1439027360}
   m_Layer: 5
   m_Name: SettingUI
   m_TagString: Untagged
@@ -5746,6 +5781,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439027355}
   m_CullTransparentMesh: 0
+--- !u!111 &1439027360
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439027355}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c78083e77284fd041a7010c753d659b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1456696446
 GameObject:
   m_ObjectHideFlags: 0
@@ -7104,7 +7155,6 @@ GameObject:
   - component: {fileID: 1760768513}
   - component: {fileID: 1760768512}
   - component: {fileID: 1760768511}
-  - component: {fileID: 1760768515}
   m_Layer: 5
   m_Name: ScreenUICanvas
   m_TagString: Untagged
@@ -7194,18 +7244,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1760768515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760768510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a115c21106b2ac44ca445b7992b29704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1762511353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7692,9 +7730,9 @@ GameObject:
   - component: {fileID: 1887460092}
   - component: {fileID: 1887460091}
   - component: {fileID: 1887460090}
-  - component: {fileID: 1887460089}
   - component: {fileID: 1887460095}
   - component: {fileID: 1887460096}
+  - component: {fileID: 1887460089}
   m_Layer: 5
   m_Name: FloorUICanvas
   m_TagString: Untagged
@@ -7711,25 +7749,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1887460088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10588236, g: 0.6392157, b: 0.8352942, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 2800000, guid: 74245a79a02a7fd4da233ad539e0f095, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &1887460090
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.PlayerLoop;
 
 // 게임 상태 (0: 인게임, 1: 메뉴, 2: 내순위, 3: 일시정지, 4: 랭킹, 5: 게임결과, 6: 환경설정)
 public enum GameState
@@ -25,10 +26,18 @@ public class GameManager : MonoBehaviour
 
 
 
-    void Awake() 
-    {        
-        instance = this;
+    void Awake()
+    {
+        if (!instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
+
+
 
     void Start()
     {
@@ -37,6 +46,7 @@ public class GameManager : MonoBehaviour
         kinectState = false;
         Time.timeScale = 1;
     }
+
 
     // 프레임 설정
     public void HandleFrameRate() {

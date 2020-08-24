@@ -22,6 +22,7 @@ public class ResultUI : MonoBehaviour
     {
         GameManager.instance.SetGameState(GameState.result);
         transform.gameObject.SetActive(true);
+        GetComponent<Animation>().Play("ShowGuide");
     }
 
 

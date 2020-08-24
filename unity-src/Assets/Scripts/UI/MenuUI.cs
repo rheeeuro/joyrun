@@ -34,8 +34,10 @@ public class MenuUI : MonoBehaviour
     void Awake() { instance = this; }
 
     // 초기에는 게임시작 버튼 하이라이트
-    void Start() { currentMenuChoice = MenuChoice.start; }
-
+    void Start() {
+        currentMenuChoice = MenuChoice.start;
+        Show();
+    }
 
 
     // 메뉴 UI 보여주기
@@ -43,6 +45,7 @@ public class MenuUI : MonoBehaviour
     {
         GameManager.instance.SetGameState(GameState.menu);
         transform.gameObject.SetActive(true);
+        GetComponent<Animation>().Play("ShowGuide");
     }
 
 
