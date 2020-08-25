@@ -6395,6 +6395,10 @@ MonoBehaviour:
   maxCombo: 0
   combo: 0
   hp: 0
+  stumbleTimer: 0
+  isStumble: 0
+  punchTimer: 0
+  isPunch: 0
 --- !u!114 &1339462816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9225,6 +9229,8 @@ MonoBehaviour:
   emptyTilePass: {fileID: 0}
   trapTile: {fileID: 0}
   balloonTile: {fileID: 0}
+  trapTileEvent: {fileID: 0}
+  obstacleTileEvent: {fileID: 0}
   leftTile: {fileID: 0}
   centerTile: {fileID: 0}
   rightTile: {fileID: 0}

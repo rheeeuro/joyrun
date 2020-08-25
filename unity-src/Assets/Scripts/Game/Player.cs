@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
@@ -24,6 +25,10 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animWalk;
     RuntimeAnimatorController animSprint;
     RuntimeAnimatorController animJump;
+    RuntimeAnimatorController animFinish;
+    RuntimeAnimatorController animStumble;
+    RuntimeAnimatorController animPunch;
+
 
     // 점프 관련 번수 선언
     public bool isJumping;
@@ -36,6 +41,11 @@ public class Player : MonoBehaviour
     public int maxCombo;
     public int combo;
     public int hp;
+
+    public float stumbleTimer;
+    public bool isStumble;
+    public float punchTimer;
+    public bool isPunch;
 
     // 인스턴스 설정
     private void Awake() { instance = this; }
@@ -58,6 +68,10 @@ public class Player : MonoBehaviour
     {
         isJumping = false;
         jumpTimer = 0;
+        isStumble = false;
+        stumbleTimer = 0;
+        isPunch = false;
+        punchTimer = 0;
         point = 0;
         combo = 0;
         maxCombo = 0;
@@ -74,6 +88,9 @@ public class Player : MonoBehaviour
         animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
         animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
         animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
+        animFinish = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Finish") as RuntimeAnimatorController;
+        animStumble = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Stumble") as RuntimeAnimatorController;
+        animPunch = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Punch") as RuntimeAnimatorController;
     }
 
 
@@ -82,14 +99,22 @@ public class Player : MonoBehaviour
     {
         if (GameManager.instance.GetGameState() == GameState.game)
             HandleGame(GameUI.instance.timer);
-        else
+        else if (GameManager.instance.GetGameState() == GameState.pause)
             animator.runtimeAnimatorController = Setting.GetCurrentAnimationState() == AnimationState.animation ? animIdle as RuntimeAnimatorController : null;
     }
 
     // 시간, 체력에 따른 게임 동작 설정
     void HandleGame(float timer) {
-        if ((timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal) || hp == 0)
+        if ((timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal))
+        {
+            animator.runtimeAnimatorController = animFinish;
             GameEnd();
+        }
+        else if (hp == 0)
+        {
+            animator.runtimeAnimatorController = animIdle;
+            GameEnd();
+        }
         else
             HandlePlayer();
     }
@@ -116,6 +141,8 @@ public class Player : MonoBehaviour
     {
         if (isJumping)
             HandlePlayerJumping();
+        else if (isStumble)
+            HandleStumble();
         else
             HandlePlayerMoving(Setting.GetCurrentAnimationState());
     }
@@ -135,6 +162,22 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = null;
         isJumping = false;
         jumpTimer = 0;
+    }
+
+    public void HandleStumble()
+    {
+        animator.runtimeAnimatorController = animStumble as RuntimeAnimatorController;
+        stumbleTimer += Time.deltaTime;
+        if (stumbleTimer >= ConstInfo.stumbleTime)
+            InitialStumbleState();
+    }
+
+    public void InitialStumbleState() {
+        if (Setting.GetCurrentAnimationState() == AnimationState.kinect)
+            animator.runtimeAnimatorController = null;
+        isStumble = false;
+        stumbleTimer = 0;
+
     }
 
     // 플레이어 동작 상태 설정
@@ -190,6 +233,7 @@ public class Player : MonoBehaviour
     // 장애물에 층돌 시
     public void ObstacleCollision()
     {
+        isStumble = true;
         Tile.extraSpeed = 0;
         int comboWeight = (combo - 1) / 10;
         point += (int) (combo * ((comboWeight / 10f) + 1));
@@ -229,7 +273,8 @@ public class Player : MonoBehaviour
     // 게임 종료 알고리즘
     public void GameEnd()
     {
-        animator.runtimeAnimatorController = null;
+        if(GameManager.instance.GetKinectState())
+            animator.runtimeAnimatorController = null;
         CaculatePoint();
         GameUI.instance.InsertRank(point);
         GameUI.instance.HandleGameEnd();

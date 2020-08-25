@@ -11,6 +11,8 @@ public class Tile : MonoBehaviour
     public GameObject emptyTilePass;
     public GameObject trapTile;
     public GameObject balloonTile;
+    public GameObject trapTileEvent;
+    public GameObject obstacleTileEvent;
 
     public GameObject leftTile;
     public GameObject centerTile;
@@ -39,6 +41,7 @@ public class Tile : MonoBehaviour
     RuntimeAnimatorController trapEvent;
     RuntimeAnimatorController huddleEvent;
     RuntimeAnimatorController huddleDown;
+    RuntimeAnimatorController balloonEvent;
 
     void Start()
     {
@@ -72,15 +75,18 @@ public class Tile : MonoBehaviour
     {
         heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
         obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
-
         emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
         emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
         trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
         balloonTile = Resources.Load("Prefabs/balloon-tile") as GameObject;
 
+        obstacleTileEvent = Resources.Load("Prefabs/obstacle-tile-event") as GameObject;
+        trapTileEvent = Resources.Load("Prefabs/trap-tile-event") as GameObject;
+
         trapEvent = Resources.Load("Prefabs/AnimationControllers/TrapEvent") as RuntimeAnimatorController;
         huddleEvent = Resources.Load("Prefabs/AnimationControllers/HuddleEvent") as RuntimeAnimatorController;
         huddleDown = Resources.Load("Prefabs/AnimationControllers/HuddleDown") as RuntimeAnimatorController;
+        balloonEvent = Resources.Load("Prefabs/AnimationControllers/BalloonEvent") as RuntimeAnimatorController;
     }
 
     // List 설정 (random: 장애물, 빈, 함정 / bad: 장애물, 함정)
@@ -255,9 +261,9 @@ public class Tile : MonoBehaviour
                 && Mathf.Abs(lastCenterTile.transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionGap)
             {
                 if (IsPassDirection(lastLeftTile))
-                    HandleAnimation(lastRightTile, obstacleTile, activatedTiles.IndexOf(lastRightTile), huddleEvent, 2);
+                    HandleAnimation(lastRightTile, obstacleTileEvent, activatedTiles.IndexOf(lastRightTile), huddleEvent, 2);
                 else
-                    HandleAnimation(lastLeftTile, obstacleTile, activatedTiles.IndexOf(lastLeftTile), huddleEvent, 2);
+                    HandleAnimation(lastLeftTile, obstacleTileEvent, activatedTiles.IndexOf(lastLeftTile), huddleEvent, 2);
             }
         }
     }
@@ -277,7 +283,7 @@ public class Tile : MonoBehaviour
         for (int i = 0; i < activatedTiles.Count; i++)
             if (activatedTiles[i].tag == "empty-tile" && !IsPassDirection(activatedTiles[i]) 
                 && Mathf.Abs(activatedTiles[i].transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionGap)
-                HandleAnimation(activatedTiles[i], trapTile, i, trapEvent, 0);
+                HandleAnimation(activatedTiles[i], trapTileEvent, i, trapEvent, 0);
     }
 
     // 애니메이션 재생 타일로 변경
@@ -287,7 +293,7 @@ public class Tile : MonoBehaviour
             Player.instance.player.transform.rotation) as GameObject;
         oldTile.SetActive(false);
         Destroy(oldTile);
-        activatedTiles[index].transform.GetChild(childIndex).GetComponent<Animator>().runtimeAnimatorController = runtimeAnimatorController;
+        //activatedTiles[index].transform.GetChild(childIndex).GetComponent<Animator>().runtimeAnimatorController = runtimeAnimatorController;
     }
 
 
@@ -418,12 +424,12 @@ public class Tile : MonoBehaviour
     void CheckCollisionBalloon(GameObject obj)
     {
         if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
-        && GetChildTransform(obj, 0).localScale.x != 0
+        && GetChildTransform(obj, 1).localScale.x != 0
         && obj.transform.position.x == Player.instance.highlight.transform.position.x
         && GameFloorTile.isPunching)
         {
             Player.instance.BalloonCollision();
-            GetChildTransform(obj, 0).localScale = Vector3.zero;
+            GetChildTransform(obj, 0).GetComponent<Animator>().runtimeAnimatorController = balloonEvent;
             GetChildTransform(obj, 1).localScale = Vector3.zero;
         }
     }
