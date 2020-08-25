@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,12 +23,14 @@ public class MenuFloorTile : MonoBehaviour
 
     // 버튼 타이머 변수 - 0: up, 1: down, 2: left, 3: right, 4: confirm, 5: cancel
     public float[] uiTimer;
+    public float buttonDelayTimer;
 
     void Start()
     {
         GameManager.instance.SetGameState(GameState.menu);
         InitialObjects();
         uiTimer = new float[6] { 0, 0, 0, 0, 0, 0 };
+        buttonDelayTimer = 0;
         footPrintLerpT = 0;
     }
 
@@ -129,60 +132,66 @@ public class MenuFloorTile : MonoBehaviour
     void HandleMenuTiles() {
         HandleCenterTile();
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, upArrowTile))
-            HandleUpArrowTile();
-        else
+        if (buttonDelayTimer == 0)
         {
-            FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButton);
-            uiTimer[0] = 0;
-            FloorTexture.ProgressDelayTexture(upArrowTile, 0);
-            FloorTexture.MoveAllChildTexture(upArrowTile, false);
-        }
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, upArrowTile))
+                HandleUpArrowTile();
+            else
+            {
+                FloorTexture.setButtonTexture(upArrowTile, FloorTexture.UpArrowButton);
+                uiTimer[0] = 0;
+                FloorTexture.ProgressDelayTexture(upArrowTile, 0);
+                FloorTexture.MoveAllChildTexture(upArrowTile, false);
+            }
 
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, downArrowTile))
-            HandleDownArrowTile();
-        else
-        {
-            FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButton);
-            uiTimer[1] = 0;
-            FloorTexture.ProgressDelayTexture(downArrowTile, 0);
-            FloorTexture.MoveAllChildTexture(downArrowTile, false);
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, downArrowTile))
+                HandleDownArrowTile();
+            else
+            {
+                FloorTexture.setButtonTexture(downArrowTile, FloorTexture.DownArrowButton);
+                uiTimer[1] = 0;
+                FloorTexture.ProgressDelayTexture(downArrowTile, 0);
+                FloorTexture.MoveAllChildTexture(downArrowTile, false);
+            }
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftArrowTile))
+                HandleLeftArrowTile();
+            else
+            {
+                FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButton);
+                uiTimer[2] = 0;
+                FloorTexture.ProgressDelayTexture(leftArrowTile, 0);
+                FloorTexture.MoveAllChildTexture(leftArrowTile, false);
+            }
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightArrowTile))
+                HandleRightArrowTile();
+            else
+            {
+                FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButton);
+                uiTimer[3] = 0;
+                FloorTexture.ProgressDelayTexture(rightArrowTile, 0);
+                FloorTexture.MoveAllChildTexture(rightArrowTile, false);
+            }
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, confirmTile))
+                HandleConfirmTile();
+            else
+            {
+                FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButton);
+                uiTimer[4] = 0;
+                FloorTexture.ProgressDelayTexture(confirmTile, 0);
+                FloorTexture.MoveAllChildTexture(confirmTile, false);
+            }
+            if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, cancelTile))
+                HandleCancelTile();
+            else
+            {
+                FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButton);
+                uiTimer[5] = 0;
+                FloorTexture.ProgressDelayTexture(cancelTile, 0);
+                FloorTexture.MoveAllChildTexture(cancelTile, false);
+            }
         }
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, leftArrowTile))
-            HandleLeftArrowTile();
-        else
-        {
-            FloorTexture.setButtonTexture(leftArrowTile, FloorTexture.LeftArrowButton);
-            uiTimer[2] = 0;
-            FloorTexture.ProgressDelayTexture(leftArrowTile, 0);
-            FloorTexture.MoveAllChildTexture(leftArrowTile, false);
-        }
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, rightArrowTile))
-            HandleRightArrowTile();
-        else
-        {
-            FloorTexture.setButtonTexture(rightArrowTile, FloorTexture.RightArrowButton);
-            uiTimer[3] = 0;
-            FloorTexture.ProgressDelayTexture(rightArrowTile, 0);
-            FloorTexture.MoveAllChildTexture(rightArrowTile, false);
-        }
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, confirmTile))
-            HandleConfirmTile();
-        else
-        {
-            FloorTexture.setButtonTexture(confirmTile, FloorTexture.RightButton);
-            uiTimer[4] = 0;
-            FloorTexture.ProgressDelayTexture(confirmTile, 0);
-            FloorTexture.MoveAllChildTexture(confirmTile, false);
-        }
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, cancelTile))
-            HandleCancelTile();
-        else
-        {
-            FloorTexture.setButtonTexture(cancelTile, FloorTexture.LeftButton);
-            uiTimer[5] = 0;
-            FloorTexture.ProgressDelayTexture(cancelTile, 0);
-            FloorTexture.MoveAllChildTexture(cancelTile, false);
+        else {
+            buttonDelayTimer = buttonDelayTimer - Time.deltaTime > 0 ? buttonDelayTimer - Time.deltaTime : 0;
         }
     }
 
@@ -208,6 +217,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             HandleUpArrow();
             uiTimer[0] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(upArrowTile, 0);
             FloorTexture.MoveAllChildTexture(upArrowTile, false);
         }
@@ -223,6 +233,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             HandleDownArrow();
             uiTimer[1] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(downArrowTile, 0);
             FloorTexture.MoveAllChildTexture(downArrowTile, false);
         }
@@ -239,6 +250,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             SettingUI.instance.HandleLeft();
             uiTimer[2] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(leftArrowTile, 0);
             FloorTexture.MoveAllChildTexture(leftArrowTile, false);
         }
@@ -255,6 +267,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             SettingUI.instance.HandleRight();
             uiTimer[3] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(rightArrowTile, 0);
             FloorTexture.MoveAllChildTexture(rightArrowTile, false);
         }
@@ -270,6 +283,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             MenuUI.instance.HandleConfirm();
             uiTimer[4] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(confirmTile, 0);
             FloorTexture.MoveAllChildTexture(confirmTile, false);
         }
@@ -285,6 +299,7 @@ public class MenuFloorTile : MonoBehaviour
         {
             HandleCancel();
             uiTimer[5] = 0;
+            buttonDelayTimer = ConstInfo.buttonDelayTime;
             FloorTexture.ProgressDelayTexture(cancelTile, 0);
             FloorTexture.MoveAllChildTexture(cancelTile, false);
         }

@@ -43,9 +43,9 @@ public class Avatar : MonoBehaviour
     // 발의 y 좌표에 따른 발 위치 원 크기 설정 (scale: 0 ~ 1 -> ConstInfo.footPrintStartSize 에 따라 변경 가능)
     public static float HandleFootprintSize(float footPositionY) {
         if (footPositionY < 110)
-            return ConstInfo.footPrintStartScale;
+            return ConstInfo.footPrintInitialScale;
         else if (footPositionY >= 110 && footPositionY < 300)
-            return (300 - footPositionY) / 190 * ConstInfo.footPrintStartScale;
+            return (300 - footPositionY) / 190 * ConstInfo.footPrintInitialScale;
         else
             return 0;
     }
