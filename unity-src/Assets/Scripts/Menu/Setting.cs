@@ -17,10 +17,10 @@ public enum TimeState { normal, infinite }
 public static class Setting
 {
     // ConstInfo 에 따른 초기설정값
-    private static AnimationState currentAnimationState = ConstInfo.InitialAnimationState;
-    private static HpState currentHpState = ConstInfo.InitialHpState;
-    private static TimeState currentTimeState = ConstInfo.InitialTimeState;
-    private static bool displayInspect = ConstInfo.InitialDisplayInspect;
+    private static AnimationState currentAnimationState = ConstInfo.initialAnimationState;
+    private static HpState currentHpState = ConstInfo.initialHpState;
+    private static TimeState currentTimeState = ConstInfo.initialTimeState;
+    private static bool displayInspect = ConstInfo.initialDisplayInspect;
 
 
     // 설정값 Getters & Setters

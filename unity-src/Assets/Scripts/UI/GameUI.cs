@@ -124,6 +124,9 @@ public class GameUI : MonoBehaviour
             timerText.text = "Infinite";
         if (timer < 5)
             HandleCountDownText();
+        else
+            countDownTimer.text = "";
+
     }
 
     // 5초 이하로 남았을 경우 카운트다운 텍스트 업데이트

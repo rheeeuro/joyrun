@@ -8,22 +8,23 @@ public static class ConstInfo
 
     // 프레임
     public const int gameFrameRate = 60;
-    public const bool InitialDisplayInspect = false;
 
     // 바닥 UI 관련 상수
     public const float floorUICanvasWidth = 1920;
     public const float floorUICanvasHeight = 1080;
     public const float buttonPushTime = 0.8f;
+    public const float buttonDelayTime = 0.1f;
 
     // 바닥 UI 발 위치 원 관련 상수
-    public const float footPrintStartScale = 1;
+    public const float footPrintInitialScale = 1;
     public const float footPrintSpeed = 0.5f;
     public const float buttonPushFootPrintScaleX = 0.3f;
 
     // 초기설정값
-    public const AnimationState InitialAnimationState = AnimationState.animation;
-    public const HpState InitialHpState = HpState.normal;
-    public const TimeState InitialTimeState = TimeState.normal;
+    public const AnimationState initialAnimationState = AnimationState.animation;
+    public const HpState initialHpState = HpState.normal;
+    public const TimeState initialTimeState = TimeState.normal;
+    public const bool initialDisplayInspect = false;
 
 
 
@@ -63,6 +64,7 @@ public static class ConstInfo
     // 타일 위치 관련 상수
     public const float tileStartPositionY = 1;
     public const float tileStartPositionZ = 200;
+    public const float tileAnimationStartPositionZ = 72;
     public const float tileDestroyPositionZ = -65;
     public const float trackWidth = 42;
     public const float tileDistance = 60;
