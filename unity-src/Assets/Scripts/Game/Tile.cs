@@ -38,9 +38,10 @@ public class Tile : MonoBehaviour
 
     public int heartBonusCount;
 
+    RuntimeAnimatorController trapActivate;
     RuntimeAnimatorController trapEvent;
-    RuntimeAnimatorController huddleEvent;
-    RuntimeAnimatorController huddleDown;
+    RuntimeAnimatorController hurdleEvent;
+    RuntimeAnimatorController hurdleDown;
     RuntimeAnimatorController balloonEvent;
 
     void Start()
@@ -83,9 +84,10 @@ public class Tile : MonoBehaviour
         obstacleTileEvent = Resources.Load("Prefabs/obstacle-tile-event") as GameObject;
         trapTileEvent = Resources.Load("Prefabs/trap-tile-event") as GameObject;
 
-        trapEvent = Resources.Load("Prefabs/AnimationControllers/TrapEvent") as RuntimeAnimatorController;
-        huddleEvent = Resources.Load("Prefabs/AnimationControllers/HuddleEvent") as RuntimeAnimatorController;
-        huddleDown = Resources.Load("Prefabs/AnimationControllers/HuddleDown") as RuntimeAnimatorController;
+        trapActivate = Resources.Load("Prefabs/AnimationControllers/TrapActivate") as RuntimeAnimatorController;
+        trapEvent = Resources.Load("Prefabs/AnimationControllers/TrapAppear") as RuntimeAnimatorController;
+        hurdleEvent = Resources.Load("Prefabs/AnimationControllers/HurdleAppear") as RuntimeAnimatorController;
+        hurdleDown = Resources.Load("Prefabs/AnimationControllers/HurdleDown") as RuntimeAnimatorController;
         balloonEvent = Resources.Load("Prefabs/AnimationControllers/BalloonEvent") as RuntimeAnimatorController;
     }
 
@@ -261,9 +263,9 @@ public class Tile : MonoBehaviour
                 && Mathf.Abs(lastCenterTile.transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionGap)
             {
                 if (IsPassDirection(lastLeftTile))
-                    HandleAnimation(lastRightTile, obstacleTileEvent, activatedTiles.IndexOf(lastRightTile), huddleEvent, 2);
+                    HandleAnimation(lastRightTile, obstacleTileEvent, activatedTiles.IndexOf(lastRightTile), hurdleEvent, 2);
                 else
-                    HandleAnimation(lastLeftTile, obstacleTileEvent, activatedTiles.IndexOf(lastLeftTile), huddleEvent, 2);
+                    HandleAnimation(lastLeftTile, obstacleTileEvent, activatedTiles.IndexOf(lastLeftTile), hurdleEvent, 2);
             }
         }
     }
@@ -342,7 +344,7 @@ public class Tile : MonoBehaviour
                     CheckCollisionHeart(activatedTiles[i]);
                     break;
                 case "obstacle-tile":
-                    CheckCollisionObstacle(activatedTiles[i]);
+                    CheckCollisionObstacle(activatedTiles[i], hurdleDown);
                     break;
                 case "empty-tile":
                     CheckCollisionEmpty(activatedTiles[i]);
@@ -351,7 +353,7 @@ public class Tile : MonoBehaviour
                     CheckCollisionEmpty(activatedTiles[i]);
                     break;
                 case "trap-tile":
-                    CheckCollisionObstacle(activatedTiles[i]);
+                    CheckCollisionObstacle(activatedTiles[i], trapActivate);
                     break;
                 case "balloon-tile":
                     CheckCollisionBalloon(activatedTiles[i]);
@@ -392,7 +394,7 @@ public class Tile : MonoBehaviour
 
 
     // 장애물 충돌 판정 알고리즘
-    void CheckCollisionObstacle(GameObject obj)
+    void CheckCollisionObstacle(GameObject obj, RuntimeAnimatorController runtimeAnimatorController)
     {
         if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
             && GetChildTransform(obj, 0).localScale.x != 0
@@ -410,8 +412,8 @@ public class Tile : MonoBehaviour
             else
             {
                 GetChildTransform(obj, 0).localScale = Vector3.zero;
-                if(obj.transform.childCount > 2)
-                    obj.transform.GetChild(2).GetComponent<Animator>().runtimeAnimatorController = huddleDown;
+                obj.transform.GetChild(2).GetComponent<Animator>().runtimeAnimatorController = null;
+                obj.transform.GetChild(2).GetComponent<Animator>().runtimeAnimatorController = runtimeAnimatorController;
                 Player.instance.ObstacleCollision();
                 GameFloorTile.InitialStepRecords();
                 extraSpeed = 0;

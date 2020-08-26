@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ public class MenuFloorTile : MonoBehaviour
     // 버튼 타이머 변수 - 0: up, 1: down, 2: left, 3: right, 4: confirm, 5: cancel
     public float[] uiTimer;
     public float buttonDelayTimer;
+
 
     void Start()
     {
@@ -52,7 +54,6 @@ public class MenuFloorTile : MonoBehaviour
 
     void Update()
     {
-        FloorTexture.MoveAllChildTexture(upArrowTile, true);
         HandleTileActive();
         if (GameManager.instance.GetKinectState()) {
             HandleFootPrint();

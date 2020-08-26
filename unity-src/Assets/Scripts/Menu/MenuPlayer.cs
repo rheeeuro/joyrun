@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MenuPlayer : MonoBehaviour
 {
+    public static MenuPlayer instance;
     RuntimeAnimatorController animIdle;
     Animator animator;
+
+    void Awake() { instance = this; }
 
     void Start()
     {
