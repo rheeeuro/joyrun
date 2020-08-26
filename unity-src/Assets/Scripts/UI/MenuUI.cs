@@ -7,23 +7,21 @@ using UnityEngine.SceneManagement;
 // 메뉴 상태 (선택 하이라이트, 0: 게임시작, 1: 환경설정, 2: 랭킹, 3: 게임종료)
 public enum MenuChoice
 {
-    start,
-    setting,
-    ranking,
-    quit
+    Start = 0,
+    Setting = 1,
+    Ranking = 2,
+    Quit = 3
 }
 
 public class MenuUI : MonoBehaviour
 {
-
-
     // 인스턴스 및 현재 선택한 메뉴 항목
     public static MenuUI instance;
     private MenuChoice currentMenuChoice;
 
     //색상 스프라이트
-    public Sprite selected;
-    public Sprite unSelected;
+    public Sprite buttonSelected;
+    public Sprite buttonUnselected;
 
     // 메뉴 버튼 변수
     public GameObject startButton;
@@ -35,7 +33,7 @@ public class MenuUI : MonoBehaviour
 
     // 초기에는 게임시작 버튼 하이라이트
     void Start() {
-        currentMenuChoice = MenuChoice.start;
+        currentMenuChoice = MenuChoice.Start;
         Show();
     }
 
@@ -43,7 +41,7 @@ public class MenuUI : MonoBehaviour
     // 메뉴 UI 보여주기
     public void Show()
     {
-        GameManager.instance.SetGameState(GameState.menu);
+        GameManager.instance.SetGameState(GameState.Menu);
         transform.gameObject.SetActive(true);
         GetComponent<Animation>().Play("ShowGuide");
     }
@@ -59,10 +57,10 @@ public class MenuUI : MonoBehaviour
     // 모든 버튼을 선택 해제
     void UnselectButtons()
     {
-        startButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
-        settingButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
-        rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
-        quitButton.GetComponent<UnityEngine.UI.Image>().sprite = unSelected;
+        startButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonUnselected;
+        settingButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonUnselected;
+        rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonUnselected;
+        quitButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonUnselected;
 
     }
 
@@ -71,17 +69,17 @@ public class MenuUI : MonoBehaviour
     {
         switch (currentMenuChoice)
         {
-            case MenuChoice.start:
-                startButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
+            case MenuChoice.Start:
+                startButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonSelected;
                 break;
-            case MenuChoice.setting:
-                settingButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
+            case MenuChoice.Setting:
+                settingButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonSelected;
                 break;
-            case MenuChoice.ranking:
-                rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
+            case MenuChoice.Ranking:
+                rankingButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonSelected;
                 break;
-            case MenuChoice.quit:
-                quitButton.GetComponent<UnityEngine.UI.Image>().sprite = selected;
+            case MenuChoice.Quit:
+                quitButton.GetComponent<UnityEngine.UI.Image>().sprite = buttonSelected;
                 break;
         }
     }
@@ -89,48 +87,33 @@ public class MenuUI : MonoBehaviour
 
 
     // 위 방향 버튼을 누른 경우
-    public void HandleUp()
-    {
-        if (currentMenuChoice == MenuChoice.start)
-            currentMenuChoice = MenuChoice.quit;
-        else
-            currentMenuChoice--;
-    }
+    public void HandleUp() { currentMenuChoice = currentMenuChoice.Previous(); }
 
     // 아래 방향 버튼을 누른 경우
-    public void HandleDown()
-    {
-        if (currentMenuChoice == MenuChoice.quit)
-            currentMenuChoice = MenuChoice.start;
-        else
-            currentMenuChoice++;
-    }
+    public void HandleDown() { currentMenuChoice = currentMenuChoice.Next(); }
 
     // 확인 버튼을 누른 경우
     public void HandleConfirm()
     {
         switch (currentMenuChoice)
         {
-            case MenuChoice.start:
+            case MenuChoice.Start:
                 HandleStart();
                 break;
-            case MenuChoice.setting:
+            case MenuChoice.Setting:
                 HandleSetting();
                 break;
-            case MenuChoice.ranking:
+            case MenuChoice.Ranking:
                 HandleRanking();
                 break;
-            case MenuChoice.quit:
+            case MenuChoice.Quit:
                 HandleQuit();
                 break;
         }
     }
 
     // 시작 상태에서 확인 버튼을 눌렀을 경우
-    public void HandleStart()
-    {
-        SceneManager.LoadScene("Game");
-    }
+    public void HandleStart() { SceneManager.LoadScene("Game"); }
 
     // 환경설정을 고르고 확인 버튼을 누른 경우
     public void HandleSetting()
@@ -147,8 +130,5 @@ public class MenuUI : MonoBehaviour
     }
 
     // 게임 종료를 고르고 확인 버튼을 누른 경우
-    public void HandleQuit()
-    {
-        Application.Quit();
-    }
+    public void HandleQuit() { Application.Quit(); }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
-
 using UnityEngine.SceneManagement;
 
 
@@ -77,7 +76,7 @@ public class Player : MonoBehaviour
         point = 0;
         combo = 0;
         maxCombo = 0;
-        hp = ConstInfo.startHp;
+        hp = ConstInfo.InitialHp;
     }
 
     // 프리팹 불러오기
@@ -85,23 +84,23 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         player.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-        animIdle = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Idle") as RuntimeAnimatorController;
-        animRun = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Run") as RuntimeAnimatorController;
-        animWalk = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Walk") as RuntimeAnimatorController;
-        animSprint = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Sprint") as RuntimeAnimatorController;
-        animJump = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Jump") as RuntimeAnimatorController;
-        animFinish = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Finish") as RuntimeAnimatorController;
-        animStumble = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Stumble") as RuntimeAnimatorController;
-        animPunch = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Punch") as RuntimeAnimatorController;
+        animIdle = Resources.Load("3DResources/AnimationControllers/JoyRunIdle") as RuntimeAnimatorController;
+        animRun = Resources.Load("3DResources/AnimationControllers/JoyRunBattleRun") as RuntimeAnimatorController;
+        animWalk = Resources.Load("3DResources/AnimationControllers/JoyRunWalk") as RuntimeAnimatorController;
+        animSprint = Resources.Load("3DResources/AnimationControllers/JoyRunSprint") as RuntimeAnimatorController;
+        animJump = Resources.Load("3DResources/AnimationControllers/JoyRunJump") as RuntimeAnimatorController;
+        animFinish = Resources.Load("3DResources/AnimationControllers/JoyRunFinish") as RuntimeAnimatorController;
+        animStumble = Resources.Load("3DResources/AnimationControllers/JoyRunStumble") as RuntimeAnimatorController;
+        animPunch = Resources.Load("3DResources/AnimationControllers/JoyRunPunch") as RuntimeAnimatorController;
     }
 
 
 
     void Update()
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.Game)
             HandleGame(GameUI.instance.timer);
-        else if (GameManager.instance.GetGameState() == GameState.pause)
+        else if (GameManager.instance.GetGameState() == GameState.Pause)
             animator.runtimeAnimatorController = Setting.GetCurrentAnimationState() == AnimationState.animation ? animIdle as RuntimeAnimatorController : null;
     }
 
@@ -109,12 +108,12 @@ public class Player : MonoBehaviour
     void HandleGame(float timer) {
         if ((timer == 0 && Setting.GetCurrentTimeState() == TimeState.normal))
         {
-            animator.runtimeAnimatorController = animFinish;
+            animator.runtimeAnimatorController = Setting.GetCurrentAnimationState() == AnimationState.animation ? animFinish : null;
             GameEnd();
         }
         else if (hp == 0)
         {
-            animator.runtimeAnimatorController = animIdle;
+            animator.runtimeAnimatorController = Setting.GetCurrentAnimationState() == AnimationState.animation ? animIdle : null;
             GameEnd();
         }
         else
@@ -155,17 +154,17 @@ public class Player : MonoBehaviour
 
             if (isJumping) {
                 jumpTimer += Time.deltaTime;
-                if (jumpTimer >= ConstInfo.jumpTime)
+                if (jumpTimer >= ConstInfo.jumpingTime)
                     InitialJumpState();
             }
             if (isStumble) {
                 stumbleTimer += Time.deltaTime;
-                if (stumbleTimer >= ConstInfo.stumbleTime)
+                if (stumbleTimer >= ConstInfo.stumblingTime)
                     InitialStumbleState();
             }
             if (isPunching) {
                 punchTimer += Time.deltaTime;
-                if (punchTimer >= ConstInfo.punchTime)
+                if (punchTimer >= ConstInfo.punchingTime)
                     InitialPunchState();
             }
         }
@@ -243,8 +242,8 @@ public class Player : MonoBehaviour
     // 아바타 위치로 플레이어 위치 고정
     public void HandlePlayerPosition()
     {
-        player.transform.position = new Vector3(Avatar.userPosition.x * (ConstInfo.trackWidth / ConstInfo.floorUICanvasWidth) + ConstInfo.center, 
-            ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        player.transform.position = new Vector3(Avatar.userPosition[(int)AvatarJointType.Body].x * (ConstInfo.runningTrackWidth / ConstInfo.floorUICanvasWidth) + ConstInfo.center, 
+            ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
     }
 
 
@@ -253,7 +252,7 @@ public class Player : MonoBehaviour
     public void HeartCollision(int i)
     {
         if (i == 0)
-            combo += ConstInfo.heartTileComboIncrease;
+            combo += 1;
         GameUI.instance.ShowHpIncrease();
         GameUI.instance.ChangeCombo(combo);
         hp = hp + ConstInfo.heartTileHpIncrease > ConstInfo.maxHp ? ConstInfo.maxHp : hp + ConstInfo.heartTileHpIncrease;
@@ -262,7 +261,7 @@ public class Player : MonoBehaviour
     // 풍선에 닿을 시
     public void BalloonCollision()
     {
-        combo += ConstInfo.balloonComboIncrease;
+        combo += 1;
         GameUI.instance.balloonCount++;
         GameUI.instance.timer = GameUI.instance.timer + ConstInfo.balloonTimeIncrease > 60 ? 60 : GameUI.instance.timer + ConstInfo.balloonTimeIncrease;
         GameUI.instance.ShowTimeIncrease();
@@ -283,7 +282,7 @@ public class Player : MonoBehaviour
     // 빈 칸을 지날 시
     public void EmptyCollision()
     {
-        combo += ConstInfo.emptyTileComboIncrease;
+        combo += 1;
         GameUI.instance.ChangeCombo(combo);
     }
 
@@ -295,25 +294,23 @@ public class Player : MonoBehaviour
         int hpDecrease = (hp / 2) > 10 ? (hp / 2) : 10;
         if (Setting.GetCurrentHpState() == HpState.normal)
             hp = hp - hpDecrease > 0 ? hp - hpDecrease : 0;
-        GameUI.instance.damageEffectTimer = ConstInfo.damageShowTime;
+        GameUI.instance.damageEffectTimer = ConstInfo.damageEffectTime;
     }
 
     // 점수 계산 알고리즘
     void CaculatePoint()
     {
         ResultUI.instance.maxCombo.text = maxCombo.ToString() + " 회";
-        ResultUI.instance.playTime.text =(Mathf.Round((60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount)) * 100) / 100) + " 초";
+        ResultUI.instance.playTimeText.text =(Mathf.Round((60 - GameUI.instance.timer + (3 * GameUI.instance.balloonCount)) * 100) / 100) + " 초";
         if (Setting.GetCurrentTimeState() == TimeState.infinite)
-            ResultUI.instance.playTime.text = "무제한";
-        ResultUI.instance.point.text = point.ToString();
-        MyRankUI.instance.point.text = point.ToString();
+            ResultUI.instance.playTimeText.text = "무제한";
+        ResultUI.instance.pointText.text = point.ToString();
+        MyRankUI.instance.pointText.text = point.ToString();
     }
 
     // 게임 종료 알고리즘
     public void GameEnd()
     {
-        if(GameManager.instance.GetKinectState())
-            animator.runtimeAnimatorController = null;
         CaculatePoint();
         GameUI.instance.InsertRank(point);
         GameUI.instance.HandleGameEnd();

@@ -818,26 +818,27 @@ namespace com.rfilkov.components
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
             // 프레임 계산
-            if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition)
+            if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition[(int) AvatarJointType.Body])
                 InspectUI.instance.frameChangeCount++;
 
 
             // 아바타와 상호작용
                
 
-            Avatar.userPosition = Avatar.HandleKinectPosition(trans);
-            Avatar.userPositionLeftFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft));
-            Avatar.userPositionRightFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootRight));
-            Avatar.userPositionLeftHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandLeft));
-            Avatar.userPositionRightHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandRight));
-            Avatar.userPositionHead = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.Head));
+            Avatar.userPosition[(int) AvatarJointType.Body] = Avatar.HandleKinectPosition(trans);
+            Avatar.userPosition[(int)AvatarJointType.FootLeft] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.FootLeft);
+            Avatar.userPosition[(int)AvatarJointType.FootRight] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.FootRight);
+            Avatar.userPosition[(int)AvatarJointType.HandLeft] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.HandLeft);
+            Avatar.userPosition[(int)AvatarJointType.HandRight] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.HandRight);
+            Avatar.userPosition[(int)AvatarJointType.Head] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.Head);
 
             if (Avatar.DistanceBetweenHandAndElbow == 0)
             {
                 Vector3 leftElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowLeft));
                 Vector3 rightElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowRight));
                 Avatar.DistanceBetweenHandAndElbow =
-                    Vector3.Distance(Avatar.userPositionLeftHand, leftElbow) + Vector3.Distance(Avatar.userPositionRightHand, rightElbow) / 2;
+                    Vector3.Distance(Avatar.userPosition[(int)AvatarJointType.HandLeft], leftElbow) 
+                    + Vector3.Distance(Avatar.userPosition[(int)AvatarJointType.HandRight], rightElbow) / 2;
             }
 
             if (flipLeftRight)
@@ -1006,6 +1007,10 @@ namespace com.rfilkov.components
                 transform.position = smoothFactor != 0f ?
                     Vector3.Lerp(transform.position, targetPos, smoothFactor * Time.deltaTime) : targetPos;
             }
+        }
+
+        protected Vector3 SetAvatarUserPosition(ulong userId, int index) {
+            return Avatar.HandleKinectPosition(kinectManager.GetJointPosition(userId, index));
         }
 
         // Set model's arms to be in T-pose

@@ -14,7 +14,7 @@ public class MenuPlayer : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         GetComponent<Animation>().wrapMode = WrapMode.Loop;
-        animIdle = Resources.Load("BasicMotions/AnimationControllers/BasicMotions@Idle") as RuntimeAnimatorController;
+        animIdle = Resources.Load("3DResources/AnimationControllers/JoyRunIdle") as RuntimeAnimatorController;
     }
 
     void Update()
@@ -29,7 +29,7 @@ public class MenuPlayer : MonoBehaviour
 
     void HandleMenuPlayerPosition() 
     { 
-        transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+        transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
     }
 
     void HandleMenuPlayerAnimtaion()

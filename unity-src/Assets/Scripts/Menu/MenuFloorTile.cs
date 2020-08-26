@@ -29,7 +29,7 @@ public class MenuFloorTile : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.SetGameState(GameState.menu);
+        GameManager.instance.SetGameState(GameState.Menu);
         InitialObjects();
         uiTimer = new float[6] { 0, 0, 0, 0, 0, 0 };
         buttonDelayTimer = 0;
@@ -70,7 +70,7 @@ public class MenuFloorTile : MonoBehaviour
     // 바닥 UI 타일 보여주기, 감추기
     void HandleTileActive()
     {
-        if (GameManager.instance.GetGameState() == GameState.menu)
+        if (GameManager.instance.GetGameState() == GameState.Menu)
         {
             upArrowTile.SetActive(true);
             downArrowTile.SetActive(true);
@@ -79,7 +79,7 @@ public class MenuFloorTile : MonoBehaviour
             confirmTile.SetActive(true);
             cancelTile.SetActive(false);
         }
-        else if (GameManager.instance.GetGameState() == GameState.ranking)
+        else if (GameManager.instance.GetGameState() == GameState.Ranking)
         {
             upArrowTile.SetActive(false);
             downArrowTile.SetActive(false);
@@ -88,7 +88,7 @@ public class MenuFloorTile : MonoBehaviour
             confirmTile.SetActive(false);
             cancelTile.SetActive(true);
         }
-        else if (GameManager.instance.GetGameState() == GameState.setting)
+        else if (GameManager.instance.GetGameState() == GameState.Setting)
         {
             upArrowTile.SetActive(true);
             downArrowTile.SetActive(true);
@@ -110,9 +110,9 @@ public class MenuFloorTile : MonoBehaviour
     void HandleFootPrintPosition()
     {
         leftFootPrint.transform.localPosition =
-            Vector3.Lerp(leftFootPrint.transform.localPosition, new Vector3(Avatar.userPositionLeftFoot.x, Avatar.userPositionLeftFoot.z, 0), footPrintLerpT);
+            Vector3.Lerp(leftFootPrint.transform.localPosition, new Vector3(Avatar.userPosition[(int)AvatarJointType.FootLeft].x, Avatar.userPosition[(int)AvatarJointType.FootLeft].z, 0), footPrintLerpT);
         rightFootPrint.transform.localPosition =
-            Vector3.Lerp(rightFootPrint.transform.localPosition, new Vector3(Avatar.userPositionRightFoot.x, Avatar.userPositionRightFoot.z, 0), footPrintLerpT);
+            Vector3.Lerp(rightFootPrint.transform.localPosition, new Vector3(Avatar.userPosition[(int)AvatarJointType.FootRight].x, Avatar.userPosition[(int)AvatarJointType.FootRight].z, 0), footPrintLerpT);
         footPrintLerpT += ConstInfo.footPrintSpeed * Time.deltaTime;
         if (footPrintLerpT > 1.0f)
             footPrintLerpT = 0.0f;
@@ -121,8 +121,8 @@ public class MenuFloorTile : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionLeftFoot.y);
-        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionRightFoot.y);
+        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootLeft].y);
+        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootRight].y);
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, newLeftFootPrintSize, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, newRightFootPrintSize, newRightFootPrintSize);
     }
@@ -198,7 +198,7 @@ public class MenuFloorTile : MonoBehaviour
 
     void HandleCenterTile() {
         if (Avatar.GetUserValid())
-            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerTile) && Avatar.VectorInside(Avatar.userPositionRightFoot, centerTile))
+            if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootLeft], centerTile) && Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootRight], centerTile))
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
             else
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
@@ -310,26 +310,26 @@ public class MenuFloorTile : MonoBehaviour
 
     // 게임 상태에 따른 위 방향키 동작구분
     void HandleUpArrow() {
-        if (GameManager.instance.GetGameState() == GameState.menu)
+        if (GameManager.instance.GetGameState() == GameState.Menu)
             MenuUI.instance.HandleUp();
-        else if (GameManager.instance.GetGameState() == GameState.setting)
+        else if (GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleUp();
     }
 
     // 게임 상태에 따른 아래 방향키 동작구분
     void HandleDownArrow()
     {
-        if (GameManager.instance.GetGameState() == GameState.menu)
+        if (GameManager.instance.GetGameState() == GameState.Menu)
             MenuUI.instance.HandleDown();
-        else if (GameManager.instance.GetGameState() == GameState.setting)
+        else if (GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleDown();
     }
 
     // 게임 상태에 따른 취소 동작구분
     void HandleCancel() {
-        if (GameManager.instance.GetGameState() == GameState.ranking)
+        if (GameManager.instance.GetGameState() == GameState.Ranking)
             RankingUI.instance.HandleCancel();
-        else if (GameManager.instance.GetGameState() == GameState.setting)
+        else if (GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleCancel();
     }
 
@@ -337,17 +337,17 @@ public class MenuFloorTile : MonoBehaviour
 
     // 키보드 조작
     void HandleKeyBoard() {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (GameManager.instance.GetGameState() == GameState.Menu || GameManager.instance.GetGameState() == GameState.Setting))
             HandleUpArrow();
-        if (Input.GetKeyDown(KeyCode.DownArrow) && (GameManager.instance.GetGameState() == GameState.menu || GameManager.instance.GetGameState() == GameState.setting))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && (GameManager.instance.GetGameState() == GameState.Menu || GameManager.instance.GetGameState() == GameState.Setting))
             HandleDownArrow();
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && GameManager.instance.GetGameState() == GameState.setting)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleLeft();
-        if (Input.GetKeyDown(KeyCode.RightArrow) && GameManager.instance.GetGameState() == GameState.setting)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleRight();
-        if (Input.GetKeyDown(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.menu)
+        if (Input.GetKeyDown(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.Menu)
             MenuUI.instance.HandleConfirm();
-        if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.ranking || GameManager.instance.GetGameState() == GameState.setting))
+        if (Input.GetKeyDown(KeyCode.Backspace) && (GameManager.instance.GetGameState() == GameState.Ranking || GameManager.instance.GetGameState() == GameState.Setting))
             HandleCancel();
     }
 }

@@ -47,7 +47,7 @@ public class GameFloorTile : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.SetGameState(GameState.game);
+        GameManager.instance.SetGameState(GameState.Game);
         InitialObjects();
         InitialValues();
     }
@@ -108,7 +108,7 @@ public class GameFloorTile : MonoBehaviour
     
     void Update()
     {
-        if(GameManager.instance.GetGameState() == GameState.game)
+        if(GameManager.instance.GetGameState() == GameState.Game)
             HandleFloorUI();
         HandleTileActive();
         HandleKeyboard();
@@ -139,7 +139,7 @@ public class GameFloorTile : MonoBehaviour
         HandleUserAction();
         HandleGameTiles();
         HandlePause();
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.Game)
             HandleHighlight();
     }
 
@@ -147,7 +147,7 @@ public class GameFloorTile : MonoBehaviour
     // 바닥 UI 타일 보여주기, 감추기
     void HandleTileActive()
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.Game)
         {
             leftFloorTile.SetActive(true);
             centerFloorTile.SetActive(true);
@@ -164,7 +164,7 @@ public class GameFloorTile : MonoBehaviour
             timerBox.SetActive(true);
             barHpBox.SetActive(true);
         }
-        else if (GameManager.instance.GetGameState() == GameState.pause)
+        else if (GameManager.instance.GetGameState() == GameState.Pause)
         {
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
@@ -181,7 +181,7 @@ public class GameFloorTile : MonoBehaviour
             timerBox.SetActive(true);
             barHpBox.SetActive(true);
         }
-        else if (GameManager.instance.GetGameState() == GameState.result)
+        else if (GameManager.instance.GetGameState() == GameState.Result)
         {
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
@@ -198,7 +198,7 @@ public class GameFloorTile : MonoBehaviour
             timerBox.SetActive(false);
             barHpBox.SetActive(false);
         }
-        else if (GameManager.instance.GetGameState() == GameState.myRank)
+        else if (GameManager.instance.GetGameState() == GameState.MyRank)
         {
             leftFloorTile.SetActive(false);
             centerFloorTile.SetActive(false);
@@ -257,7 +257,7 @@ public class GameFloorTile : MonoBehaviour
     // 두 발이 모두 타일 안에 있는 경우 하이라이트 위치 변경
     void HandleHighlightPosition(GameObject highlight, GameObject floorTile, float positionX)
     {
-        if (Avatar.VectorInside(Avatar.userPosition, floorTile))
+        if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.Body], floorTile))
             highlight.transform.position = new Vector3(positionX, highlight.transform.position.y, highlight.transform.position.z);
     }
 
@@ -265,9 +265,9 @@ public class GameFloorTile : MonoBehaviour
     void HandleFootPrintPosition()
     {
         leftFootPrint.transform.localPosition = 
-            Vector3.Lerp(leftFootPrint.transform.localPosition, new Vector3(Avatar.userPositionLeftFoot.x, Avatar.userPositionLeftFoot.z, 0), footPrintLerpT);
+            Vector3.Lerp(leftFootPrint.transform.localPosition, new Vector3(Avatar.userPosition[(int)AvatarJointType.FootLeft].x, Avatar.userPosition[(int)AvatarJointType.FootLeft].z, 0), footPrintLerpT);
         rightFootPrint.transform.localPosition = 
-            Vector3.Lerp(rightFootPrint.transform.localPosition, new Vector3(Avatar.userPositionRightFoot.x, Avatar.userPositionRightFoot.z, 0), footPrintLerpT);
+            Vector3.Lerp(rightFootPrint.transform.localPosition, new Vector3(Avatar.userPosition[(int)AvatarJointType.FootRight].x, Avatar.userPosition[(int)AvatarJointType.FootRight].z, 0), footPrintLerpT);
         footPrintLerpT += ConstInfo.footPrintSpeed * Time.deltaTime;
         if (footPrintLerpT > 1.0f)
             footPrintLerpT = 0.0f;
@@ -276,8 +276,8 @@ public class GameFloorTile : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionLeftFoot.y);
-        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionRightFoot.y);
+        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootLeft].y);
+        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootRight].y);
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, newLeftFootPrintSize, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, newRightFootPrintSize, newRightFootPrintSize);
     }
@@ -300,8 +300,8 @@ public class GameFloorTile : MonoBehaviour
             steps.RemoveAt(0);
         }
             
-        if (((stepSide == true && Avatar.userPositionLeftFoot.y > ConstInfo.stepHeight  && Avatar.userPositionRightFoot.y < ConstInfo.stepHeight)
-            || (stepSide == false && Avatar.userPositionRightFoot.y > ConstInfo.stepHeight && Avatar.userPositionLeftFoot.y < ConstInfo.stepHeight))
+        if (((stepSide == true && Avatar.userPosition[(int)AvatarJointType.FootLeft].y > ConstInfo.stepHeight  && Avatar.userPosition[(int)AvatarJointType.FootRight].y < ConstInfo.stepHeight)
+            || (stepSide == false && Avatar.userPosition[(int)AvatarJointType.FootRight].y > ConstInfo.stepHeight && Avatar.userPosition[(int)AvatarJointType.FootLeft].y < ConstInfo.stepHeight))
             && stepRecordTime != 0)
             HandleStep();
 
@@ -320,22 +320,22 @@ public class GameFloorTile : MonoBehaviour
 
     // 점프 조건 (이전 프레임보다 양 발 모두 jumpHeight 이상 증가 + 발높이 차가 0.3 이하 + 양발의 x변화량이 5 미만)
     void HandleJump() {
-        isJumping = lastPositionLeftFoot.y + ConstInfo.jumpHeight < Avatar.userPositionLeftFoot.y
-            && lastPositionRightFoot.y + ConstInfo.jumpHeight < Avatar.userPositionRightFoot.y
-            && lastPositionHead.y + ConstInfo.jumpHeight < Avatar.userPositionHead.y
+        isJumping = lastPositionLeftFoot.y + ConstInfo.jumpHeight < Avatar.userPosition[(int)AvatarJointType.FootLeft].y
+            && lastPositionRightFoot.y + ConstInfo.jumpHeight < Avatar.userPosition[(int)AvatarJointType.FootRight].y
+            && lastPositionHead.y + ConstInfo.jumpHeight < Avatar.userPosition[(int)AvatarJointType.Head].y
             && lastPositionLeftFoot.y != 0 && lastPositionRightFoot.y != 0
-            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpYLimitBetweenFoots
-            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPositionLeftFoot.x) < ConstInfo.jumpXChangeLimit
-            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPositionRightFoot.x) < ConstInfo.jumpXChangeLimit;
-        lastPositionLeftFoot = Avatar.userPositionLeftFoot;
-        lastPositionRightFoot = Avatar.userPositionRightFoot;
+            && Mathf.Abs(lastPositionLeftFoot.y - lastPositionRightFoot.y) < ConstInfo.jumpFootHeightDifferenceLimit
+            && Mathf.Abs(lastPositionLeftFoot.x - Avatar.userPosition[(int)AvatarJointType.FootLeft].x) < ConstInfo.jumpFootPositionVariationLimit
+            && Mathf.Abs(lastPositionRightFoot.x - Avatar.userPosition[(int)AvatarJointType.FootRight].x) < ConstInfo.jumpFootPositionVariationLimit;
+        lastPositionLeftFoot = Avatar.userPosition[(int)AvatarJointType.FootLeft];
+        lastPositionRightFoot = Avatar.userPosition[(int)AvatarJointType.FootRight];
     }
 
     // 펀치 조건
     void HandleAvatarPunch()
     {
-        if ((Avatar.userPositionLeftHand.z > Avatar.userPositionHead.z + Avatar.DistanceBetweenHandAndElbow)
-            || (Avatar.userPositionRightHand.z > Avatar.userPositionHead.z + Avatar.DistanceBetweenHandAndElbow))
+        if ((Avatar.userPosition[(int)AvatarJointType.HandLeft].z > Avatar.userPosition[(int)AvatarJointType.Head].z + Avatar.DistanceBetweenHandAndElbow)
+            || (Avatar.userPosition[(int)AvatarJointType.HandRight].z > Avatar.userPosition[(int)AvatarJointType.Head].z + Avatar.DistanceBetweenHandAndElbow))
             isPunching = true;
         else
             isPunching = false;
@@ -399,7 +399,8 @@ public class GameFloorTile : MonoBehaviour
     void HandleCenterTile()
     {
         if (Avatar.GetUserValid())
-            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerTile) && Avatar.VectorInside(Avatar.userPositionRightFoot, centerTile))
+            if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootLeft], centerTile) 
+                && Avatar.VectorInside(Avatar.userPosition[(int) AvatarJointType.FootRight], centerTile))
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
             else
                 FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
@@ -488,14 +489,14 @@ public class GameFloorTile : MonoBehaviour
 
         if (Avatar.GetUserValid())
         {
-            if ((Avatar.userPositionLeftHand.y > Avatar.userPositionHead.y
-                && Avatar.userPositionRightHand.y > Avatar.userPositionHead.y)
-                && Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile) && GameManager.instance.GetGameState() == GameState.pause)
+            if ((Avatar.userPosition[(int)AvatarJointType.HandLeft].y > Avatar.userPosition[(int) AvatarJointType.Head].y
+                && Avatar.userPosition[(int)AvatarJointType.HandRight].y > Avatar.userPosition[(int)AvatarJointType.Head].y)
+                && Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile) && GameManager.instance.GetGameState() == GameState.Pause)
                 GameUI.instance.Pause();
         }
         else
         {
-            if (GameManager.instance.GetGameState() == GameState.game)
+            if (GameManager.instance.GetGameState() == GameState.Game)
                 GameUI.instance.Pause();
         }
 
@@ -506,17 +507,17 @@ public class GameFloorTile : MonoBehaviour
     // 키보드 입력
     void HandleKeyboard()
     {
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.Game)
             HandleKeyboardGame();
-        if (GameManager.instance.GetGameState() == GameState.pause)
+        if (GameManager.instance.GetGameState() == GameState.Pause)
             HandleKeyboardPause();
-        if (GameManager.instance.GetGameState() == GameState.result)
+        if (GameManager.instance.GetGameState() == GameState.Result)
             HandleKeyboardResult();
-        if (GameManager.instance.GetGameState() == GameState.myRank)
+        if (GameManager.instance.GetGameState() == GameState.MyRank)
             HandleKeyboardMyRank();
 
         if (Input.GetKeyDown(KeyCode.Backspace) 
-            && (GameManager.instance.GetGameState() == GameState.pause || GameManager.instance.GetGameState() == GameState.game))
+            && (GameManager.instance.GetGameState() == GameState.Pause || GameManager.instance.GetGameState() == GameState.Game))
             GameUI.instance.Pause();
     }
 
@@ -524,18 +525,18 @@ public class GameFloorTile : MonoBehaviour
     void HandleKeyboardGame() {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.instance.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.instance.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
-            Player.instance.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerStartPositionY, ConstInfo.playerStartPositionZ);
+            Player.instance.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
 
         if (Input.GetKey(KeyCode.LeftAlt))
@@ -565,16 +566,16 @@ public class GameFloorTile : MonoBehaviour
     // 결과 상태의 키보드 상호작용
     void HandleKeyboardResult()
     {
-        if (Input.GetKey(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.result)
+        if (Input.GetKey(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.Result)
             ResultUI.instance.HandleNextPage();
     }
 
     // 내 점수 상태의 키보드 상호작용
     void HandleKeyboardMyRank()
     {
-        if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.myRank)
+        if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.MyRank)
             MyRankUI.instance.HandleToMenu();
-        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.myRank)
+        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.MyRank)
             MyRankUI.instance.HandleRetry();
     }
 }

@@ -57,7 +57,7 @@ namespace com.rfilkov.kinect
         {
 
             // 커스텀 유저 재배열
-            if (userDetectionOrder == KinectManager.UserDetectionOrder.Custom && GameManager.instance.GetGameState() != GameState.game) {
+            if (userDetectionOrder == KinectManager.UserDetectionOrder.Custom && GameManager.instance.GetGameState() != GameState.Game) {
                 // get current user positions
                 Vector3[] userPos = new Vector3[aUserIndexIds.Length];
                 for (int i = 0; i < aUserIndexIds.Length; i++)

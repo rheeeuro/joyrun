@@ -151,12 +151,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1821255117}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -120}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 300, y: 120}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &20448598
 MonoBehaviour:
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e83fcd03e5f29af45b0b0c1affb7218c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ranking: {fileID: 1833481555}
+  rankingText: {fileID: 0}
 --- !u!111 &1257150524
 Animation:
   m_ObjectHideFlags: 0
@@ -5308,8 +5308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236711103f2f5684d9d52752e4051d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 8edaa0b59313251439a1f2b9f4e8d09f, type: 3}
-  unSelected: {fileID: 21300000, guid: b53565d7420709d46a9be76d39525e23, type: 3}
+  buttonSelected: {fileID: 0}
+  buttonUnselected: {fileID: 0}
   startButton: {fileID: 1240993566}
   settingButton: {fileID: 112380265}
   rankingButton: {fileID: 1074221259}
@@ -5443,83 +5443,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369500363}
   m_CullTransparentMesh: 0
---- !u!1 &1399193221
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1399193222}
-  - component: {fileID: 1399193224}
-  - component: {fileID: 1399193223}
-  m_Layer: 5
-  m_Name: KinectText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1399193222
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399193221}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1821255117}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -70}
-  m_SizeDelta: {x: 500, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1399193223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399193221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.18431373, g: 1, b: 0.92941177, a: 0.95686275}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: c3cfc8b7edc3a450c8e6ff7080af7935, type: 3}
-    m_FontSize: 50
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 
---- !u!222 &1399193224
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399193221}
-  m_CullTransparentMesh: 0
 --- !u!1 &1430425566
 GameObject:
   m_ObjectHideFlags: 0
@@ -5646,8 +5569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6a9024067f8594fa3ce167146dc463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 49b5126b3ba993b4d8ea4988e5128c67, type: 3}
-  Unselected: {fileID: 21300000, guid: 861b70623dd03b5409faedc2464d25ad, type: 3}
+  buttonSelected: {fileID: 21300000, guid: 49b5126b3ba993b4d8ea4988e5128c67, type: 3}
+  buttonUnselected: {fileID: 21300000, guid: 861b70623dd03b5409faedc2464d25ad, type: 3}
   arrowLSelected: {fileID: 2800000, guid: c8998fd468b51034ea8cf8ce874f6670, type: 3}
   arrowLUnselected: {fileID: 2800000, guid: 593bd1ee6b6761147b86bc5e09592367, type: 3}
   arrowRSelected: {fileID: 2800000, guid: 78cba9149e4edc44baa5917595d6e9e7, type: 3}
@@ -5655,12 +5578,6 @@ MonoBehaviour:
   animationButton: {fileID: 92830880}
   hpButton: {fileID: 1735668592}
   timeButton: {fileID: 120866988}
-  animArrowLF: {fileID: 78777053}
-  animArrowRF: {fileID: 787177865}
-  hpArrowLF: {fileID: 1151635524}
-  hpArrowRF: {fileID: 1039643212}
-  timeArrowLF: {fileID: 1339264994}
-  timeArrowRF: {fileID: 101110689}
 --- !u!114 &1439027358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7355,7 +7272,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1399193222}
   - {fileID: 20448597}
   m_Father: {fileID: 1724672761}
   m_RootOrder: 0
@@ -7380,7 +7296,7 @@ MonoBehaviour:
   frameChangeCount: 0
   frameTimer: 0
   frameText: {fileID: 20448598}
-  kinectText: {fileID: 1399193223}
+  kinectText: {fileID: 0}
 --- !u!114 &1821255119
 MonoBehaviour:
   m_ObjectHideFlags: 0

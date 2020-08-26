@@ -10,7 +10,7 @@ public class RankingUI : MonoBehaviour
     public static RankingUI instance;
 
     // 랭킹 텍스트 변수
-    public Text ranking;
+    public Text rankingText;
 
     void Awake() { instance = this; }
 
@@ -20,7 +20,7 @@ public class RankingUI : MonoBehaviour
     // 보이도록 설정
     public void Show()
     {
-        GameManager.instance.SetGameState(GameState.ranking);
+        GameManager.instance.SetGameState(GameState.Ranking);
         UpdateRanking();
         transform.gameObject.SetActive(true);
         GetComponent<Animation>().Play("ShowGuide");
@@ -38,9 +38,9 @@ public class RankingUI : MonoBehaviour
     // 랭킹을 업데이트
     public void UpdateRanking()
     {
-        ranking.text = "";
+        rankingText.text = "";
         for (int i = 0; i < 5; i++)
-            ranking.text += (i + 1) + ".                          " + PlayerPrefs.GetInt(i.ToString("####0")) + "\n\n";
+            rankingText.text += (i + 1) + ".                          " + PlayerPrefs.GetInt(i.ToString("####0")) + "\n\n";
     }
 
 

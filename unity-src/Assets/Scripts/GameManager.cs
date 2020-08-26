@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine.Experimental.PlayerLoop;
 
-// 게임 상태 (0: 인게임, 1: 메뉴, 2: 내순위, 3: 일시정지, 4: 랭킹, 5: 게임결과, 6: 환경설정)
-public enum GameState
+public enum GameState: int
 {
-    game,
-    menu,
-    myRank,
-    pause,
-    ranking,
-    result,
-    setting
+    Menu = 1,
+    Setting = 2,
+    Ranking = 3,
+    Game = 4,
+    Pause = 5,
+    Result = 6,
+    MyRank = 7
 }
 
 public class GameManager : MonoBehaviour
@@ -23,8 +21,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private GameState currentGameState;
     private bool kinectState;
-
-
 
     void Awake()
     {
@@ -37,8 +33,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-
-
     void Start()
     {
         DisplaySetting();
@@ -47,21 +41,21 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
-    // 프레임 설정
-    public void HandleFrameRate() {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = ConstInfo.gameFrameRate;
-    }
-
     // 화면 설정 (디스플레이가 하나일 경우 전면 UI만 출력, 두개 이상일 경우 바닥 UI 출력)
     public void DisplaySetting()
     {
-        Screen.SetResolution(1920, 1080, true);
+        Screen.SetResolution(ConstInfo.floorUICanvasWidth, ConstInfo.floorUICanvasHeight, true);
         if (Display.displays.Length > 1)
             Display.displays[1].Activate();
         if (Display.displays.Length > 2)
             Display.displays[2].Activate();
+    }
+
+    // 프레임 설정
+    public void HandleFrameRate()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = ConstInfo.gameFrameRate;
     }
 
 

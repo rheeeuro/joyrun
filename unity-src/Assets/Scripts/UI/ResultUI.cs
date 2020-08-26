@@ -11,8 +11,8 @@ public class ResultUI : MonoBehaviour
 
     // 결과 텍스트 변수
     public Text maxCombo;
-    public Text playTime;
-    public Text point;
+    public Text playTimeText;
+    public Text pointText;
 
     void Awake() { instance = this; }
     void Start() { transform.gameObject.SetActive(false); }
@@ -20,7 +20,7 @@ public class ResultUI : MonoBehaviour
     // 보이도록 설정
     public void Show()
     {
-        GameManager.instance.SetGameState(GameState.result);
+        GameManager.instance.SetGameState(GameState.Result);
         transform.gameObject.SetActive(true);
         GetComponent<Animation>().Play("ShowGuide");
     }

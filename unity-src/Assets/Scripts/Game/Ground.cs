@@ -12,11 +12,11 @@ public class Ground : MonoBehaviour
 
     void Start() {
         bgrounds = new List<GameObject>();
-        bground = Resources.Load("Prefabs/Prefabs/Bground2") as GameObject;
+        bground = Resources.Load("GameObject/Prefabs/JoyRunBackGround") as GameObject;
         GameObject.Find("Bground").SetActive(false);
-        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, 0),
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, 0),
             transform.rotation) as GameObject);
-        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, ConstInfo.bgroundSizeZ),
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.bgroundSizeZ),
             transform.rotation) as GameObject);
     }
 
@@ -35,7 +35,7 @@ public class Ground : MonoBehaviour
 
     void CreateBground()
     {
-        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, bgrounds[bgrounds.Count - 1].transform.position.z + ConstInfo.bgroundSizeZ),
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, bgrounds[bgrounds.Count - 1].transform.position.z + ConstInfo.bgroundSizeZ),
             Player.instance.player.transform.rotation) as GameObject);
     }
 

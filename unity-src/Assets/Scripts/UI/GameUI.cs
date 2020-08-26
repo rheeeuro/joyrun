@@ -49,7 +49,7 @@ public class GameUI : MonoBehaviour
     // UI 보여주기
     public void Show()
     {
-        GameManager.instance.SetGameState(GameState.game);
+        GameManager.instance.SetGameState(GameState.Game);
         transform.gameObject.SetActive(true);
     }
 
@@ -60,14 +60,14 @@ public class GameUI : MonoBehaviour
     {
         if (Setting.GetCurrentTimeState() == TimeState.normal)
             TimeDecrease();
-        if (GameManager.instance.GetGameState() == GameState.game)
+        if (GameManager.instance.GetGameState() == GameState.Game)
             HandleUI();
     }
 
     // 타이머 변수 설정
     void TimeDecrease()
     {
-        if (GameManager.instance.GetGameState() == GameState.game && Setting.GetCurrentTimeState() == TimeState.normal)
+        if (GameManager.instance.GetGameState() == GameState.Game && Setting.GetCurrentTimeState() == TimeState.normal)
             timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
         if (timer < 0)
             timer = 0;
@@ -100,7 +100,7 @@ public class GameUI : MonoBehaviour
 
     // 타일 실제 속도를 UI상의 속도로 변환 (30 ~ 90 -> 5km/s ~ 20km/s)
     float ActualSpeedToDisplaySpeed(float actualSpeed) {
-        return Mathf.Round((((actualSpeed - ConstInfo.actualSpeedStart) / 4) + 5) * 100) / 100;
+        return Mathf.Round((((actualSpeed - ConstInfo.initialActualSpeed) / 4) + 5) * 100) / 100;
     }
 
 
@@ -172,7 +172,7 @@ public class GameUI : MonoBehaviour
 
     public void HandleTimeIncrease() {
         if (timeIncreaseText.color.a > 0.3)
-            timeIncreaseText.color = new Color(1, 1, 1, timeIncreaseText.color.a - ConstInfo.timeIncreaseTextAlphaDecrease);
+            timeIncreaseText.color = new Color(1, 1, 1, timeIncreaseText.color.a - ConstInfo.increaseTextAlphaDecrease);
         else
             timeIncreaseText.color = new Color(1, 1, 1, 0);
         timeIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, timeIncreaseText.color.a / 2);
@@ -182,7 +182,7 @@ public class GameUI : MonoBehaviour
     public void HandleHpIncrease()
     {
         if (HpIncreaseText.color.a > 0.3)
-            HpIncreaseText.color = new Color(1, 1, 1, HpIncreaseText.color.a - ConstInfo.timeIncreaseTextAlphaDecrease);
+            HpIncreaseText.color = new Color(1, 1, 1, HpIncreaseText.color.a - ConstInfo.increaseTextAlphaDecrease);
         else
             HpIncreaseText.color = new Color(1, 1, 1, 0);
         HpIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, HpIncreaseText.color.a / 2);
@@ -194,9 +194,9 @@ public class GameUI : MonoBehaviour
     public void Pause()
     {
         if (isPausing)
-            GameManager.instance.SetGameState(GameState.game);
+            GameManager.instance.SetGameState(GameState.Game);
         else
-            GameManager.instance.SetGameState(GameState.pause);
+            GameManager.instance.SetGameState(GameState.Pause);
         isPausing = !isPausing;
         Player.instance.InitialJumpState();
     }
@@ -233,9 +233,9 @@ public class GameUI : MonoBehaviour
                 myRank = i + 1;
         }
         if (myRank == 0)
-            MyRankUI.instance.myRank.text = "순위권에 들지 못했습니다.";
+            MyRankUI.instance.myRankText.text = "순위권에 들지 못했습니다.";
         else
-            MyRankUI.instance.myRank.text = "내 순위 : " + myRank.ToString();
+            MyRankUI.instance.myRankText.text = "내 순위 : " + myRank.ToString();
     }
 }
 
