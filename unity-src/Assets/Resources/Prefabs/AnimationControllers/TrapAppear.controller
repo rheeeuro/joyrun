@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Appear
+  m_Name: Trap Appear
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -39,21 +39,21 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -3962575637356829909}
-    m_Position: {x: 370, y: 90, z: 0}
+    m_Position: {x: 310, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -299958663218399792}
-    m_Position: {x: 340.25, y: 266.5, z: 0}
+    m_Position: {x: 250, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 132155698523684107}
-    m_Position: {x: 349.25, y: 338.5, z: 0}
+    m_Position: {x: 250, y: 240, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_AnyStatePosition: {x: 50, y: 80, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 20, y: 180, z: 0}
+  m_ExitPosition: {x: 50, y: 160, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -3962575637356829909}
 --- !u!1102 &-299958663218399792
@@ -63,7 +63,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle 1
+  m_Name: Trap Idle 1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -113,7 +113,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle 2
+  m_Name: Trap Idle 2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

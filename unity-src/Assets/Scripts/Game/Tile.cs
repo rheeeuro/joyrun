@@ -74,15 +74,15 @@ public class Tile : MonoBehaviour
     // Prefab 불러오기
     void LoadPrefabs()
     {
-        heartTile = Resources.Load("Prefabs/heart-tile") as GameObject;
-        obstacleTile = Resources.Load("Prefabs/obstacle-tile") as GameObject;
-        emptyTile = Resources.Load("Prefabs/empty-tile") as GameObject;
-        emptyTilePass = Resources.Load("Prefabs/empty-tile-pass") as GameObject;
-        trapTile = Resources.Load("Prefabs/trap-tile") as GameObject;
-        balloonTile = Resources.Load("Prefabs/balloon-tile") as GameObject;
+        heartTile = Resources.Load("Prefabs/Prefabs/heart-tile") as GameObject;
+        obstacleTile = Resources.Load("Prefabs/Prefabs/obstacle-tile") as GameObject;
+        emptyTile = Resources.Load("Prefabs/Prefabs/empty-tile") as GameObject;
+        emptyTilePass = Resources.Load("Prefabs/Prefabs/empty-tile-pass") as GameObject;
+        trapTile = Resources.Load("Prefabs/Prefabs/trap-tile") as GameObject;
+        balloonTile = Resources.Load("Prefabs/Prefabs/balloon-tile") as GameObject;
 
-        obstacleTileEvent = Resources.Load("Prefabs/obstacle-tile-event") as GameObject;
-        trapTileEvent = Resources.Load("Prefabs/trap-tile-event") as GameObject;
+        obstacleTileEvent = Resources.Load("Prefabs/Prefabs/obstacle-tile-event") as GameObject;
+        trapTileEvent = Resources.Load("Prefabs/Prefabs/trap-tile-event") as GameObject;
 
         trapActivate = Resources.Load("Prefabs/AnimationControllers/TrapActivate") as RuntimeAnimatorController;
         trapEvent = Resources.Load("Prefabs/AnimationControllers/TrapAppear") as RuntimeAnimatorController;
@@ -428,7 +428,7 @@ public class Tile : MonoBehaviour
         if (Mathf.Abs(obj.transform.position.z - ConstInfo.collisionPositionZ[0]) < ConstInfo.collisionGap
         && GetChildTransform(obj, 1).localScale.x != 0
         && obj.transform.position.x == Player.instance.highlight.transform.position.x
-        && GameFloorTile.isPunching)
+        && Player.instance.isPunching)
         {
             Player.instance.BalloonCollision();
             GetChildTransform(obj, 0).GetComponent<Animator>().runtimeAnimatorController = balloonEvent;

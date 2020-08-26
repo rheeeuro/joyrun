@@ -12,7 +12,7 @@ public class Ground : MonoBehaviour
 
     void Start() {
         bgrounds = new List<GameObject>();
-        bground = Resources.Load("Prefabs/Bground2") as GameObject;
+        bground = Resources.Load("Prefabs/Prefabs/Bground2") as GameObject;
         GameObject.Find("Bground").SetActive(false);
         bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerStartPositionY, 0),
             transform.rotation) as GameObject);

@@ -545,7 +545,13 @@ public class GameFloorTile : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
             Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
-        isPunching = Input.GetKey(KeyCode.LeftShift);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            isPunching = true;
+        else if (!GameManager.instance.GetKinectState())
+            isPunching = false;
+
+
     }
 
     // 일시정지 상태의 키보드 상호작용

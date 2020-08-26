@@ -88,6 +88,7 @@ public static class ConstInfo
     public const float gameTime = 60;
     public const float jumpTime = 0.6f;
     public const float stumbleTime = 0.7f;
+    public const float punchTime = 1f;
 
     public const float bgroundSizeZ = 335.1012f;
 }

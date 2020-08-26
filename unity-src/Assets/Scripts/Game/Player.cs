@@ -30,9 +30,14 @@ public class Player : MonoBehaviour
     RuntimeAnimatorController animPunch;
 
 
-    // 점프 관련 번수 선언
+    // 행동 관련 번수 선언
     public bool isJumping;
     public float jumpTimer;
+    public float stumbleTimer;
+    public bool isStumble;
+    public bool isPunching;
+    public float punchTimer;
+
 
     //점수 변수 선언
     public int point;
@@ -42,10 +47,7 @@ public class Player : MonoBehaviour
     public int combo;
     public int hp;
 
-    public float stumbleTimer;
-    public bool isStumble;
-    public float punchTimer;
-    public bool isPunch;
+
 
     // 인스턴스 설정
     private void Awake() { instance = this; }
@@ -70,7 +72,7 @@ public class Player : MonoBehaviour
         jumpTimer = 0;
         isStumble = false;
         stumbleTimer = 0;
-        isPunch = false;
+        isPunching = false;
         punchTimer = 0;
         point = 0;
         combo = 0;
@@ -139,37 +141,59 @@ public class Player : MonoBehaviour
     // 플레이어 동작 업데이트
     void HandlePlayerAction()
     {
-        if (isJumping)
-            HandlePlayerJumping();
-        else if (isStumble)
-            HandleStumble();
+
+        if (isJumping || isStumble || isPunching)
+        {
+            if (isStumble)
+                HandleStumble();
+            else {
+                if (isJumping)
+                    HandlePlayerJumping();
+                else if (isPunching)
+                    HandlePlayerPunching();
+            }
+
+            if (isJumping) {
+                jumpTimer += Time.deltaTime;
+                if (jumpTimer >= ConstInfo.jumpTime)
+                    InitialJumpState();
+            }
+            if (isStumble) {
+                stumbleTimer += Time.deltaTime;
+                if (stumbleTimer >= ConstInfo.stumbleTime)
+                    InitialStumbleState();
+            }
+            if (isPunching) {
+                punchTimer += Time.deltaTime;
+                if (punchTimer >= ConstInfo.punchTime)
+                    InitialPunchState();
+            }
+        }
         else
             HandlePlayerMoving(Setting.GetCurrentAnimationState());
+
     }
 
     // 플레이어 점프 애니메이션, 점프 타이머 설정
     void HandlePlayerJumping()
     {
         animator.runtimeAnimatorController = animJump as RuntimeAnimatorController;
-        jumpTimer += Time.deltaTime;
-        if (jumpTimer >= ConstInfo.jumpTime)
-            InitialJumpState();
+        if(GameFloorTile.isPunching)
+            isPunching = GameFloorTile.isPunching;
     }
 
     // 점프 상태 초기화
     public void InitialJumpState() {
-        if(Setting.GetCurrentAnimationState() == AnimationState.kinect)
+        if (Setting.GetCurrentAnimationState() == AnimationState.kinect)
             animator.runtimeAnimatorController = null;
         isJumping = false;
+        isPunching = false;
         jumpTimer = 0;
     }
 
     public void HandleStumble()
     {
         animator.runtimeAnimatorController = animStumble as RuntimeAnimatorController;
-        stumbleTimer += Time.deltaTime;
-        if (stumbleTimer >= ConstInfo.stumbleTime)
-            InitialStumbleState();
     }
 
     public void InitialStumbleState() {
@@ -177,6 +201,20 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = null;
         isStumble = false;
         stumbleTimer = 0;
+
+    }
+
+    public void HandlePlayerPunching() {
+        animator.runtimeAnimatorController = animPunch as RuntimeAnimatorController;
+        if(GameFloorTile.isJumping)
+            isJumping = GameFloorTile.isJumping;
+    }
+
+    public void InitialPunchState() {
+        if (Setting.GetCurrentAnimationState() == AnimationState.kinect)
+            animator.runtimeAnimatorController = null;
+        isPunching = false;
+        punchTimer = 0;
 
     }
 
@@ -188,6 +226,7 @@ public class Player : MonoBehaviour
         else if (state == AnimationState.animation)
             HandlePlayerRuntimeAnimatorController(Tile.actualSpeed);
         isJumping = GameFloorTile.isJumping;
+        isPunching = GameFloorTile.isPunching;
     }
 
     // 플레이어 달리기 애니메이션 설정

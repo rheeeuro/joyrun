@@ -7800,14 +7800,14 @@ MonoBehaviour:
   highlight: {fileID: 0}
   isJumping: 0
   jumpTimer: 0
+  stumbleTimer: 0
+  isStumble: 0
+  isPunching: 0
+  punchTimer: 0
   point: 0
   maxCombo: 0
   combo: 0
   hp: 0
-  stumbleTimer: 0
-  isStumble: 0
-  punchTimer: 0
-  isPunch: 0
 --- !u!1 &1887460088
 GameObject:
   m_ObjectHideFlags: 0
