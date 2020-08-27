@@ -18,7 +18,7 @@ public static class ConstInfo
     public const int floorUICanvasHeight = 1080;
 
     // 바닥 UI 버튼 관련 상수
-    public const float buttonPushTime = 0.4f;
+    public const float buttonPushTime = 0.5f;
     public const float buttonDelayTime = 0.2f;
 
     // 바닥 UI 발 위치 원 관련 상수
