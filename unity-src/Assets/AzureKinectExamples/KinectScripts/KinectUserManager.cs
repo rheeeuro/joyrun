@@ -80,7 +80,7 @@ namespace com.rfilkov.kinect
                     Vector3 head = userId != 0 ? kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head) : Vector3.zero;
 
 
-                    GameObject tile = GameObject.Find("CenterTile");
+                    GameObject tile = GameObject.Find("CenterButton");
 
                     //if ((Avatar.IsInsideCircle(tile, leftFoot) && Avatar.IsInsideCircle(tile, rightFoot))
                     if(tile && Avatar.VectorInside(leftFoot, tile) && Avatar.VectorInside(rightFoot, tile) && (leftHand.y > head.y && rightHand.y > head.y)) {

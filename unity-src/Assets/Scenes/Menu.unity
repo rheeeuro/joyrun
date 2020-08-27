@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 30770762}
   - component: {fileID: 30770761}
   m_Layer: 5
-  m_Name: Footprint-left
+  m_Name: FootprintLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1333,7 +1333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 294907562}
   m_Layer: 5
-  m_Name: CenterTile
+  m_Name: CenterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1371,7 +1371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 336291083}
   m_Layer: 5
-  m_Name: CancelTile
+  m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2864,7 +2864,7 @@ GameObject:
   m_Component:
   - component: {fileID: 684618177}
   m_Layer: 5
-  m_Name: LeftArrowTile
+  m_Name: LeftArrowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3133,7 +3133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 748415450}
   m_Layer: 5
-  m_Name: DownArrowTile
+  m_Name: DownArrowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4063,7 +4063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1041504498}
   m_Layer: 5
-  m_Name: UpArrowTile
+  m_Name: UpArrowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4401,7 +4401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1143548858}
   m_Layer: 5
-  m_Name: ConfirmTile
+  m_Name: ConfirmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4750,7 +4750,7 @@ GameObject:
   - component: {fileID: 1208203644}
   - component: {fileID: 1208203643}
   m_Layer: 5
-  m_Name: Footprint-right
+  m_Name: FootprintRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e83fcd03e5f29af45b0b0c1affb7218c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rankingText: {fileID: 0}
+  rankingText: {fileID: 1833481555}
 --- !u!111 &1257150524
 Animation:
   m_ObjectHideFlags: 0
@@ -5308,8 +5308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236711103f2f5684d9d52752e4051d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSelected: {fileID: 0}
-  buttonUnselected: {fileID: 0}
+  buttonSelected: {fileID: 21300000, guid: 8edaa0b59313251439a1f2b9f4e8d09f, type: 3}
+  buttonUnselected: {fileID: 21300000, guid: b53565d7420709d46a9be76d39525e23, type: 3}
   startButton: {fileID: 1240993566}
   settingButton: {fileID: 112380265}
   rankingButton: {fileID: 1074221259}
@@ -5787,7 +5787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1489760094}
   m_Layer: 5
-  m_Name: RightArrowTile
+  m_Name: RightArrowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7296,7 +7296,6 @@ MonoBehaviour:
   frameChangeCount: 0
   frameTimer: 0
   frameText: {fileID: 20448598}
-  kinectText: {fileID: 0}
 --- !u!114 &1821255119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7880,8 +7879,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce7b8f7ddbc5e940a938dee4d142fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftFootPrint: {fileID: 0}
-  rightFootPrint: {fileID: 0}
+  centerButton: {fileID: 294907561}
+  upArrowButton: {fileID: 1041504497}
+  downArrowButton: {fileID: 748415449}
+  leftArrowButton: {fileID: 684618176}
+  rightArrowButton: {fileID: 1489760093}
+  confirmButton: {fileID: 1143548857}
+  cancelButton: {fileID: 336291082}
+  leftFootPrint: {fileID: 30770759}
+  rightFootPrint: {fileID: 1208203641}
   footPrintLerpT: 0
   uiTimer: []
   buttonDelayTimer: 0

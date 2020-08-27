@@ -18,12 +18,19 @@ public class MyRankUI : MonoBehaviour
     void Start() { transform.gameObject.SetActive(false); }
 
     // 보이도록 설정
-    public void Show()
+    public void Show(string point, string myRank)
     {
         GameManager.instance.SetGameState(GameState.MyRank);
         UpdateRanking();
+        SetText(point, myRank);
         transform.gameObject.SetActive(true);
         GetComponent<Animation>().Play("ShowGuide");
+    }
+
+    public void SetText(string point, string myRank) 
+    {
+        pointText.text = point;
+        myRankText.text = myRank;
     }
 
 

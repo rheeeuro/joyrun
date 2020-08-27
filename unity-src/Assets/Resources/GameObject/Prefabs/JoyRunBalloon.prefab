@@ -106,8 +106,8 @@ GameObject:
   - component: {fileID: 4170575869530833369}
   - component: {fileID: 6679262449842973274}
   m_Layer: 0
-  m_Name: balloon-tile
-  m_TagString: balloon-tile
+  m_Name: JoyRunBalloon
+  m_TagString: Balloon Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -216,11 +216,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: balloon
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 00fa7b08c53120f42955875fa2291b71,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a46eaa3d57ede3e45add351e1d3adc64, type: 2}
     - target: {fileID: -4216859302048453862, guid: 00fa7b08c53120f42955875fa2291b71,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -291,6 +286,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 00fa7b08c53120f42955875fa2291b71,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a46eaa3d57ede3e45add351e1d3adc64, type: 2}
     - target: {fileID: -1464608204041226023, guid: 00fa7b08c53120f42955875fa2291b71,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

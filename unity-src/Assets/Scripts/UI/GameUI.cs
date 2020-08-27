@@ -10,21 +10,20 @@ public class GameUI : MonoBehaviour
     public static GameUI instance;
     public bool isPausing;
 
-    // 텍스트 , 체력 게이지 변수 선언
+    // 텍스트 , 게이지 변수 선언
     public Text comboText;
     public Text timerText;
     public Text speedText;
     public Text countDownTimer;
     public Text timeIncreaseText;
-    public Text HpIncreaseText;
+    public Text hpIncreaseText;
     public UIBarScript barHp;
 
     // 타이머  변수 선언
     public float timer;
+    public float playTime;
     public float comboDisplayTimer;
     public float damageEffectTimer;
-
-    public int balloonCount;
 
     void Awake() { instance = this; }
 
@@ -40,8 +39,8 @@ public class GameUI : MonoBehaviour
     {
         comboDisplayTimer = 0;
         damageEffectTimer = 0;
-        balloonCount = 0;
         timer = ConstInfo.gameTime;
+        playTime = 0;
     }
 
 
@@ -58,28 +57,34 @@ public class GameUI : MonoBehaviour
     // 정확한 시간 측정을 위해 FixedUpdate 사용
     void FixedUpdate()
     {
-        if (Setting.GetCurrentTimeState() == TimeState.normal)
-            TimeDecrease();
         if (GameManager.instance.GetGameState() == GameState.Game)
-            HandleUI();
+        {
+            HandleTime();
+            HandleGameUI();
+        }
     }
 
     // 타이머 변수 설정
-    void TimeDecrease()
+    void HandleTime()
     {
-        if (GameManager.instance.GetGameState() == GameState.Game && Setting.GetCurrentTimeState() == TimeState.normal)
+        playTime += Time.fixedDeltaTime;
+        if (Setting.GetCurrentTimeState() == TimeState.Normal) 
+        {
             timer = Mathf.Round((timer - Time.fixedDeltaTime) * 100) / 100;
-        if (timer < 0)
-            timer = 0;
+            if (timer < 0)
+                timer = 0;
+        }
     }
 
     // 게임 UI 업데이트
-    void HandleUI()
+    void HandleGameUI()
     {
         HandleGameText();
+        HandleEffect();
         barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
-        ShowDamageEffect();
+
     }
+
 
     // 상태 텍스트 설정 (시간, 콤보, 속도)
     void HandleGameText()
@@ -87,21 +92,23 @@ public class GameUI : MonoBehaviour
         HandleTimeText();
         HandleComboText();
         HandleSpeedText();
-        HandleTimeIncrease();
-        HandleHpIncrease();
+
+    }
+
+    // 상태 이펙트 설정 (시간 증가, 체력 증가, 피격)
+    void HandleEffect() {
+        HandleIncreaseText(timeIncreaseText, timerText);
+        HandleIncreaseText(hpIncreaseText, null);
+        ShowDamageEffect();
     }
 
 
 
     // 속도 텍스트 업데이트
-    void HandleSpeedText() {
-        speedText.text = ActualSpeedToDisplaySpeed(Tile.actualSpeed).ToString("#0.00") + " km/s";
-    }
+    void HandleSpeedText() { speedText.text = ActualSpeedToDisplaySpeed(Tile.actualSpeed).ToString("#0.00") + " km/s"; }
 
     // 타일 실제 속도를 UI상의 속도로 변환 (30 ~ 90 -> 5km/s ~ 20km/s)
-    float ActualSpeedToDisplaySpeed(float actualSpeed) {
-        return Mathf.Round((((actualSpeed - ConstInfo.initialActualSpeed) / 4) + 5) * 100) / 100;
-    }
+    float ActualSpeedToDisplaySpeed(float actualSpeed) { return Mathf.Round((((actualSpeed - ConstInfo.initialActualSpeed) / 4) + 5) * 100) / 100; }
 
 
 
@@ -118,10 +125,11 @@ public class GameUI : MonoBehaviour
 
     // 시간 설정에 따른 시간 텍스트 업데이트
     void HandleTimeText() {
-        if (Setting.GetCurrentTimeState() == TimeState.normal)
+        if (Setting.GetCurrentTimeState() == TimeState.Normal)
             timerText.text = timer.ToString("Time : 00.00");
-        else if (Setting.GetCurrentTimeState() == TimeState.infinite)
+        else if (Setting.GetCurrentTimeState() == TimeState.Infinite)
             timerText.text = "Infinite";
+
         if (timer < 5)
             HandleCountDownText();
         else
@@ -138,6 +146,7 @@ public class GameUI : MonoBehaviour
     }
 
 
+    public void DamageEffectTrigger() { GameUI.instance.damageEffectTimer = ConstInfo.damageEffectTime; }
 
     // 피격된 경우 (이펙트 생성)
     public void ShowDamageEffect()
@@ -151,7 +160,7 @@ public class GameUI : MonoBehaviour
             GetComponent<Image>().color = new Color(1, 1, 1, 0);
     }
 
-    // 콤보 변경된 경우 (증가)
+    // 콤보 변경된 경우 (증가) ConstInfo.comboDisplayTime 동안 텍스트 표시
     public void ChangeCombo(int newCombo)
     {
         if (Player.instance.maxCombo <= newCombo)
@@ -160,32 +169,22 @@ public class GameUI : MonoBehaviour
         comboDisplayTimer = ConstInfo.comboDisplayTime;
     }
 
-    public void ShowTimeIncrease() {
-        timeIncreaseText.color = new Color(1, 1, 1, 1);
-    } 
-    
-    public void ShowHpIncrease() {
-        HpIncreaseText.color = new Color(1, 1, 1, 1);
-    }
+    // 증가 이펙트용 텍스트 보여주기 (흰색)
+    public void ShowTimeIncreaseText() { timeIncreaseText.color = Color.white; }
+    public void ShowHpIncreaseText() { hpIncreaseText.color = Color.white; }
 
 
-
-    public void HandleTimeIncrease() {
-        if (timeIncreaseText.color.a > 0.3)
-            timeIncreaseText.color = new Color(1, 1, 1, timeIncreaseText.color.a - ConstInfo.increaseTextAlphaDecrease);
-        else
-            timeIncreaseText.color = new Color(1, 1, 1, 0);
-        timeIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, timeIncreaseText.color.a / 2);
-        timerText.color = new Color(1 - (timeIncreaseText.color.a), 1, 1 - (timeIncreaseText.color.a));
-    }
-
-    public void HandleHpIncrease()
+    // 효과 텍스트의 알파값이 0.3까지 떨어진 뒤 삭제, test2는 초록색 효과
+    void HandleIncreaseText(Text text, Text text2) 
     {
-        if (HpIncreaseText.color.a > 0.3)
-            HpIncreaseText.color = new Color(1, 1, 1, HpIncreaseText.color.a - ConstInfo.increaseTextAlphaDecrease);
+        if (text.color.a > 0.3)
+            text.color = new Color(1, 1, 1, text.color.a - ConstInfo.increaseTextAlphaDecrease);
         else
-            HpIncreaseText.color = new Color(1, 1, 1, 0);
-        HpIncreaseText.GetComponent<Outline>().effectColor = new Color(0, 0, 0, HpIncreaseText.color.a / 2);
+            text.color = new Color(1, 1, 1, 0);
+        text.GetComponent<Outline>().effectColor = new Color(0, 0, 0, text.color.a / 2);
+        if (text2)
+            text2.color = new Color(1 - (text.color.a), 1, 1 - (text.color.a));
+
     }
 
 
@@ -207,17 +206,15 @@ public class GameUI : MonoBehaviour
     // 메뉴로 버튼을 누른 경우
     public void HandleToMenu() { SceneManager.LoadScene("Menu"); }
 
-
-
     // 게임이 종료된 경우
-    public void HandleGameEnd()
+    public void HandleGameEnd(int maxCombo, int point)
     {
-        ResultUI.instance.Show();
+        ResultUI.instance.Show(maxCombo, point, playTime, InsertRank(point));
         transform.gameObject.SetActive(false);
     }
 
     // 랭킹 등록 알고리즘
-    public void InsertRank(int score)
+    public string InsertRank(int score)
     {
         int myRank = 0;
         List<int> scores = new List<int>();
@@ -233,9 +230,9 @@ public class GameUI : MonoBehaviour
                 myRank = i + 1;
         }
         if (myRank == 0)
-            MyRankUI.instance.myRankText.text = "순위권에 들지 못했습니다.";
+            return "순위권에 들지 못했습니다.";
         else
-            MyRankUI.instance.myRankText.text = "내 순위 : " + myRank.ToString();
+            return "내 순위 : " + myRank.ToString();
     }
 }
 

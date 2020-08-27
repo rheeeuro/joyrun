@@ -198,8 +198,8 @@ GameObject:
   - component: {fileID: 6938977864250623258}
   - component: {fileID: 8025361978305387081}
   m_Layer: 0
-  m_Name: trap-tile-event
-  m_TagString: trap-tile
+  m_Name: JoyRunTrapEvent
+  m_TagString: Trap Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

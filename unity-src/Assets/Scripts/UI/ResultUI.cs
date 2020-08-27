@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,19 +11,32 @@ public class ResultUI : MonoBehaviour
     public static ResultUI instance;
 
     // 결과 텍스트 변수
-    public Text maxCombo;
+    public Text maxComboText;
     public Text playTimeText;
     public Text pointText;
+
+    string myRankText;
 
     void Awake() { instance = this; }
     void Start() { transform.gameObject.SetActive(false); }
 
     // 보이도록 설정
-    public void Show()
+    public void Show(int maxCombo, int point, float playTime, string myRank)
     {
         GameManager.instance.SetGameState(GameState.Result);
+        SetText(maxCombo, point, playTime, myRank);
         transform.gameObject.SetActive(true);
         GetComponent<Animation>().Play("ShowGuide");
+    }
+
+    // 텍스트 설정
+    public void SetText(int maxCombo, int point, float playTime, string myRank) {
+        maxComboText.text = maxCombo.ToString() + " 회";
+        playTimeText.text = (Mathf.Round(playTime * 100) / 100) + " 초";
+        if (Setting.GetCurrentTimeState() == TimeState.Infinite)
+            playTimeText.text = "무제한";
+        pointText.text = point.ToString();
+        myRankText = myRank;
     }
 
 
@@ -31,6 +45,6 @@ public class ResultUI : MonoBehaviour
     public void HandleNextPage()
     {
         transform.gameObject.SetActive(false);
-        MyRankUI.instance.Show();
+        MyRankUI.instance.Show(pointText.text, myRankText);
     }
 }

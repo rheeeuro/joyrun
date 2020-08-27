@@ -4,11 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - empty-tile
-  - heart-tile
-  - obstacle-tile
-  - trap-tile
-  - empty-tile-pass
+  - Heart Tile
+  - Hurdle Tile
+  - Empty Tile
+  - Pass Tile
+  - Trap Tile
+  - Balloon Tile
   layers:
   - Default
   - TransparentFX

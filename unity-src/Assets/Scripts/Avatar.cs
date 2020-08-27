@@ -15,6 +15,7 @@ public enum AvatarJointType : int
 
     Count = 6
 }
+
 public class Avatar : MonoBehaviour
 {
     // 키넥트 카메라 상의 유저 존재 여부

@@ -10,9 +10,9 @@ public class Ground : MonoBehaviour
     float speed;
     int last;
 
+    // 초기 두 개의 배경 프리팹 생성
     void Start() {
         bgrounds = new List<GameObject>();
-        bground = Resources.Load("GameObject/Prefabs/JoyRunBackGround") as GameObject;
         GameObject.Find("Bground").SetActive(false);
         bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, 0),
             transform.rotation) as GameObject);
@@ -28,23 +28,24 @@ public class Ground : MonoBehaviour
         HandleBgoundDestroy();
     }
 
-    bool IsTimeToCreateBground()
-    {
-        return bgrounds[bgrounds.Count - 1].transform.position.z <= 0;
-    }
+    // 배경의 z좌표가 0 이하가 되면 다음 배경 생성
+    bool IsTimeToCreateBground() { return bgrounds[bgrounds.Count - 1].transform.position.z <= 0; }
 
+    // 배경 프리팹 생성
     void CreateBground()
     {
-        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, bgrounds[bgrounds.Count - 1].transform.position.z + ConstInfo.bgroundSizeZ),
-            Player.instance.player.transform.rotation) as GameObject);
+        bgrounds.Add(Instantiate(bground, new Vector3(ConstInfo.center, 
+            ConstInfo.playerInitialPositionY, bgrounds[bgrounds.Count - 1].transform.position.z + ConstInfo.bgroundSizeZ), transform.rotation));
     }
 
+    // 배경 프리팹 이동
     void HandleBgroundMove()
     {
         for (int i = 0; i < bgrounds.Count; i++)
             bgrounds[i].transform.Translate(Vector3.back * Tile.actualSpeed * Time.deltaTime);
     }
 
+    // 배경 프리팹 삭제
     void HandleBgoundDestroy()
     {
         for (int i = 0; i < bgrounds.Count; i++)

@@ -4,13 +4,13 @@ using UnityEngine;
 
 
 // 애니메이션 설정 (0: 키넥트, 1: 애니메이션)
-public enum AnimationState { kinect, animation }
+public enum AnimationState { Kinect = 0, Animation = 1 }
 
 // 체력제한 설정 (0: 기본, 1: 무적)
-public enum HpState { normal, immortal }
+public enum HpState { Normal = 0, Immortal = 1 }
 
 // 시간제한 설정 (0: 기본 60초, 1: 시간제한없음)
-public enum TimeState { normal, infinite }
+public enum TimeState { Normal = 0, Infinite = 1 }
 
 
 

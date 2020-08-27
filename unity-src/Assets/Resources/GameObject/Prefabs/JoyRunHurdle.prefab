@@ -198,8 +198,8 @@ GameObject:
   - component: {fileID: 4170575869530833369}
   - component: {fileID: 6679262449842973274}
   m_Layer: 0
-  m_Name: obstacle-tile
-  m_TagString: obstacle-tile
+  m_Name: JoyRunHurdle
+  m_TagString: Hurdle Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

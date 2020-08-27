@@ -5,6 +5,8 @@ using UnityEngine;
 public class MenuPlayer : MonoBehaviour
 {
     public static MenuPlayer instance;
+
+    // 애니메이션 관련 변수
     RuntimeAnimatorController animIdle;
     Animator animator;
 
@@ -17,26 +19,29 @@ public class MenuPlayer : MonoBehaviour
         animIdle = Resources.Load("3DResources/AnimationControllers/JoyRunIdle") as RuntimeAnimatorController;
     }
 
-    void Update()
-    {
-        HandleMenuPlayer();
-    }
+    void Update() { HandleMenuPlayer(); }
 
+    // 메뉴 플레이어 설정
     void HandleMenuPlayer() {
         HandleMenuPlayerPosition();
         HandleMenuPlayerAnimtaion();
     }
 
+    // 메뉴 플레이어 위치 조정 (유저가 없을 경우 중앙에 위치)
     void HandleMenuPlayerPosition() 
     { 
-        transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+        if (Avatar.GetUserValid())
+            transform.position = new Vector3(Avatar.userPosition[(int) AvatarJointType.Body].x, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+        else
+            transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
     }
 
+    // 메뉴 플레이어 애니메이션 설정
     void HandleMenuPlayerAnimtaion()
     {
-        if (Setting.GetCurrentAnimationState() == AnimationState.animation)
+        if (Setting.GetCurrentAnimationState() == AnimationState.Animation)
             animator.runtimeAnimatorController = animIdle;
-        else if (Setting.GetCurrentAnimationState() == AnimationState.kinect)
+        else if (Setting.GetCurrentAnimationState() == AnimationState.Kinect)
             animator.runtimeAnimatorController = null;
     }
 }

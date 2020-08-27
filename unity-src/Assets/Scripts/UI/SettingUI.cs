@@ -18,7 +18,7 @@ public class SettingUI : MonoBehaviour
     public static SettingUI instance;
     private SettingChoice currentSettingChoice;
 
-    //색상 스프라이트
+    // 기본, 하이라이트 스프라이트, 텍스처
     public Sprite buttonSelected;
     public Sprite buttonUnselected;
 

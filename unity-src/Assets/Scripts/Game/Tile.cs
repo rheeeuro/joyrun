@@ -6,98 +6,67 @@ public class Tile : MonoBehaviour
 {
     // 게임 오브젝트 변수 선언
     public GameObject heartTile;
-    public GameObject obstacleTile;
+    public GameObject hurdleTile;
     public GameObject emptyTile;
-    public GameObject emptyTilePass;
+    public GameObject passTile;
     public GameObject trapTile;
     public GameObject balloonTile;
     public GameObject trapTileEvent;
-    public GameObject obstacleTileEvent;
-
-    public GameObject leftTile;
-    public GameObject centerTile;
-    public GameObject rightTile;
+    public GameObject hurdleTileEvent;
 
     // 리스트 변수 선언
-    public static List<GameObject> randomTiles;
-    public static List<GameObject> badTiles;
+    public static List<GameObject> randomTiles = new List<GameObject>();
+    public static List<GameObject> badTiles = new List<GameObject>();
     public static List<GameObject> activatedTiles;
 
     // 마지막 줄의 하트 위치 변수
-    public static float heartDirection;
+    public static float lastHeartDirection;
 
     // 추가속도, 실제속도 변수
-    public static float extraSpeed;
+    public static float userSpeed;
     public static float actualSpeed;
 
     // 타일이 나온 뒤 다음타일이 나오기까지의 시간
-    public float tileDelay;
+    public float tileCreateDelay;
 
     // 생성된 타일의 줄 수 변수
     public int createTileCount;
 
+    // 하트의 보너스 점수 체크용 변수
     public int heartBonusCount;
 
-    RuntimeAnimatorController trapActivate;
-    RuntimeAnimatorController trapEvent;
-    RuntimeAnimatorController hurdleEvent;
-    RuntimeAnimatorController hurdleDown;
-    RuntimeAnimatorController balloonEvent;
+    // 애니메이터 변수 선언
+    public RuntimeAnimatorController trapActivate;
+    public RuntimeAnimatorController trapEvent;
+    public RuntimeAnimatorController hurdleEvent;
+    public RuntimeAnimatorController hurdleDown;
+    public RuntimeAnimatorController balloonEvent;
 
     void Start()
     {
-        InitialLists();
         InitialValues();
-        LoadPrefabs();
         SetTileLists();
-    }
-
-    // 리스트 초기화
-    void InitialLists()
-    {
-        randomTiles = new List<GameObject>();
-        badTiles = new List<GameObject>();
-        activatedTiles = new List<GameObject>();
     }
 
     // 변수 초기화
     void InitialValues()
     {
-        tileDelay = ConstInfo.InitialTileCreateDelay;
+        activatedTiles = new List<GameObject>();
+        tileCreateDelay = ConstInfo.InitialTileCreateDelay;
         actualSpeed = ConstInfo.initialActualSpeed;
         createTileCount = 0;
-        extraSpeed = 0;
-        heartDirection = 0;
+        userSpeed = 0;
+        lastHeartDirection = 0;
         heartBonusCount = 0;
-    }
-
-    // Prefab 불러오기
-    void LoadPrefabs()
-    {
-        heartTile = Resources.Load("GameObject/Prefabs/JoyRunHeart") as GameObject;
-        obstacleTile = Resources.Load("GameObject/Prefabs/JoyRunHurdle") as GameObject;
-        emptyTile = Resources.Load("GameObject/Prefabs/JoyRunEmpty") as GameObject;
-        emptyTilePass = Resources.Load("GameObject/Prefabs/JoyRunPass") as GameObject;
-        trapTile = Resources.Load("GameObject/Prefabs/JoyRunTrap") as GameObject;
-        balloonTile = Resources.Load("GameObject/Prefabs/JoyRunBalloon") as GameObject;
-
-        obstacleTileEvent = Resources.Load("GameObject/Prefabs/JoyRunHurdleEvent") as GameObject;
-        trapTileEvent = Resources.Load("GameObject/Prefabs/JoyRunTrapEvent") as GameObject;
-
-        trapActivate = Resources.Load("GameObject/AnimationControllers/TrapActivate") as RuntimeAnimatorController;
-        trapEvent = Resources.Load("GameObject/AnimationControllers/TrapAppear") as RuntimeAnimatorController;
-        hurdleEvent = Resources.Load("GameObject/AnimationControllers/HurdleAppear") as RuntimeAnimatorController;
-        hurdleDown = Resources.Load("GameObject/AnimationControllers/HurdleDown") as RuntimeAnimatorController;
-        balloonEvent = Resources.Load("GameObject/AnimationControllers/BalloonEvent") as RuntimeAnimatorController;
     }
 
     // List 설정 (random: 장애물, 빈, 함정 / bad: 장애물, 함정)
     void SetTileLists() {
-        randomTiles.Add(obstacleTile);
+        randomTiles.Add(hurdleTile);
         randomTiles.Add(emptyTile);
         randomTiles.Add(trapTile);
 
-        badTiles.Add(obstacleTile);
+        badTiles.Add(hurdleTile);
         badTiles.Add(trapTile);
     }
 
@@ -123,9 +92,9 @@ public class Tile : MonoBehaviour
         if (IsTimeToCreateTiles())
         {
             CreateTiles();           
-            if (createTileCount % 10 == 0)
+            if (createTileCount == 10)
             {
-                tileDelay -= ConstInfo.tileCreateDelayIncrease;
+                tileCreateDelay -= ConstInfo.tileCreateDelayIncrease;
                 createTileCount = 0;
             }
         }
@@ -134,18 +103,20 @@ public class Tile : MonoBehaviour
     // 마지막 줄 타일이 간격만큼 이동 시 타일 생성
     bool IsTimeToCreateTiles()
     {
-        return activatedTiles.Count == 0 
-            || activatedTiles[activatedTiles.Count - 1].transform.position.z < ConstInfo.tileInitialPositionZ - ConstInfo.spacingBetweenTiles;
+        if (activatedTiles.Count > 0)
+            return activatedTiles[activatedTiles.Count - 1].transform.position.z < ConstInfo.tileInitialPositionZ - ConstInfo.spacingBetweenTiles;
+        else
+            return true;
     }
 
     // 마지막 줄 타일에 하트 존재 여부에 따른 타일 생성
     void CreateTiles()
     {
-        if (heartDirection == 0)
+        if (lastHeartDirection == 0)
             CreateTilesAfterNoHeart();
         else
             CreateTilesAfterHeart();
-        createTileCount++;
+        createTileCount += 1;
     }
 
     // 마지막 줄에 하트가 없을 경우의 타일 생성
@@ -154,19 +125,19 @@ public class Tile : MonoBehaviour
         switch (Random.Range(0, 3))
         {
             case 0:
-                SetGoodTile(ConstInfo.left);
+                SetPassDirection(ConstInfo.left);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
                 break;
             case 1:
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
-                SetGoodTile(ConstInfo.center);
+                SetPassDirection(ConstInfo.center);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
                 break;
             case 2:
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
-                SetGoodTile(ConstInfo.right);
+                SetPassDirection(ConstInfo.right);
                 break;
         }
     }
@@ -174,26 +145,26 @@ public class Tile : MonoBehaviour
     // 마지막 줄에 하트가 있는 경우의 타일 생성
     void CreateTilesAfterHeart()
     {
-        if (heartDirection == ConstInfo.left)
+        if (lastHeartDirection == ConstInfo.left)
         {
-            if (YesOrNo())
+            if (RandomNum(2) % 2 == 0)
             {
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.left);
-                SetGoodTile(ConstInfo.center);
+                SetPassDirection(ConstInfo.center);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
             }
             else
             {
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.left);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
-                SetGoodTile(ConstInfo.right);
+                SetPassDirection(ConstInfo.right);
             }
         }
-        else if (heartDirection == ConstInfo.center)
+        else if (lastHeartDirection == ConstInfo.center)
         {
-            if (YesOrNo())
+            if (RandomNum(2) % 2 == 0)
             {
-                SetGoodTile(ConstInfo.left);
+                SetPassDirection(ConstInfo.left);
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.center);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.right);
             }
@@ -201,98 +172,93 @@ public class Tile : MonoBehaviour
             {
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.center);
-                SetGoodTile(ConstInfo.right);
+                SetPassDirection(ConstInfo.right);
             }
         }
-        else if (heartDirection == ConstInfo.right)
+        else if (lastHeartDirection == ConstInfo.right)
         {
-            if (YesOrNo())
+            if (RandomNum(2) % 2 == 0)
             {
-                SetGoodTile(ConstInfo.left);
+                SetPassDirection(ConstInfo.left);
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.center);
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.right);
             }
             else
             {
                 CreateOne(GetRandomFromList(randomTiles), ConstInfo.left);
-                SetGoodTile(ConstInfo.center);
+                SetPassDirection(ConstInfo.center);
                 CreateOne(GetRandomFromList(badTiles), ConstInfo.right);
             }
         }
     }
 
-    // 지나갈 수 있는 길 생성 (하트 혹은 빈칸, 풍선)
-    void SetGoodTile(float direction)
+    // 지나갈 수 있는 길 생성 (1/6:풍선, 2/6: 하트, 1/2: 빈타일)
+    void SetPassDirection(float direction)
     {
-        if (YesOrNo())
+        int random = RandomNum(6);
+        lastHeartDirection = 0;
+        if (random <= 1)
+            CreateOne(balloonTile, direction);
+        else if (random <= 3)
         {
-            if (Random.Range(0, 3) != 0)
-                CreateOne(heartTile, direction);
-            else
-                CreateOne(balloonTile, direction);
-            heartDirection = direction;
-        }
-        else
-        {
-            CreateOne(emptyTilePass, direction);
-            heartDirection = 0;
-        }
+            CreateOne(heartTile, direction);
+            lastHeartDirection = direction;
+        } else
+            CreateOne(passTile, direction);
     }
 
     // 타일을 direction에 한 개 생성
     void CreateOne(GameObject tile, float direction)
     {
         activatedTiles.Add(Instantiate(tile, new Vector3(direction, ConstInfo.tileInitialPositionY, ConstInfo.tileInitialPositionZ), 
-            Player.instance.player.transform.rotation) as GameObject);
-    }
-
-
-
-    // 조건 만족 시 장애물 애니메이션 재생
-    void HandleObstacleAnimation()
-    {
-        for (int i = 0; i <= activatedTiles.Count-3; i += 3)
-        {
-            GameObject lastLeftTile = activatedTiles[i];
-            GameObject lastCenterTile = activatedTiles[i+1];
-            GameObject lastRightTile = activatedTiles[i+2];
-
-            // 중앙에 장애물이 있고 좌, 우로 통과가 가능한 경우
-            if ((lastCenterTile.tag == "obstacle-tile" || lastCenterTile.tag == "trap-tile")
-                && ((IsPassDirection(lastLeftTile) && lastRightTile.tag == "empty-tile") || (IsPassDirection(lastRightTile) && lastLeftTile.tag == "empty-tile"))
-                && Mathf.Abs(lastCenterTile.transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionRange)
-            {
-                if (IsPassDirection(lastLeftTile))
-                    HandleAnimation(lastRightTile, obstacleTileEvent, activatedTiles.IndexOf(lastRightTile), hurdleEvent, 2);
-                else
-                    HandleAnimation(lastLeftTile, obstacleTileEvent, activatedTiles.IndexOf(lastLeftTile), hurdleEvent, 2);
-            }
-        }
+            Player.instance.transform.rotation) as GameObject);
     }
 
 
     // 이벤트 발생 알고리즘 (애니메이션)
     void HandleTileAnimation() {
         if (GameUI.instance.timer <= ConstInfo.gameTime - ConstInfo.obstableAnimStartTime)
-            HandleObstacleAnimation();
+            HandleHurdleAnimation();
         if (GameUI.instance.timer <= ConstInfo.gameTime - ConstInfo.trapAnimStartTime)
             HandleTrapAnimation();
+    }
+
+
+    // 조건 만족 시 장애물 애니메이션 재생
+    void HandleHurdleAnimation()
+    {
+        for (int i = 0; i <= activatedTiles.Count - 3; i += 3)
+        {
+            GameObject lastLeftTile = activatedTiles[i];
+            GameObject lastCenterTile = activatedTiles[i + 1];
+            GameObject lastRightTile = activatedTiles[i + 2];
+
+            // 중앙에 장애물이 있고 좌, 우로 통과가 가능한 경우
+            if ((lastCenterTile.tag == "Hurdle Tile" || lastCenterTile.tag == "Trap Tile")
+                && (lastRightTile.tag == "Empty Tile" || lastLeftTile.tag == "Empty Tile")
+                && Mathf.Abs(lastCenterTile.transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionRange)
+            {
+                if (lastLeftTile.tag == "Empty Tile")
+                    HandleAnimation(lastLeftTile, hurdleTileEvent, i);
+                else if (lastRightTile.tag == "Empty Tile")
+                    HandleAnimation(lastRightTile, hurdleTileEvent, i + 2);
+            }
+        }
     }
 
     // 조건 만족 시 구덩이 애니메이션 재생
     void HandleTrapAnimation()
     {
         for (int i = 0; i < activatedTiles.Count; i++)
-            if (activatedTiles[i].tag == "empty-tile" && !IsPassDirection(activatedTiles[i]) 
+            if (activatedTiles[i].tag == "Empty Tile"
                 && Mathf.Abs(activatedTiles[i].transform.position.z - (ConstInfo.tileAnimationStartPositionZ + actualSpeed)) < ConstInfo.collisionRange)
-                HandleAnimation(activatedTiles[i], trapTileEvent, i, trapEvent, 0);
+                HandleAnimation(activatedTiles[i], trapTileEvent, i);
     }
 
     // 애니메이션 재생 타일로 변경
-    void HandleAnimation(GameObject oldTile, GameObject newTile, int index, RuntimeAnimatorController runtimeAnimatorController, int childIndex)
+    void HandleAnimation(GameObject oldTile, GameObject newTile, int index)
     {
-        activatedTiles[index] = Instantiate(newTile, new Vector3(oldTile.transform.position.x, ConstInfo.tileInitialPositionY, oldTile.transform.position.z), 
-            Player.instance.player.transform.rotation) as GameObject;
+        activatedTiles[index] = Instantiate(newTile, oldTile.transform.position, transform.rotation);
         oldTile.SetActive(false);
         Destroy(oldTile);
     }
@@ -310,8 +276,11 @@ public class Tile : MonoBehaviour
     void HandleTileSpeed()
     {
         if (GameManager.instance.GetGameState() == GameState.Game)
-            actualSpeed = ((ConstInfo.spacingBetweenTiles / tileDelay) + extraSpeed) < ConstInfo.MaxActualSpeed ? 
-                ((ConstInfo.spacingBetweenTiles / tileDelay) + extraSpeed) : ConstInfo.MaxActualSpeed;
+        {
+            actualSpeed = ((ConstInfo.spacingBetweenTiles / tileCreateDelay) + userSpeed);
+            if (actualSpeed > ConstInfo.MaxActualSpeed)
+                actualSpeed = ConstInfo.MaxActualSpeed;
+        }
         else
             actualSpeed = 0;
     }
@@ -339,22 +308,22 @@ public class Tile : MonoBehaviour
         {
             switch (activatedTiles[i].tag)
             {
-                case "heart-tile":
+                case "Heart Tile":
                     CheckCollisionHeart(activatedTiles[i]);
                     break;
-                case "obstacle-tile":
+                case "Hurdle Tile":
                     CheckCollisionObstacle(activatedTiles[i], hurdleDown);
                     break;
-                case "empty-tile":
+                case "Empty Tile":
                     CheckCollisionEmpty(activatedTiles[i]);
                     break;
-                case "empty-tile-pass":
+                case "Pass Tile":
                     CheckCollisionEmpty(activatedTiles[i]);
                     break;
-                case "trap-tile":
+                case "Trap Tile":
                     CheckCollisionObstacle(activatedTiles[i], trapActivate);
                     break;
-                case "balloon-tile":
+                case "Balloon Tile":
                     CheckCollisionBalloon(activatedTiles[i]);
                     break;
             }
@@ -371,6 +340,8 @@ public class Tile : MonoBehaviour
                 && obj.transform.position.x == Player.instance.highlight.transform.position.x
                 && !Player.instance.isJumping)
             {
+                if (i == 0)
+                    Player.instance.EmptyCollision();
                 GetChildTransform(obj, i * 2).localScale = Vector3.zero;
                 GetChildTransform(obj, i * 2 + 1).localScale = Vector3.zero;
                 heartBonusCount++;
@@ -383,11 +354,14 @@ public class Tile : MonoBehaviour
             HandleHeartBonus(obj);
     }
 
+    // 하트 보너스 점수 (한 쌍당 3점이며 네 쌍을 다 먹었을 경우 +15점)
     void HandleHeartBonus(GameObject obj) {
         if (heartBonusCount == 4)
             Player.instance.point += 15;
         else
-            Player.instance.point += 3 * heartBonusCount;
+            Player.instance.point += 3 * heartBonusCount;     
+
+        heartBonusCount = 0;
         GetChildTransform(obj, 8).localScale = Vector3.zero;
     }
 
@@ -415,7 +389,7 @@ public class Tile : MonoBehaviour
                 obj.transform.GetChild(2).GetComponent<Animator>().runtimeAnimatorController = runtimeAnimatorController;
                 Player.instance.ObstacleCollision();
                 GameFloorTile.InitialStepRecords();
-                extraSpeed = 0;
+                userSpeed = 0;
             }
 
         }
@@ -450,15 +424,15 @@ public class Tile : MonoBehaviour
 
 
     // 2분의 1 확률 랜덤 함수
-    bool YesOrNo() { return Random.Range(0, 10) % 2 == 0; }
+    int RandomNum(int size) { return Random.Range(1, size + 1); }
 
     // 리스트에서 랜덤 오브젝트 반환
     GameObject GetRandomFromList(List<GameObject> list) { return list[Random.Range(0, list.Count)]; }
 
     // 타일이 최초 지나가는 길로 설정된 길인 지 판별
-    bool IsPassDirection(GameObject tile) { return tile.tag == "heart-tile" || tile.tag == "empty-tile-pass"; }
+    bool IsPassDirection(GameObject tile) { return tile.tag == "Heart Tile" || tile.tag == "Pass Tile"; }
 
     // 자식 오브젝트 tramsform 반환
-    Transform GetChildTransform(GameObject obj, int index) { return obj.transform.GetChild(index).gameObject.transform; }
+    Transform GetChildTransform(GameObject obj, int index) { return obj.transform.GetChild(index).transform; }
 
 }

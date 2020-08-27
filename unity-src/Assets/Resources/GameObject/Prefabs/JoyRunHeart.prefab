@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 188911937740057595}
   - component: {fileID: 6303034934166745402}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: HeartBonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,8 +105,8 @@ GameObject:
   - component: {fileID: 8952916782649063245}
   - component: {fileID: 4654711817474934265}
   m_Layer: 0
-  m_Name: heart-tile
-  m_TagString: heart-tile
+  m_Name: JoyRunHeart
+  m_TagString: Heart Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,12 +13,12 @@ public class GameFloorTile : MonoBehaviour
     public GameObject centerFloorTile;
     public GameObject rightFloorTile;
 
-    public static GameObject centerTile;
-    public GameObject newGameTilePause;
-    public GameObject newGameTileResult;
-    public GameObject toMenuTilePause;
-    public GameObject toMenuTileResult;
-    public GameObject nextPageTile;
+    public static GameObject centerButton;
+    public GameObject newGameButtonPause;
+    public GameObject newGameButtonResult;
+    public GameObject toMenuButtonPause;
+    public GameObject toMenuButtonResult;
+    public GameObject nextPageButton;
 
     // 발위치 원 변수
     public GameObject leftFootPrint;
@@ -48,26 +48,7 @@ public class GameFloorTile : MonoBehaviour
     void Start()
     {
         GameManager.instance.SetGameState(GameState.Game);
-        InitialObjects();
         InitialValues();
-    }
-
-    // 게임오브젝트 불러오기
-    void InitialObjects()
-    {
-        leftFloorTile = GameObject.Find("FloorTile-left");
-        centerFloorTile = GameObject.Find("FloorTile-center");
-        rightFloorTile = GameObject.Find("FloorTile-right");
-        centerTile = GameObject.Find("CenterTile");
-        newGameTilePause = GameObject.Find("NewGameTilePause");
-        newGameTileResult = GameObject.Find("NewGameTileResult");
-        toMenuTilePause = GameObject.Find("ToMenuTilePause");
-        toMenuTileResult = GameObject.Find("ToMenuTileResult");
-        nextPageTile = GameObject.Find("NextPageTile");
-
-        leftFootPrint = GameObject.Find("Footprint-left");
-        rightFootPrint = GameObject.Find("Footprint-right");
-
     }
 
     // 변수 초기화
@@ -87,6 +68,7 @@ public class GameFloorTile : MonoBehaviour
         uiTimer = new float[5] { 0, 0, 0, 0, 0 };
 
         footPrintLerpT = 0;
+        centerButton = GameObject.Find("CenterButton");
 
         lastPositionLeftFoot = Vector3.zero;
         lastPositionRightFoot = Vector3.zero;
@@ -96,7 +78,7 @@ public class GameFloorTile : MonoBehaviour
     // 걸음 시간 리스트 초기화 (0)
     public static void InitialStepRecords()
     {
-        steps = Enumerable.Repeat<float>(0, 3).ToList<float>();
+        steps = Enumerable.Repeat<float>(0, 3).ToList();
     }
 
     // 걸음 시간 측정 (+ fixedDeltaTime)
@@ -108,44 +90,14 @@ public class GameFloorTile : MonoBehaviour
     
     void Update()
     {
-        if(GameManager.instance.GetGameState() == GameState.Game)
-            HandleFloorUI();
-        HandleTileActive();
+        HandleButtonActive();
+        HandleFloorUI();
         HandleKeyboard();
-        HandleFloorTileHighlight();
-        if (GameManager.instance.GetKinectState())
-            HandleKinect();
-        else
-        {
-            leftFootPrint.transform.localScale = Vector3.zero;
-            rightFootPrint.transform.localScale = Vector3.zero;
-        }
-    }
 
-    void HandleFloorTileHighlight() {
-        UnselectFloorTile();
-        SelectFloorTile();
     }
-
-    void HandleFloorUI(){
-        if (GameUI.instance.timerText && timerBox.activeSelf)
-            timerText.text = GameUI.instance.timerText.text.ToString();
-        if (GameUI.instance.barHp && barHpBox.activeSelf)
-            barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
-    }
-
-    void HandleKinect() {
-        HandleFootPrint();
-        HandleUserAction();
-        HandleGameTiles();
-        HandlePause();
-        if (GameManager.instance.GetGameState() == GameState.Game)
-            HandleHighlight();
-    }
-
 
     // 바닥 UI 타일 보여주기, 감추기
-    void HandleTileActive()
+    void HandleButtonActive()
     {
         if (GameManager.instance.GetGameState() == GameState.Game)
         {
@@ -153,13 +105,13 @@ public class GameFloorTile : MonoBehaviour
             centerFloorTile.SetActive(true);
             rightFloorTile.SetActive(true);
 
-            centerTile.SetActive(false);
+            centerButton.SetActive(false);
 
-            newGameTilePause.SetActive(false);
-            toMenuTilePause.SetActive(false);
-            nextPageTile.SetActive(false);
-            newGameTileResult.SetActive(false);
-            toMenuTileResult.SetActive(false);
+            newGameButtonPause.SetActive(false);
+            toMenuButtonPause.SetActive(false);
+            nextPageButton.SetActive(false);
+            newGameButtonResult.SetActive(false);
+            toMenuButtonResult.SetActive(false);
 
             timerBox.SetActive(true);
             barHpBox.SetActive(true);
@@ -170,13 +122,13 @@ public class GameFloorTile : MonoBehaviour
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
 
-            centerTile.SetActive(true);
+            centerButton.SetActive(true);
 
-            newGameTilePause.SetActive(true);
-            toMenuTilePause.SetActive(true);
-            nextPageTile.SetActive(false);
-            newGameTileResult.SetActive(false);
-            toMenuTileResult.SetActive(false);
+            newGameButtonPause.SetActive(true);
+            toMenuButtonPause.SetActive(true);
+            nextPageButton.SetActive(false);
+            newGameButtonResult.SetActive(false);
+            toMenuButtonResult.SetActive(false);
 
             timerBox.SetActive(true);
             barHpBox.SetActive(true);
@@ -187,13 +139,13 @@ public class GameFloorTile : MonoBehaviour
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
 
-            centerTile.SetActive(true);
+            centerButton.SetActive(true);
 
-            newGameTilePause.SetActive(false);
-            toMenuTilePause.SetActive(false);
-            nextPageTile.SetActive(true);
-            newGameTileResult.SetActive(false);
-            toMenuTileResult.SetActive(false);
+            newGameButtonPause.SetActive(false);
+            toMenuButtonPause.SetActive(false);
+            nextPageButton.SetActive(true);
+            newGameButtonResult.SetActive(false);
+            toMenuButtonResult.SetActive(false);
 
             timerBox.SetActive(false);
             barHpBox.SetActive(false);
@@ -204,17 +156,179 @@ public class GameFloorTile : MonoBehaviour
             centerFloorTile.SetActive(false);
             rightFloorTile.SetActive(false);
 
-            centerTile.SetActive(true);
+            centerButton.SetActive(true);
 
-            newGameTilePause.SetActive(false);
-            toMenuTilePause.SetActive(false);
-            nextPageTile.SetActive(false);
-            newGameTileResult.SetActive(true);
-            toMenuTileResult.SetActive(true);
+            newGameButtonPause.SetActive(false);
+            toMenuButtonPause.SetActive(false);
+            nextPageButton.SetActive(false);
+            newGameButtonResult.SetActive(true);
+            toMenuButtonResult.SetActive(true);
 
             timerBox.SetActive(false);
             barHpBox.SetActive(false);
         }
+    }
+
+    // 바닥 UI 조정
+    void HandleFloorUI()
+    {
+        if (GameManager.instance.GetGameState() == GameState.Game)
+        {
+            HandleFloorUIText();
+            HandleFloorTileHighlight();
+        }
+
+        if (GameManager.instance.GetKinectState())
+            HandleKinect();
+        else
+        {
+            leftFootPrint.transform.localScale = Vector3.zero;
+            rightFootPrint.transform.localScale = Vector3.zero;
+        }
+        HandleGameButtons();
+    }
+
+    void HandleFloorUIText()
+    {
+        if (GameUI.instance.timerText && timerBox.activeSelf)
+            timerText.text = GameUI.instance.timerText.text.ToString();
+        if (GameUI.instance.barHp && barHpBox.activeSelf)
+            barHp.UpdateValue(Player.instance.hp, ConstInfo.maxHp);
+    }
+
+    void HandleFloorTileHighlight() {
+        UnselectFloorTile();
+        SelectFloorTile();
+    }
+
+
+    // 게임 바닥타일과 유저의 상호작용
+    void HandleGameButtons()
+    {
+        HandleCenterButton();
+
+        if ((Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameButtonPause) || Input.GetKey(KeyCode.Alpha2)) && newGameButtonPause.activeSelf)
+            HandleNewGameTilePause();
+        else
+            InitialButtonTexture(newGameButtonPause, FloorTexture.HomeButton, 0, false);
+
+        if ((Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuButtonPause) || Input.GetKey(KeyCode.Alpha1)) && toMenuButtonPause.activeSelf)
+            HandleToMenuTilePause();
+        else
+            InitialButtonTexture(toMenuButtonPause, FloorTexture.BackButton, 1, false);
+
+        if ((Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, nextPageButton) || Input.GetKey(KeyCode.Return)) && nextPageButton.activeSelf)
+            HandleNextPageTile();
+        else
+            InitialButtonTexture(nextPageButton, FloorTexture.RemeasurementButton, 2, true);
+
+        if ((Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameButtonResult) || Input.GetKey(KeyCode.Alpha2)) && newGameButtonResult.activeSelf)
+            HandleNewGameTileResult();
+        else
+            InitialButtonTexture(newGameButtonResult, FloorTexture.RightButton, 3, true);
+
+        if ((Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuButtonResult) || Input.GetKey(KeyCode.Alpha1)) && newGameButtonResult.activeSelf)
+            HandleToMenuTileResult();
+        else
+            InitialButtonTexture(toMenuButtonResult, FloorTexture.LeftButton, 4, true);
+    }
+
+    // 중앙 발판 텍스처 설정
+    void HandleCenterButton()
+    {
+        if (Avatar.GetUserValid())
+            if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootLeft], centerButton)
+                && Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootRight], centerButton))
+                FloorTexture.setButtonTexture(centerButton, FloorTexture.PositionButtonBlue);
+            else
+                FloorTexture.setButtonTexture(centerButton, FloorTexture.PositionButton);
+        else
+            FloorTexture.setButtonTexture(centerButton, FloorTexture.PositionDisabled);
+    }
+
+    // 버튼 누르는 효과 초기화
+    void InitialButtonTexture(GameObject button, Texture texture, int timerIndex, bool move)
+    {
+        FloorTexture.setButtonTexture(button, texture);
+        FloorTexture.ProgressDelayTexture(button, 0);
+        if (move)
+            FloorTexture.MoveAllChildTexture(button, false);
+        uiTimer[timerIndex] = 0;
+    }
+
+    // 버튼 누르는 효과 설정
+    void HandleButtonTexture(GameObject button, Texture texture, int timerIndex, bool move)
+    {
+        FloorTexture.setButtonTexture(button, texture);
+        uiTimer[timerIndex] += Time.deltaTime;
+        if (move)
+            FloorTexture.MoveAllChildTexture(button, true);
+        FloorTexture.ProgressDelayTexture(button, uiTimer[timerIndex] / ConstInfo.buttonPushTime);
+    }
+
+    // 일시정지의 새 게임 버튼을 누른 경우
+    void HandleNewGameTilePause()
+    {
+        HandleButtonTexture(newGameButtonPause, FloorTexture.HomeButtonPress, 0, false);
+        if (uiTimer[0] > ConstInfo.buttonPushTime)
+        {
+            GameUI.instance.HandleNewGame();
+            InitialButtonTexture(newGameButtonPause, FloorTexture.HomeButton, 0, false);
+        }
+    }
+
+    // 게임결과의 다시하기 버튼을 누른 경우 (내 점수 화면)
+    void HandleNewGameTileResult()
+    {
+        HandleButtonTexture(newGameButtonResult, FloorTexture.RightButtonPress, 3, true);
+        if (uiTimer[3] > ConstInfo.buttonPushTime)
+        {
+            MyRankUI.instance.HandleRetry();
+            InitialButtonTexture(newGameButtonResult, FloorTexture.RightButton, 3, true);
+        }
+    }
+
+    // 일시정지의 메뉴 버튼을 누른 경우
+    void HandleToMenuTilePause()
+    {
+        HandleButtonTexture(toMenuButtonPause, FloorTexture.BackButtonPress, 1, false);
+        if (uiTimer[1] > ConstInfo.buttonPushTime)
+        {
+            GameUI.instance.HandleToMenu();
+            InitialButtonTexture(toMenuButtonPause, FloorTexture.BackButton, 1, false);
+        }    
+    }
+
+    // 게임결과의 메뉴버튼을 누른경우 (내 점수 화면)
+    void HandleToMenuTileResult()
+    {
+        HandleButtonTexture(toMenuButtonResult, FloorTexture.LeftButtonPress, 4, true);
+        if (uiTimer[4] > ConstInfo.buttonPushTime)
+        {
+            MyRankUI.instance.HandleToMenu();
+            InitialButtonTexture(toMenuButtonResult, FloorTexture.LeftButton, 4, true);
+        }
+    }
+
+    // 다음 페이지 버튼을 누른 경우 (결과 화면)
+    void HandleNextPageTile()
+    {
+        HandleButtonTexture(nextPageButton, FloorTexture.RemeasurementButtonPress, 2, true);
+        if (uiTimer[2] > ConstInfo.buttonPushTime)
+        {
+            ResultUI.instance.HandleNextPage();
+            InitialButtonTexture(nextPageButton, FloorTexture.RemeasurementButton, 2, true);
+        }
+    }
+
+
+
+    void HandleKinect() {
+        HandleFootPrint();
+        HandleUserAction();
+        HandlePause();
+        if (GameManager.instance.GetGameState() == GameState.Game)
+            HandleHighlight();
     }
 
 
@@ -305,7 +419,7 @@ public class GameFloorTile : MonoBehaviour
             && stepRecordTime != 0)
             HandleStep();
 
-        Tile.extraSpeed = steps.Average();
+        Tile.userSpeed = steps.Average();
     }
 
     // 걸음시간 기록 및 초기화, 결음 방향 변경
@@ -343,155 +457,17 @@ public class GameFloorTile : MonoBehaviour
 
 
 
-    // 게임 바닥타일과 유저의 상호작용
-    void HandleGameTiles() {
-        HandleCenterTile();
-
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTilePause))
-            HandleNewGameTilePause();
-        else
-        {
-            FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButton);
-            uiTimer[0] = 0;
-            FloorTexture.ProgressDelayTexture(newGameTilePause, 0);
-        }
-
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTilePause))
-            HandleToMenuTilePause();
-        else
-        {
-            FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButton);
-            uiTimer[1] = 0;
-            FloorTexture.ProgressDelayTexture(toMenuTilePause, 0);
-        }
-
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, nextPageTile))
-            HandleNextPageTile();
-        else
-        {
-            FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButton);
-            uiTimer[2] = 0;
-            FloorTexture.ProgressDelayTexture(nextPageTile, 0);
-            FloorTexture.MoveAllChildTexture(nextPageTile, false);
-        }
-
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, newGameTileResult))
-            HandleNewGameTileResult();
-        else
-        {
-            FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButton);
-            uiTimer[3] = 0;
-            FloorTexture.ProgressDelayTexture(newGameTileResult, 0);
-            FloorTexture.MoveAllChildTexture(newGameTileResult, false);
-        }
-
-        if (Avatar.OneFootOverlaps(leftFootPrint, rightFootPrint, toMenuTileResult))
-            HandleToMenuTileResult();
-        else
-        {
-            FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButton);
-            uiTimer[4] = 0;
-            FloorTexture.ProgressDelayTexture(toMenuTileResult, 0);
-            FloorTexture.MoveAllChildTexture(toMenuTileResult, false);
-        }
-    }
-
-    void HandleCenterTile()
-    {
-        if (Avatar.GetUserValid())
-            if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootLeft], centerTile) 
-                && Avatar.VectorInside(Avatar.userPosition[(int) AvatarJointType.FootRight], centerTile))
-                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButtonBlue);
-            else
-                FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionButton);
-        else
-            FloorTexture.setButtonTexture(centerTile, FloorTexture.PositionDisabled);
-    }
-
-
-
-    // 일시정지의 새 게임 버튼을 누른 경우
-    void HandleNewGameTilePause() {
-        FloorTexture.setButtonTexture(newGameTilePause, FloorTexture.HomeButtonPress);
-        uiTimer[0] += Time.deltaTime;
-        FloorTexture.ProgressDelayTexture(newGameTilePause, uiTimer[0] / ConstInfo.buttonPushTime);
-        if (uiTimer[0] > ConstInfo.buttonPushTime) {
-            uiTimer[0] = 0;
-            GameUI.instance.HandleNewGame();
-            FloorTexture.ProgressDelayTexture(newGameTilePause, 0);
-        }
-    }
-
-    // 게임결과의 다시하기 버튼을 누른 경우 (내 점수 화면)
-    void HandleNewGameTileResult()
-    {
-        FloorTexture.setButtonTexture(newGameTileResult, FloorTexture.RightButtonPress);
-        uiTimer[3] += Time.deltaTime;
-        FloorTexture.MoveAllChildTexture(newGameTileResult, true);
-        FloorTexture.ProgressDelayTexture(newGameTileResult, uiTimer[3] / ConstInfo.buttonPushTime);
-        if (uiTimer[3] > ConstInfo.buttonPushTime)
-        {
-            uiTimer[3] = 0;
-            MyRankUI.instance.HandleRetry();
-            FloorTexture.ProgressDelayTexture(newGameTileResult, 0);
-            FloorTexture.MoveAllChildTexture(newGameTileResult, false);
-        }
-    }
-
-    // 일시정지의 메뉴 버튼을 누른 경우
-    void HandleToMenuTilePause() {
-        FloorTexture.setButtonTexture(toMenuTilePause, FloorTexture.BackButtonPress);
-        uiTimer[1] += Time.deltaTime;
-        FloorTexture.ProgressDelayTexture(toMenuTilePause, uiTimer[1] / ConstInfo.buttonPushTime);
-        if (uiTimer[1] > ConstInfo.buttonPushTime) {
-            uiTimer[1] = 0;
-            GameUI.instance.HandleToMenu();
-            FloorTexture.ProgressDelayTexture(toMenuTilePause, 0);
-        }
-    }
-
-    // 게임결과의 메뉴버튼을 누른경우 (내 점수 화면)
-    void HandleToMenuTileResult()
-    {
-        FloorTexture.setButtonTexture(toMenuTileResult, FloorTexture.LeftButtonPress);
-        uiTimer[4] += Time.deltaTime;
-        FloorTexture.MoveAllChildTexture(toMenuTileResult, true);
-        FloorTexture.ProgressDelayTexture(toMenuTileResult, uiTimer[4] / ConstInfo.buttonPushTime);
-        if (uiTimer[4] > ConstInfo.buttonPushTime)
-        {
-            uiTimer[4] = 0;
-            MyRankUI.instance.HandleToMenu();
-            FloorTexture.ProgressDelayTexture(toMenuTileResult, 0);
-            FloorTexture.MoveAllChildTexture(toMenuTileResult, false);
-        }
-    }
-
-    // 다음 페이지 버튼을 누른 경우 (결과 화면)
-    void HandleNextPageTile() {
-        FloorTexture.setButtonTexture(nextPageTile, FloorTexture.RemeasurementButtonPress);
-        uiTimer[2] += Time.deltaTime;
-        FloorTexture.MoveAllChildTexture(nextPageTile, true);
-        FloorTexture.ProgressDelayTexture(nextPageTile, uiTimer[2] / ConstInfo.buttonPushTime);
-        if (uiTimer[2] > ConstInfo.buttonPushTime)
-        {
-            uiTimer[2] = 0;
-            ResultUI.instance.HandleNextPage();
-            FloorTexture.ProgressDelayTexture(nextPageTile, 0);
-            FloorTexture.MoveAllChildTexture(nextPageTile, false);
-        }
-    }
 
 
 
     // 일시정지와 다시시작 조건
     void HandlePause()
     {
-
         if (Avatar.GetUserValid())
         {
             if ((Avatar.userPosition[(int)AvatarJointType.HandLeft].y > Avatar.userPosition[(int) AvatarJointType.Head].y
                 && Avatar.userPosition[(int)AvatarJointType.HandRight].y > Avatar.userPosition[(int)AvatarJointType.Head].y)
-                && Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerTile) && GameManager.instance.GetGameState() == GameState.Pause)
+                && Avatar.TwoFootOverlaps(leftFootPrint, rightFootPrint, centerButton) && GameManager.instance.GetGameState() == GameState.Pause)
                 GameUI.instance.Pause();
         }
         else
@@ -499,7 +475,6 @@ public class GameFloorTile : MonoBehaviour
             if (GameManager.instance.GetGameState() == GameState.Game)
                 GameUI.instance.Pause();
         }
-
     }
 
 
@@ -509,12 +484,6 @@ public class GameFloorTile : MonoBehaviour
     {
         if (GameManager.instance.GetGameState() == GameState.Game)
             HandleKeyboardGame();
-        if (GameManager.instance.GetGameState() == GameState.Pause)
-            HandleKeyboardPause();
-        if (GameManager.instance.GetGameState() == GameState.Result)
-            HandleKeyboardResult();
-        if (GameManager.instance.GetGameState() == GameState.MyRank)
-            HandleKeyboardMyRank();
 
         if (Input.GetKeyDown(KeyCode.Backspace) 
             && (GameManager.instance.GetGameState() == GameState.Pause || GameManager.instance.GetGameState() == GameState.Game))
@@ -522,20 +491,21 @@ public class GameFloorTile : MonoBehaviour
     }
 
     // 게임 화면의 키보드 상호작용
-    void HandleKeyboardGame() {
+    void HandleKeyboardGame()
+    {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
             Player.instance.highlight.transform.position = new Vector3(ConstInfo.left, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
             Player.instance.highlight.transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            Player.instance.player.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            Player.instance.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
             Player.instance.highlight.transform.position = new Vector3(ConstInfo.right, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         }
 
@@ -545,37 +515,11 @@ public class GameFloorTile : MonoBehaviour
             isJumping = false;
 
         if (Input.GetKey(KeyCode.LeftControl))
-            Tile.extraSpeed += ConstInfo.extraSpeedIncrease;
+            Tile.userSpeed += ConstInfo.extraSpeedIncrease;
 
         if (Input.GetKey(KeyCode.LeftShift))
             isPunching = true;
         else if (!GameManager.instance.GetKinectState())
             isPunching = false;
-
-
-    }
-
-    // 일시정지 상태의 키보드 상호작용
-    void HandleKeyboardPause() {
-        if (Input.GetKey(KeyCode.Alpha1))
-            GameUI.instance.HandleToMenu();
-        if (Input.GetKey(KeyCode.Alpha2))
-            GameUI.instance.HandleNewGame();
-    }
-
-    // 결과 상태의 키보드 상호작용
-    void HandleKeyboardResult()
-    {
-        if (Input.GetKey(KeyCode.Return) && GameManager.instance.GetGameState() == GameState.Result)
-            ResultUI.instance.HandleNextPage();
-    }
-
-    // 내 점수 상태의 키보드 상호작용
-    void HandleKeyboardMyRank()
-    {
-        if (Input.GetKey(KeyCode.Alpha1) && GameManager.instance.GetGameState() == GameState.MyRank)
-            MyRankUI.instance.HandleToMenu();
-        if (Input.GetKey(KeyCode.Alpha2) && GameManager.instance.GetGameState() == GameState.MyRank)
-            MyRankUI.instance.HandleRetry();
     }
 }

@@ -627,7 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 127748928}
   m_Layer: 5
-  m_Name: ToMenuTileResult
+  m_Name: ToMenuButtonResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1076,7 +1076,7 @@ GameObject:
   - component: {fileID: 250836680}
   - component: {fileID: 250836679}
   m_Layer: 5
-  m_Name: FloorTile-right
+  m_Name: LeftFloorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1443,11 +1443,11 @@ MonoBehaviour:
   leftFloorTile: {fileID: 2138023095}
   centerFloorTile: {fileID: 691079594}
   rightFloorTile: {fileID: 250836677}
-  newGameTilePause: {fileID: 554239035}
-  newGameTileResult: {fileID: 1487393619}
-  toMenuTilePause: {fileID: 1860595306}
-  toMenuTileResult: {fileID: 127748927}
-  nextPageTile: {fileID: 1720215613}
+  newGameButtonPause: {fileID: 554239035}
+  newGameButtonResult: {fileID: 1487393619}
+  toMenuButtonPause: {fileID: 1860595306}
+  toMenuButtonResult: {fileID: 127748927}
+  nextPageButton: {fileID: 1720215613}
   leftFootPrint: {fileID: 2145484245}
   rightFootPrint: {fileID: 743603966}
   footPrintLerpT: 0
@@ -1540,7 +1540,6 @@ GameObject:
   m_Component:
   - component: {fileID: 302011374}
   - component: {fileID: 302011377}
-  - component: {fileID: 302011376}
   - component: {fileID: 302011375}
   m_Layer: 5
   m_Name: InspectUI
@@ -1585,35 +1584,6 @@ MonoBehaviour:
   frameChangeCount: 0
   frameTimer: 0
   frameText: {fileID: 1610126140}
-  kinectText: {fileID: 1836275025}
---- !u!114 &302011376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302011373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &302011377
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2397,9 +2367,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa2a2f07686f2e4da87aba0b79caaf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRank: {fileID: 376000344}
-  ranking: {fileID: 1461476406}
-  point: {fileID: 613496835}
+  myRankText: {fileID: 376000344}
+  rankingText: {fileID: 1461476406}
+  pointText: {fileID: 613496835}
 --- !u!111 &458171591
 Animation:
   m_ObjectHideFlags: 0
@@ -2943,7 +2913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 554239036}
   m_Layer: 5
-  m_Name: NewGameTilePause
+  m_Name: NewGameButtonPause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3705,7 +3675,7 @@ GameObject:
   - component: {fileID: 691079597}
   - component: {fileID: 691079596}
   m_Layer: 5
-  m_Name: FloorTile-center
+  m_Name: CenterFloorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3856,7 +3826,7 @@ GameObject:
   - component: {fileID: 743603969}
   - component: {fileID: 743603968}
   m_Layer: 5
-  m_Name: Footprint-right
+  m_Name: FootprintRiight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4636,7 +4606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 950117740}
   m_Layer: 5
-  m_Name: CenterTile
+  m_Name: CenterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4989,7 +4959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5d451d014442347af5854dd890286d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bground: {fileID: 0}
+  bground: {fileID: 81258614743464619, guid: f80554796cae1f14298daf5e6d22871c, type: 3}
 --- !u!1 &1070111469
 GameObject:
   m_ObjectHideFlags: 0
@@ -6387,18 +6357,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2406ac6fce9fca74f935c67b38185086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  highlight: {fileID: 0}
+  highlight: {fileID: 1059779486}
+  animIdle: {fileID: 9100000, guid: a8555c0cff30527479e32562cef9141f, type: 2}
+  animRun: {fileID: 9100000, guid: eb79e3fd0dd669f40a90a984b92a0ccf, type: 2}
+  animWalk: {fileID: 9100000, guid: 7e46db57c5d10f24c8d90edaa9ba26d6, type: 2}
+  animSprint: {fileID: 9100000, guid: 6cc513001c84c714baa94b6d24a332c4, type: 2}
+  animJump: {fileID: 9100000, guid: 54ff599963ec97843ad4d4ddeeb61810, type: 2}
+  animFinish: {fileID: 9100000, guid: aa04373f92df4594ba17288e269a7c40, type: 2}
+  animStumble: {fileID: 9100000, guid: d8b47d277544633489e521a762a17599, type: 2}
+  animPunch: {fileID: 9100000, guid: 2b84dace65d3aef47886cb29836a142b, type: 2}
   isJumping: 0
   jumpTimer: 0
-  point: 0
+  isStumbling: 0
+  stumbleTimer: 0
+  isPunching: 0
+  punchTimer: 0
   maxCombo: 0
   combo: 0
+  point: 0
   hp: 0
-  stumbleTimer: 0
-  isStumble: 0
-  punchTimer: 0
-  isPunch: 0
 --- !u!114 &1339462816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6923,7 +6900,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1487393620}
   m_Layer: 5
-  m_Name: NewGameTileResult
+  m_Name: NewGameButtonResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7911,7 +7888,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1720215614}
   m_Layer: 5
-  m_Name: NextPageTile
+  m_Name: NextPageButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8425,12 +8402,12 @@ MonoBehaviour:
   speedText: {fileID: 853369668}
   countDownTimer: {fileID: 403954878}
   timeIncreaseText: {fileID: 1933730580}
-  HpIncreaseText: {fileID: 1797022174}
+  hpIncreaseText: {fileID: 1797022174}
   barHp: {fileID: 911337636}
   timer: 0
+  playTime: 0
   comboDisplayTimer: 0
   damageEffectTimer: 0
-  balloonCount: 0
 --- !u!114 &1849435086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8477,7 +8454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1860595307}
   m_Layer: 5
-  m_Name: ToMenuTilePause
+  m_Name: ToMenuButtonPause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9223,20 +9200,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155b282ed19c68741b9c9152a98839a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartTile: {fileID: 0}
-  obstacleTile: {fileID: 0}
-  emptyTile: {fileID: 0}
-  emptyTilePass: {fileID: 0}
-  trapTile: {fileID: 0}
-  balloonTile: {fileID: 0}
-  trapTileEvent: {fileID: 0}
-  obstacleTileEvent: {fileID: 0}
-  leftTile: {fileID: 0}
-  centerTile: {fileID: 0}
-  rightTile: {fileID: 0}
-  tileDelay: 0
+  heartTile: {fileID: 6100844469793322947, guid: 9b196ce6c5e08da48bd0789ed040b51a,
+    type: 3}
+  hurdleTile: {fileID: 5471411465510363513, guid: 9599680d38889e44da536c68feb8e0da,
+    type: 3}
+  emptyTile: {fileID: 3121827078027981183, guid: df3bbaa0fe555ba47aa7c3a9195af2c4,
+    type: 3}
+  passTile: {fileID: 3121827078027981183, guid: 48ba8a873a80d2743b61229da942263d,
+    type: 3}
+  trapTile: {fileID: 8781427926711624264, guid: 0ffb92607e9b1f241b24f851005f045c,
+    type: 3}
+  balloonTile: {fileID: 5471411465510363513, guid: c9f56fea98de6c245835ff60cf85b72c,
+    type: 3}
+  trapTileEvent: {fileID: 8781427926711624264, guid: 61a33f8a7173b954baf451cc8c36b2b8,
+    type: 3}
+  hurdleTileEvent: {fileID: 5471411465510363513, guid: 6d9db9c9877b16e4e9bb959acda631d6,
+    type: 3}
+  tileCreateDelay: 0
   createTileCount: 0
   heartBonusCount: 0
+  trapActivate: {fileID: 9100000, guid: d5c2556ca6b0ff34ab22faf37342384d, type: 2}
+  trapEvent: {fileID: 9100000, guid: 3c86cbc505da2da45af136aa1ce6adaa, type: 2}
+  hurdleEvent: {fileID: 9100000, guid: be45466acb272a34c8dceb08e2f32cbf, type: 2}
+  hurdleDown: {fileID: 9100000, guid: 27ab98e7624a0824b8e9f47995ab7f6c, type: 2}
+  balloonEvent: {fileID: 9100000, guid: e53e3f3413c42d243bd67525d76be3bf, type: 2}
 --- !u!1 &2056352214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9436,9 +9423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a1fadd2db9b4640bd98893026a5fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: {fileID: 765677452}
-  playTime: {fileID: 1529282712}
-  point: {fileID: 720906832}
+  maxComboText: {fileID: 765677452}
+  playTimeText: {fileID: 1529282712}
+  pointText: {fileID: 720906832}
 --- !u!111 &2068576042
 Animation:
   m_ObjectHideFlags: 0
@@ -9730,7 +9717,7 @@ GameObject:
   - component: {fileID: 2138023098}
   - component: {fileID: 2138023097}
   m_Layer: 5
-  m_Name: FloorTile-left
+  m_Name: LeftFloorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9801,7 +9788,7 @@ GameObject:
   - component: {fileID: 2145484248}
   - component: {fileID: 2145484247}
   m_Layer: 5
-  m_Name: Footprint-left
+  m_Name: FootprintLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

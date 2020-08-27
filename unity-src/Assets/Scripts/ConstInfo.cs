@@ -7,9 +7,9 @@ public static class ConstInfo
     // < 공통 >
 
     // 초기 설정값
-    public const AnimationState initialAnimationState = AnimationState.animation;
-    public const HpState initialHpState = HpState.normal;
-    public const TimeState initialTimeState = TimeState.normal;
+    public const AnimationState initialAnimationState = AnimationState.Animation;
+    public const HpState initialHpState = HpState.Normal;
+    public const TimeState initialTimeState = TimeState.Normal;
     public const bool initialDisplayInspect = false;
     public const int gameFrameRate = 60;
 
@@ -18,7 +18,7 @@ public static class ConstInfo
     public const int floorUICanvasHeight = 1080;
 
     // 바닥 UI 버튼 관련 상수
-    public const float buttonPushTime = 0.5f;
+    public const float buttonPushTime = 0.4f;
     public const float buttonDelayTime = 0.2f;
 
     // 바닥 UI 발 위치 원 관련 상수
