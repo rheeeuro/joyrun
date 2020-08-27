@@ -30,7 +30,7 @@ public class MenuPlayer : MonoBehaviour
     // 메뉴 플레이어 위치 조정 (유저가 없을 경우 중앙에 위치)
     void HandleMenuPlayerPosition() 
     { 
-        if (Avatar.GetUserValid())
+        if (Avatar.GetUserValid() && Setting.GetCurrentAnimationState() == AnimationState.Kinect)
             transform.position = new Vector3(Avatar.userPosition.x * (ConstInfo.runningTrackWidth / ConstInfo.floorUICanvasWidth) + ConstInfo.center,
                 ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         else

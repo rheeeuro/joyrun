@@ -187,9 +187,9 @@ public class MenuFloorUI : MonoBehaviour
     void InitialButtonTexture(GameObject button, Texture texture, int timerIndex)
     {
         FloorTexture.setButtonTexture(button, texture);
+        uiTimer[timerIndex] = 0;
         FloorTexture.ProgressDelayTexture(button, 0);
         FloorTexture.MoveAllChildTexture(button, false);
-        uiTimer[timerIndex] = 0;
     }
 
     // 버튼 누르는 효과 설정

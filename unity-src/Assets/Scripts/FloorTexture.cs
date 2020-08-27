@@ -94,6 +94,6 @@ public class FloorTexture : MonoBehaviour
     {
         float y = move ? -10 : 0;
         for (int i = 0; i < 3; i++)
-            obj.transform.GetChild(i).transform.localPosition = new Vector3(obj.transform.GetChild(i).transform.localPosition.x, -10);
+            obj.transform.GetChild(i).transform.localPosition = new Vector3(obj.transform.GetChild(i).transform.localPosition.x, y);
     }
 }
