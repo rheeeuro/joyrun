@@ -31,7 +31,7 @@ public class MenuPlayer : MonoBehaviour
     void HandleMenuPlayerPosition() 
     { 
         if (Avatar.GetUserValid())
-            transform.position = new Vector3(Avatar.userPosition[(int) AvatarJointType.Body].x, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
+            transform.position = new Vector3(Avatar.userPosition.x, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
         else
             transform.position = new Vector3(ConstInfo.center, ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
     }

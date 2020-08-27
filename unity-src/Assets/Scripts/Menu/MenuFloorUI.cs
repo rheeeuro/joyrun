@@ -49,6 +49,7 @@ public class MenuFloorUI : MonoBehaviour
     {
         HandleButtonActive();
         HandleFloorUI();
+        HandlePlayerPref();
     }
 
     // 바닥 UI 버튼 보여주기, 감추기
@@ -106,9 +107,9 @@ public class MenuFloorUI : MonoBehaviour
     void HandleFootPrintPosition()
     {
         leftFootPrint.transform.localPosition = Vector3.Lerp(leftFootPrint.transform.localPosition,
-            new Vector3(Avatar.userPosition[(int)AvatarJointType.FootLeft].x, Avatar.userPosition[(int)AvatarJointType.FootLeft].z, 0), footPrintLerpT);
+            new Vector3(Avatar.userPositionLeftFoot.x, Avatar.userPositionLeftFoot.z, 0), footPrintLerpT);
         rightFootPrint.transform.localPosition = Vector3.Lerp(rightFootPrint.transform.localPosition,
-            new Vector3(Avatar.userPosition[(int)AvatarJointType.FootRight].x, Avatar.userPosition[(int)AvatarJointType.FootRight].z, 0), footPrintLerpT);
+            new Vector3(Avatar.userPositionRightFoot.x, Avatar.userPositionRightFoot.z, 0), footPrintLerpT);
 
         footPrintLerpT += ConstInfo.footPrintSpeed * Time.deltaTime;
         if (footPrintLerpT > 1)
@@ -118,8 +119,8 @@ public class MenuFloorUI : MonoBehaviour
     // 발 위치 원 크기 변경
     void HandleFootPrintSize()
     {
-        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootLeft].y);
-        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPosition[(int)AvatarJointType.FootRight].y);
+        float newLeftFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionLeftFoot.y);
+        float newRightFootPrintSize = Avatar.HandleFootprintSize(Avatar.userPositionRightFoot.y);
         leftFootPrint.transform.localScale = new Vector3(newLeftFootPrintSize, newLeftFootPrintSize, newLeftFootPrintSize);
         rightFootPrint.transform.localScale = new Vector3(newRightFootPrintSize, newRightFootPrintSize, newRightFootPrintSize);
     }
@@ -171,8 +172,8 @@ public class MenuFloorUI : MonoBehaviour
     void HandleCenterButton()
     {
         if (Avatar.GetUserValid())
-            if (Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootLeft], centerButton)
-                && Avatar.VectorInside(Avatar.userPosition[(int)AvatarJointType.FootRight], centerButton))
+            if (Avatar.VectorInside(Avatar.userPositionLeftFoot, centerButton)
+                && Avatar.VectorInside(Avatar.userPositionRightFoot, centerButton))
                 FloorTexture.setButtonTexture(centerButton, FloorTexture.PositionButtonBlue);
             else
                 FloorTexture.setButtonTexture(centerButton, FloorTexture.PositionButton);
@@ -301,5 +302,10 @@ public class MenuFloorUI : MonoBehaviour
             RankingUI.instance.HandleCancel();
         else if (GameManager.instance.GetGameState() == GameState.Setting)
             SettingUI.instance.HandleCancel();
+    }
+
+    void HandlePlayerPref() { 
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.F8))
+            PlayerPrefs.DeleteAll();
     }
 }

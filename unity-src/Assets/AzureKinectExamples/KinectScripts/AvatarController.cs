@@ -342,7 +342,7 @@ namespace com.rfilkov.components
 
         public void Update()
         {
-            if(kinectManager == null)
+            if (kinectManager == null)
             {
                 kinectManager = KinectManager.Instance;
             }
@@ -813,32 +813,31 @@ namespace com.rfilkov.components
             {
                 return;
             }
-            
+
             // get the position of user's spine base
             Vector3 trans = kinectManager.GetUserPosition(UserID);
 
             // 프레임 계산
-            if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition[(int) AvatarJointType.Body])
+            if (Avatar.HandleKinectPosition(trans) != Avatar.userPosition)
                 InspectUI.instance.frameChangeCount++;
 
 
             // 아바타와 상호작용
-               
 
-            Avatar.userPosition[(int) AvatarJointType.Body] = Avatar.HandleKinectPosition(trans);
-            Avatar.userPosition[(int)AvatarJointType.FootLeft] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.FootLeft);
-            Avatar.userPosition[(int)AvatarJointType.FootRight] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.FootRight);
-            Avatar.userPosition[(int)AvatarJointType.HandLeft] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.HandLeft);
-            Avatar.userPosition[(int)AvatarJointType.HandRight] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.HandRight);
-            Avatar.userPosition[(int)AvatarJointType.Head] = SetAvatarUserPosition(UserID, (int)KinectInterop.JointType.Head);
+
+            Avatar.userPosition = Avatar.HandleKinectPosition(trans);
+            Avatar.userPositionLeftFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootLeft));
+            Avatar.userPositionRightFoot = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.FootRight));
+            Avatar.userPositionLeftHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandLeft));
+            Avatar.userPositionRightHand = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.HandRight));
+            Avatar.userPositionHead = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.Head));
 
             if (Avatar.DistanceBetweenHandAndElbow == 0)
             {
                 Vector3 leftElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowLeft));
                 Vector3 rightElbow = Avatar.HandleKinectPosition(kinectManager.GetJointPosition(UserID, (int)KinectInterop.JointType.ElbowRight));
                 Avatar.DistanceBetweenHandAndElbow =
-                    Vector3.Distance(Avatar.userPosition[(int)AvatarJointType.HandLeft], leftElbow) 
-                    + Vector3.Distance(Avatar.userPosition[(int)AvatarJointType.HandRight], rightElbow) / 2;
+                    Vector3.Distance(Avatar.userPositionLeftHand, leftElbow) + Vector3.Distance(Avatar.userPositionRightHand, rightElbow) / 2;
             }
 
             if (flipLeftRight)
@@ -1007,10 +1006,6 @@ namespace com.rfilkov.components
                 transform.position = smoothFactor != 0f ?
                     Vector3.Lerp(transform.position, targetPos, smoothFactor * Time.deltaTime) : targetPos;
             }
-        }
-
-        protected Vector3 SetAvatarUserPosition(ulong userId, int index) {
-            return Avatar.HandleKinectPosition(kinectManager.GetJointPosition(userId, index));
         }
 
         // Set model's arms to be in T-pose
@@ -1185,11 +1180,11 @@ namespace com.rfilkov.components
             Quaternion newRotation = jointRotation * initialRotations[boneIndex];
             //newRotation = initialRotation * newRotation;
 
-    //		if(offsetNode != null)
-    //		{
-    //			newRotation = offsetNode.transform.rotation * newRotation;
-    //		}
-    //		else
+            //		if(offsetNode != null)
+            //		{
+            //			newRotation = offsetNode.transform.rotation * newRotation;
+            //		}
+            //		else
             if (!externalRootMotion)  // fix by Mathias Parger
             {
                 newRotation = initialRotation * newRotation;
@@ -1266,8 +1261,8 @@ namespace com.rfilkov.components
                 fDistMin = 0f; // fFootDistanceInitial;
             }
 
-//		    Debug.Log (string.Format ("LFootY: {0:F2}, Dist: {1:F2}, RFootY: {2:F2}, Dist: {3:F2}, Min: {4:F2}", leftFoot ? leftFoot.position.y : 0f, fDistLeft,
-//						rightFoot ? rightFoot.position.y : 0f, fDistRight, fDistMin));
+            //		    Debug.Log (string.Format ("LFootY: {0:F2}, Dist: {1:F2}, RFootY: {2:F2}, Dist: {3:F2}, Min: {4:F2}", leftFoot ? leftFoot.position.y : 0f, fDistLeft,
+            //						rightFoot ? rightFoot.position.y : 0f, fDistRight, fDistMin));
 
             return fDistMin;
         }
@@ -1290,8 +1285,8 @@ namespace com.rfilkov.components
             {0, HumanBodyBones.Hips},
             {1, HumanBodyBones.Spine},
             {2, HumanBodyBones.Chest},
-		    {3, HumanBodyBones.Neck},
-    		{4, HumanBodyBones.Head},
+            {3, HumanBodyBones.Neck},
+            {4, HumanBodyBones.Head},
 
             {5, HumanBodyBones.LeftShoulder},
             {6, HumanBodyBones.LeftUpperArm},
@@ -1302,8 +1297,8 @@ namespace com.rfilkov.components
             {10, HumanBodyBones.RightUpperArm},
             {11, HumanBodyBones.RightLowerArm},
             {12, HumanBodyBones.RightHand},
-		
-		    {13, HumanBodyBones.LeftUpperLeg},
+
+            {13, HumanBodyBones.LeftUpperLeg},
             {14, HumanBodyBones.LeftLowerLeg},
             {15, HumanBodyBones.LeftFoot},
 //    		{16, HumanBodyBones.LeftToes},

@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
     // 아바타 위치로 플레이어 위치 고정
     public void HandlePlayerPosition()
     {
-        transform.position = new Vector3(Avatar.userPosition[(int)AvatarJointType.Body].x * (ConstInfo.runningTrackWidth / ConstInfo.floorUICanvasWidth) + ConstInfo.center, 
+        transform.position = new Vector3(Avatar.userPosition.x * (ConstInfo.runningTrackWidth / ConstInfo.floorUICanvasWidth) + ConstInfo.center, 
             ConstInfo.playerInitialPositionY, ConstInfo.playerInitialPositionZ);
     }
 

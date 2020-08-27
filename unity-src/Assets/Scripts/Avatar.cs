@@ -4,25 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-public enum AvatarJointType : int
-{
-    Body = 0,
-    Head = 1,
-    HandLeft = 2,
-    HandRight = 3,
-    FootLeft = 4,
-    FootRight = 5,
-
-    Count = 6
-}
-
 public class Avatar : MonoBehaviour
 {
     // 키넥트 카메라 상의 유저 존재 여부
     private static bool userValid;
 
-    // 유저 위치 변수 리스트
-    public static List<Vector3> userPosition;
+    // 유저 위치 변수 (중심, 왼발, 오른발, 왼손, 오른손, 머리)
+    public static Vector3 userPosition;
+    public static Vector3 userPositionLeftFoot;
+    public static Vector3 userPositionRightFoot;
+    public static Vector3 userPositionLeftHand;
+    public static Vector3 userPositionRightHand;
+    public static Vector3 userPositionHead;
 
     // 유저의 팔과 팔꿈치 사이의 거리
     public static float DistanceBetweenHandAndElbow;
@@ -30,8 +23,14 @@ public class Avatar : MonoBehaviour
     static void Start() { InitialUserPosition(); }
 
     // 유저 벡터 초기화 (0, 0, 0)
-    static void InitialUserPosition() {
-        userPosition = Enumerable.Repeat<Vector3>(Vector3.zero, (int) AvatarJointType.Count).ToList<Vector3>();
+    static void InitialUserPosition()
+    {
+        userPosition = Vector3.zero;
+        userPositionLeftFoot = Vector3.zero;
+        userPositionRightFoot = Vector3.zero;
+        userPositionLeftHand = Vector3.zero;
+        userPositionRightHand = Vector3.zero;
+        userPositionHead = Vector3.zero;
         DistanceBetweenHandAndElbow = 0;
     }
 
