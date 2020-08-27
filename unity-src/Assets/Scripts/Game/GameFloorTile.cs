@@ -457,9 +457,6 @@ public class GameFloorTile : MonoBehaviour
 
 
 
-
-
-
     // 일시정지와 다시시작 조건
     void HandlePause()
     {
