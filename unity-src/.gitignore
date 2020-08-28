@@ -69,3 +69,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Joufun License
+/[Aa]ssets/Resources/3DResources/*
+/[Aa]ssets/Resources/GameObject/*
+/[Aa]ssets/Resources/UI/*
+/[Aa]ssets/AzureKinectExamples/*
